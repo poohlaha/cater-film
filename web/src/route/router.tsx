@@ -12,8 +12,29 @@ export const routes: RouteInterface[] = [
   {
     path: '*',
     exact: true,
-    component: lazy(() => import(/* webpackChunkName:'lazy' */ '@pages/home/index')),
+    component: lazy(() => import(/* webpackChunkName:'lazy' */ '@pages/dashboard/index')),
     auth: false,
     title: '首页',
   },
+  {
+    path: RouterUrls.DASHBOARD_URL,
+    exact: true,
+    component: lazy(() => import(/* webpackChunkName:'lazy' */ '@pages/dashboard/index')),
+    auth: false,
+    title: '首页',
+  },
+  {
+    path: RouterUrls.RANK_URL,
+    exact: true,
+    component: lazy(() => import(/* webpackChunkName:'lazy' */ '@pages/rank/index')),
+    auth: false,
+    title: '排行榜',
+  },
+  {
+    path: RouterUrls.MY_URL,
+    exact: true,
+    component: lazy(() => import(/* webpackChunkName:'lazy' */ '@pages/my/index')),
+    auth: false,
+    title: '我的',
+  }
 ]

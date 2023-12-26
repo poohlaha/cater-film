@@ -11,6 +11,7 @@ export default class BaseStore {
   @observable currentPage: number = 1
   @observable pageSize: number = 10
   @observable loading: boolean = false
+  @observable activeTabBarIndex: string = '0' // 激活的 tabBar
 
   /**
    * 设置属性

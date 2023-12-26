@@ -5,6 +5,4 @@
   ```
   look `XCode` 
   `Build Settings` -> TARGETS -> `Apple Clang - Preprocssing -> Preprocessor Macros -> release -> DEBUG=0
-  
-  add Release to DEBUG=0
   ```

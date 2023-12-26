@@ -17,7 +17,6 @@ import { CONSTANT } from '@config/index'
 import 'lib-flexible'
 import '@assets/styles/theme/index.less'
 
-
 const { Suspense } = React
 
 const RenderRoutes = (routes: RouteInterface[]) => {
