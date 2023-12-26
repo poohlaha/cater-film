@@ -1,0 +1,111 @@
+/**
+ * @fileOverview dashboard
+ * @date 2023-12-06
+ * @author poohlaha
+ */
+.home-page {
+  font-size: @font;
+
+  .search-box {
+    height: 1.2rem;
+    padding-top: 0.2rem;
+    padding-bottom: 0.2rem;
+
+    .search-right {
+      margin-left: 0.25rem;
+
+      .svg-box {
+        width: 0.6rem!important;
+        height: 0.6rem!important;
+
+        .svg-icon {
+          width: 100% !important;
+          height: 100% !important;
+          color: @color_svg;
+        }
+      }
+
+      .svg-box:not(:last-child) {
+        margin-right: 0.25rem;
+      }
+    }
+  }
+
+  .content {
+    .adm-tabs {
+      width: 100%!important;
+
+      .adm-tabs-content {
+        padding-bottom: 0!important;
+      }
+    }
+
+    .swiper-tab-content-box {
+      height: calc(100% - 1.2rem)!important;
+
+      .adm-swiper-item.swiper-box {
+        padding: 0.2rem 0.4rem 0.4rem 0.4rem;
+      }
+    }
+
+    .adm-swiper {
+      .adm-swiper-item {
+        .name {
+          position: absolute;
+          left: 0.25rem;
+          bottom: 0.25rem;
+          color: #ffffff;
+          font-size: @font;
+          font-family: @font_PingFangSC_Medium;
+          font-weight: 500;
+        }
+      }
+    }
+
+    .list-box {
+
+      .list {
+        flex-wrap: wrap;
+
+        .card {
+          margin: 0 0.2rem 0.4rem 0;
+          flex: 0 0 calc((100% - 0.4rem) / 3);
+          height: 5.2rem;
+
+          .card-top {
+            position: relative;
+            height: 4.2rem;
+
+            img {
+              border-radius: @border_radius;
+              object-fit: cover;
+            }
+
+            .name {
+              z-index: 10;
+              position: absolute;
+              bottom: 0;
+              height: 0.8rem;
+              font-size: @font_smaller;
+              color: #ffffff;
+              font-family: @font_PingFangSC_Medium;
+            }
+          }
+
+          .title {
+            margin-top: 0.2rem;
+            height: 0.8rem;
+          }
+        }
+
+        .card:nth-child(3n) {
+          margin-right: 0!important;
+        }
+
+
+      }
+    }
+  }
+}
+
+

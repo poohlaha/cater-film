@@ -10,7 +10,14 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
-*.local
+.cargo/
+src-tauri/gen
+src-tauri/target
+.lock
+gen
+*.lock
+*-lock*
+
 
 # Editor directories and files
 .vscode/*
@@ -22,3 +29,37 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# files
+proxy.json
+/web/src/communal/exception/index.tsx
+/web/src/communal/hooks/useLatest/index.tsx
+/web/src/communal/hooks/useMount/index.tsx
+/web/src/communal/hooks/useUnmount/index.tsx
+/web/src/communal/hooks/usePersistFn.tsx
+/web/src/communal/provider/portal/index.tsx
+/web/src/communal/provider/portal/popup.tsx
+/web/src/communal/provider/portal/portal.tsx
+/web/src/communal/provider/language.tsx
+/web/src/communal/provider/theme.tsx
+/web/src/communal/request/axios.tsx
+/web/src/communal/request/constant.ts
+/web/src/communal/request/index.tsx
+/web/src/communal/router/app.tsx
+/web/src/communal/router/router.interface.tsx
+/web/src/communal/router/scrollToTop.tsx
+/web/src/communal/utils/base.tsx
+/web/src/communal/utils/image.handler.tsx
+/web/src/communal/utils/sign.tsx
+/web/src/communal/utils/utils.tsx
+/web/src/communal/index.tsx
+/web/src/views/stores/index.tsx
+/web/babel.config.js
+/web/postcss.config.js
+/web/tsconfig.json
+/web/src/@types/global.d.ts
+/web/.commitlintrc.js
+/web/.editorconfig
+/web/.eslintrc.js
+/web/.gitmessage
+/web/.prettierrc.js

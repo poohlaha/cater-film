@@ -18,17 +18,27 @@ run:
 	$(call webInstall)
 	cd $(ROOT_ENCLOSURE_DIR) && pnpm i && pnpm tauri dev
 
+initIOS:
+	cd $(ROOT_ENCLOSURE_DIR) && pnpm i && pnpm tauri ios init
+
 runIOS:
 	$(call webInstall)
-	cd $(ROOT_ENCLOSURE_DIR) && pnpm i && pnpm tauri ios init && pnpm tauri ios dev
+	cd $(ROOT_ENCLOSURE_DIR) && pnpm tauri ios dev
+
+initAndroid:
+	cd $(ROOT_ENCLOSURE_DIR) && pnpm i && pnpm tauri android init
 
 runAndroid:
 	$(call webInstall)
-	cd $(ROOT_ENCLOSURE_DIR) && pnpm i && pnpm tauri android init && pnpm tauri ios dev
+	cd $(ROOT_ENCLOSURE_DIR) && pnpm tauri android dev
 
 build:
 	$(call webInstall)
 	cd $(ROOT_ENCLOSURE_DIR) && pnpm i && pnpm tauri build
 
+buildIOS:
+	cd $(ROOT_ENCLOSURE_DIR) && pnpm tauri ios build
 
+cleanApp:
+	cd $(ROOT_ENCLOSURE_DIR)/src-tauri && rm -rf .cargo && rm -rf gen && rm -rf target
 
