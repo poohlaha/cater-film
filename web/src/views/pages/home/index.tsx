@@ -164,7 +164,7 @@ const Home: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
 
   const render = () => {
     return (
-      <div className="page home-page flex-direction-column wh100">
+      <div className="home flex-direction-column wh100">
         <div className="page-wrapper wh100 flex-direction-column">
             {/* search */}
             {getSearchBoxHtml()}

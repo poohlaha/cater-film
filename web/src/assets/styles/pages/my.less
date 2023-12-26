@@ -1,0 +1,82 @@
+/**
+ * @fileOverview my
+ * @date 2023-12-26
+ * @author poohlaha
+ */
+.my {
+  background: @background_gay;
+  .actor {
+     height: 4rem;
+
+    .actor-left {
+      .svg-box {
+        width: 2rem;
+        height: 2rem;
+      }
+
+      .name {
+        font-size: @font_larger_much;
+        margin-left: 0.25rem;
+      }
+    }
+
+    .actor-right {
+      padding-top: 0.4rem;
+
+      .svg-box {
+        width: 0.6rem;
+        height: 0.6rem;
+      }
+    }
+
+  }
+
+  .history, .normal {
+    .card-title {
+      .svg-box {
+        width: 0.5rem;
+        height: 0.3rem;
+
+        .svg-icon {
+          margin-right: 0!important;
+        }
+      }
+    }
+
+    .card-content {
+      margin-top: 0.4rem;
+
+      .item {
+        height: 2rem;
+
+        img {
+          border-radius: @border_radius;
+          height: 1.5rem;
+        }
+
+        .desc {
+          font-size: @font_smallest!important;
+          p:not(:first-child) {
+            margin-left: 0.15rem;
+          }
+        }
+      }
+
+      .item:not(:last-child) {
+        margin-right: 0.25rem;
+      }
+    }
+  }
+
+  .normal {
+    .item {
+      flex: 0 0 25%;
+
+      .svg-box {
+        width: 1rem;
+        height: 1rem;
+        margin-bottom: 0.3rem;
+      }
+    }
+  }
+}
