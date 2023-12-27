@@ -22,7 +22,6 @@
 
       .adm-tab-bar-item-title {
         font-size: @font!important;
-        font-family: @font_PingFangSC_Medium;
         color: @color_gray;
       }
 
@@ -105,7 +104,7 @@
 
         .adm-tabs-tab-active {
           font-family: @font_PingFangSC_Medium;
-          font-size: @font_larger!important;
+          font-size: @font_larger;
         }
       }
     }
@@ -152,6 +151,54 @@
       height: 0.05rem;
       border-radius: unset;
       background: @theme;
+    }
+  }
+}
+
+// toast
+.adm-toast-mask {
+  .adm-toast-main {
+    min-width: 1.8rem;
+    max-width: 5rem;
+    padding: 0.25rem;
+    border-radius: @border_radius;
+
+    .adm-toast-icon {
+      font-size: 0.8rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .adm-auto-center {
+      font-size: @font_smaller;
+      text-align: center;
+    }
+  }
+}
+
+// swiper tabs
+.swiper-tabs {
+  .adm-tabs-header {
+    height: 1rem;
+
+    .adm-tabs-tab-list {
+      .adm-tabs-tab-wrapper {
+        flex: unset !important;
+        padding: 0 0.4rem;
+        background: @color_menu_active;
+        border-radius: 1rem;
+
+        .adm-tabs-tab {
+          font-size: @font_smaller!important;
+        }
+
+        .adm-tabs-tab-active {
+          font-size: @font_smaller!important;
+        }
+      }
+
+      .adm-tabs-tab-wrapper:not(:last-child) {
+        margin-right: 0.25rem;
+      }
     }
   }
 }

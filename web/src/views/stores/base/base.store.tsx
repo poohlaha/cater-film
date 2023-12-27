@@ -34,13 +34,13 @@ export default class BaseStore {
   @action
   analysisResult = (result: { [K: string]: any } = {}, errMsg: string = '', type: string = 'json') => {
     if (Utils.isObjectNull(result)) {
-      TOAST.show({ message: errMsg || COMMON.getLanguageText('ERROR_MESSAGE'), type: 4 })
+      TOAST.show({ message: errMsg || COMMON.getLanguageText('ERROR_MESSAGE'), type: 3 })
       return
     }
 
     let error = result.error || ''
     if (!Utils.isBlank(error) || result.code !== 200) {
-      TOAST.show({ message: error || errMsg || COMMON.getLanguageText('ERROR_MESSAGE'), type: 4 })
+      TOAST.show({ message: error || errMsg || COMMON.getLanguageText('ERROR_MESSAGE'), type: 3 })
       return
     }
 
@@ -48,7 +48,7 @@ export default class BaseStore {
     if (type === 'json') {
       let body = result.body || {}
       if (body.code !== 1) {
-        TOAST.show({ message: '获取视频数据失败!', type: 4 })
+        TOAST.show({ message: '获取视频数据失败', type: 3 })
         return
       }
 

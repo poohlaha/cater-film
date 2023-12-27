@@ -3,84 +3,25 @@
  * @date 2023-12-26
  * @author poohlaha
  */
-import React, { ReactElement, useRef } from 'react'
+import React, {lazy, ReactElement, useRef} from 'react'
 import { observer } from 'mobx-react-lite'
 import { useStore } from '@stores/index'
 import Loading from '@views/components/loading/loading'
-import Utils from '@utils/utils'
-import useMount from '@hooks/useMount'
 import { SearchBar, Tabs, Swiper } from 'antd-mobile'
 import { SwiperRef } from 'antd-mobile/es/components/swiper'
+import Recommend from '@pages/home/recommend'
+import Movie from '@pages/home/movie'
+
+// dynamic components
+const DramaSeries = lazy(() => import(/* webpackChunkName:'dramaSeries' */ '@pages/home/dramaSeries'))
+import Cartoon from '@pages/home/cartoon'
+import Variety from '@pages/home/variety'
+import Children from '@pages/home/children'
+import Record from '@pages/home/record'
 
 const Home: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
   const swiperRef = useRef<SwiperRef>(null)
   const { homeStore } = useStore()
-
-  useMount(async () => {
-    await homeStore.getRecommendList()
-  })
-
-  /**
-   * 解析banner列表
-   */
-  const analyzeBannerHtml = () => {
-    if (homeStore.bannerList.length === 0) return null
-    return (
-      <Swiper loop autoplay onIndexChange={(i: number) => {}}>
-        {homeStore.bannerList.map((item: { [K: string]: any }, index: number) => {
-          return (
-            <Swiper.Item key={index}>
-              <img src={item.content || ''} className="wh100" />
-              <p className="name">{item.name || ''}</p>
-            </Swiper.Item>
-          )
-        })}
-      </Swiper>
-    )
-  }
-
-  /**
-   * 解析列表
-   */
-  const analyzeListHtml = (list: Array<{ [K: string]: any }> = []) => {
-    if (list.length === 0) return null
-
-    return (
-      <div className="list-box page-top-margin">
-        {list.map((item: { [K: string]: any } = {}, index: number) => {
-          return (
-            <div className="flex-direction-column item" key={index}>
-              <p className="list-title">{item.name || ''}</p>
-              <div className="page-top-margin list flex w100">
-                {item.vlist.length > 0 &&
-                  item.vlist.map(
-                    (
-                      l: {
-                        [K: string]: any
-                      },
-                      i: number
-                    ) => {
-                      return (
-                        <div className="card flex-direction-column card-no-padding" key={index + '_' + i}>
-                          <div className="card-top w100">
-                            <img src={l.vod_pic || ''} className="wh100" />
-                            <div className="name flex-center w100">
-                              <p>{l.vod_remarks || ''}</p>
-                            </div>
-                          </div>
-
-                          <p className="title flex-center">{l.vod_name || ''}</p>
-                        </div>
-                      )
-                    }
-                  )}
-              </div>
-            </div>
-          )
-        })}
-      </div>
-    )
-  }
 
   const getSearchBoxHtml = () => {
     return (
@@ -112,6 +53,48 @@ const Home: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
         </div>
       </div>
     )
+  }
+
+  /**
+   * 获取组件列表
+   */
+  const getComponentsHtml = (key: string = '') => {
+    // recommend
+    if (key === homeStore.tabsList[0].key) {
+      return <Recommend />
+    }
+
+    // dramaSeries
+    if (key === homeStore.tabsList[1].key) {
+      return <DramaSeries />
+    }
+
+    // movie
+    if (key === homeStore.tabsList[2].key) {
+      return <Movie />
+    }
+
+    // cartoon
+    if (key === homeStore.tabsList[3].key) {
+      return <Cartoon />
+    }
+
+    // variety
+    if (key === homeStore.tabsList[4].key) {
+      return <Variety />
+    }
+
+    // children
+    if (key === homeStore.tabsList[5].key) {
+      return <Children />
+    }
+
+    // record
+    if (key === homeStore.tabsList[6].key) {
+      return <Record />
+    }
+
+    return null
   }
 
   const getTabsHtml = () => {
@@ -151,8 +134,7 @@ const Home: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
           {homeStore.tabsList.map((item: { [K: string]: any }, index: number) => {
             return (
               <Swiper.Item key={item.key} className="swiper-box">
-                {analyzeBannerHtml()}
-                {analyzeListHtml(homeStore.recommendList || [])}
+                {getComponentsHtml(item.key)}
               </Swiper.Item>
             )
           })}

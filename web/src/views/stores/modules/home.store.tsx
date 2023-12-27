@@ -8,8 +8,6 @@ import BaseStore from '../base/base.store'
 import { invoke } from '@tauri-apps/api/primitives'
 import { info, error } from '@tauri-apps/plugin-log'
 import { TOAST } from '@utils/base'
-import Utils from '@utils/utils'
-import data from './data.json'
 
 class HomeStore extends BaseStore {
   @observable bannerList: Array<{ [K: string]: any }> = [] // banner列表
@@ -47,33 +45,67 @@ class HomeStore extends BaseStore {
       key: 'children',
       title: '少儿',
     },
+    {
+      key: 'record',
+      title: '记录',
+    },
   ]
+
+  // 剧集 tabs 选择
+  @observable dramaSeriesSort: { [K: string]: any } = {
+    name: this.tabsList[1].key || '',
+    class: '',
+    area: '',
+    lang: '',
+    year: '',
+    sort: ''
+  };
 
   /**
    * 获取首页推荐列表
    */
   @action
-  async getRecommendList() {
+  async getList(params: {[K: string]: any} = {}) {
     try {
+      console.info('', params)
+      await info(`send params: ${JSON.stringify(params || {})}`)
       this.loading = true
-      let result: Array<{ [K: string]: any }> = await invoke('handle', { name: 'HOME', queryName: 'recommend' })
+      let queryParams: {[K: string]: any} = {}
+      queryParams.name = params.name || ''
+      queryParams.class = params.class || ''
+      queryParams.area = params.area || ''
+      queryParams.lang = params.lang || ''
+      queryParams.year = params.year || ''
+      queryParams.sort = params.sort || ''
+
+      let results: Array<{ [K: string]: any }> = await invoke('handle', { name: 'HOME', order: queryParams })
       this.loading = false
 
-      console.info('result:', result)
-      // analysis results
-      result.forEach((item: { [K: string]: any } = {}) => {
-        if (item.name === 'banner') {
-          this.bannerList = this.analysisResult(item, '获取视频数据失败!') || []
-        } else if (item.name === 'recommend') {
-          this.recommendList = this.analysisResult(item, '获取视频数据失败!') || []
-        }
-      })
+      this.handleResponse(results)
     } catch (e) {
       this.loading = false
       console.error('get recommend error !', e)
-      TOAST.show({ message: '获取推荐列表失败!', type: 4 })
+      TOAST.show({ message: '获取推荐列表失败', type: 3 })
       await error(`get recommend error: ${e.toString()}`)
     }
+  }
+
+  /**
+   * 处理结果
+   */
+  @action
+  handleResponse(result: Array<{ [K: string]: any }> = []) {
+    console.info('result:', result)
+    // analysis results
+    result.forEach((item: { [K: string]: any } = {}) => {
+      if (item.name === 'banner') {
+        this.bannerList = this.analysisResult(item, '获取视频数据失败') || []
+      } else if (item.name === 'recommend') {
+        this.recommendList = this.analysisResult(item, '获取视频数据失败') || []
+      } else if (item.name === 'dramaSeries') {
+        this.dramaSeriesList = this.analysisResult(item, '获取视频数据失败') || []
+      }
+    })
   }
 }
 

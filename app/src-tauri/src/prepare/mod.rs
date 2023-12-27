@@ -9,6 +9,7 @@ use crate::prepare::request::Request;
 use async_trait::async_trait;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
+use crate::process::Order;
 
 #[derive(Default, Debug, Clone, Serialize, Deserialize)]
 pub struct HttpResponse {
@@ -40,5 +41,5 @@ where
         Request::send_batch::<R>(params).await
     }
 
-    async fn prepare(name: &str, query_name: &str) -> Result<Vec<HttpResponse>, String>;
+    async fn prepare(name: &str, order: Order) -> Result<Vec<HttpResponse>, String>;
 }
