@@ -6,7 +6,7 @@
 import { observable, action } from 'mobx'
 import BaseStore from '../base/base.store'
 import { invoke } from '@tauri-apps/api/primitives'
-import { info } from '@tauri-apps/plugin-log'
+import { info, error } from '@tauri-apps/plugin-log'
 import { TOAST } from '@utils/base'
 import Utils from '@utils/utils'
 import data from './data.json'
@@ -19,6 +19,7 @@ class HomeStore extends BaseStore {
   @observable cartoonList: Array<{ [K: string]: any }> = [] // 动漫列表
   @observable varietyList: Array<{ [K: string]: any }> = [] // 综艺列表
   @observable childrenList: Array<{ [K: string]: any }> = [] // 少儿列表
+  @observable recordList: Array<{ [K: string]: any }> = [] // 记录列表
   @observable activeTabIndex: number = 0 // 激活的 tab
 
   readonly tabsList: Array<{ [K: string]: any }> = [
@@ -49,65 +50,30 @@ class HomeStore extends BaseStore {
   ]
 
   /**
-   * 获取首页列表
+   * 获取首页推荐列表
    */
   @action
-  getRecommendList() {
-    // @ts-ignore
-    this.recommendList = data.data || []
-  }
+  async getRecommendList() {
+    try {
+      this.loading = true
+      let result: Array<{ [K: string]: any }> = await invoke('handle', { name: 'HOME', queryName: 'recommend' })
+      this.loading = false
 
-  /**
-   * 首页 banner 列表
-   */
-  getBannerList = () => {
-    this.bannerList = [
-      {
-        id: 2,
-        name: '\u95ee\u5fc3',
-        position: 2,
-        status: 1,
-        start_time: 0,
-        end_time: 32503651199,
-        content: 'https://wx3.sinaimg.cn/large/002do8ZNly1hin0dveutyj60zk1khts502.jpg',
-        req_type: 1,
-        req_content: '5825',
-        headers: '',
-        time: 0,
-        skip_time: 0,
-        show_platform: 0,
-      },
-      {
-        id: 2,
-        name: '\u95ee\u5fc3',
-        position: 2,
-        status: 1,
-        start_time: 0,
-        end_time: 32503651199,
-        content: 'https://wx3.sinaimg.cn/large/002do8ZNly1hin0dveutyj60zk1khts502.jpg',
-        req_type: 1,
-        req_content: '5825',
-        headers: '',
-        time: 0,
-        skip_time: 0,
-        show_platform: 0,
-      },
-      {
-        id: 2,
-        name: '\u95ee\u5fc3',
-        position: 2,
-        status: 1,
-        start_time: 0,
-        end_time: 32503651199,
-        content: 'https://wx3.sinaimg.cn/large/002do8ZNly1hin0dveutyj60zk1khts502.jpg',
-        req_type: 1,
-        req_content: '5825',
-        headers: '',
-        time: 0,
-        skip_time: 0,
-        show_platform: 0,
-      },
-    ]
+      console.info('result:', result)
+      // analysis results
+      result.forEach((item: { [K: string]: any } = {}) => {
+        if (item.name === 'banner') {
+          this.bannerList = this.analysisResult(item, '获取视频数据失败!') || []
+        } else if (item.name === 'recommend') {
+          this.recommendList = this.analysisResult(item, '获取视频数据失败!') || []
+        }
+      })
+    } catch (e) {
+      this.loading = false
+      console.error('get recommend error !', e)
+      TOAST.show({ message: '获取推荐列表失败!', type: 4 })
+      await error(`get recommend error: ${e.toString()}`)
+    }
   }
 }
 

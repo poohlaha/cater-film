@@ -10,14 +10,11 @@ import Loading from '@views/components/loading/loading'
 import useMount from '@hooks/useMount'
 
 const Rank: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
-
   const render = () => {
     return (
-        <div className="rank flex-direction-column wh100">
-          <div className="page-wrapper wh100 flex-direction-column">
-
-          </div>
-        </div>
+      <div className="rank flex-direction-column wh100">
+        <div className="page-wrapper wh100 flex-direction-column"></div>
+      </div>
     )
   }
 

@@ -32,7 +32,7 @@ export default class BaseStore {
   }
 
   @action
-  analysisResult = (result: { [K: string]: any } = {}, errMsg: string = '') => {
+  analysisResult = (result: { [K: string]: any } = {}, errMsg: string = '', type: string = 'json') => {
     if (Utils.isObjectNull(result)) {
       TOAST.show({ message: errMsg || COMMON.getLanguageText('ERROR_MESSAGE'), type: 4 })
       return
@@ -44,45 +44,15 @@ export default class BaseStore {
       return
     }
 
-    let content = result.body || ''
-    const suffixProps = result.suffixProps || {}
-
-    try {
-      let contents = JSON.parse(content)
-      if (Array.isArray(contents)) {
-        return contents || []
-      }
-    } catch (e) {
-      console.log('body not array !')
-    }
-
-    if (!Utils.isBlank(content)) {
-      let fileProps = result.fileProps || {}
-      let suffix = fileProps.suffix || ''
-      let imageSuffixes = (result.imageSuffixes || '').split(',') || []
-      let isImage = false
-      if (imageSuffixes.includes(suffix) && imageSuffixes.length > 0) {
-        isImage = true
+    // json
+    if (type === 'json') {
+      let body = result.body || {}
+      if (body.code !== 1) {
+        TOAST.show({ message: '获取视频数据失败!', type: 4 })
+        return
       }
 
-      if (!isImage) {
-        content = content
-          .replace(/^"/, '') // 去掉开头的双引号
-          .replace(/"$/, '') // 去掉末尾的双引号
-          .replace(/\\"/g, '"') // 将多次转义的双引号还原为单次转义的双引号
-          .replace(/\\r/g, '\n')
-          .replace(/\\n/g, '\n')
-          .replace(/↵/g, '')
-          .replace(/\\t/g, '  ')
-          .replace(/\t/g, '  ')
-      }
-
-      return content
-    }
-
-    // 压缩包
-    if (suffixProps.type === 'archive' || suffixProps.type === 'dir') {
-      return result.fileProps || {}
+      return body.data || []
     }
 
     return ''

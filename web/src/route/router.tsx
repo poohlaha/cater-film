@@ -36,5 +36,5 @@ export const routes: RouteInterface[] = [
     component: lazy(() => import(/* webpackChunkName:'lazy' */ '@pages/my/index')),
     auth: false,
     title: '我的',
-  }
+  },
 ]

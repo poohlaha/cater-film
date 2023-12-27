@@ -16,9 +16,8 @@ const Home: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
   const swiperRef = useRef<SwiperRef>(null)
   const { homeStore } = useStore()
 
-  useMount(() => {
-    homeStore.getBannerList()
-    homeStore.getRecommendList()
+  useMount(async () => {
+    await homeStore.getRecommendList()
   })
 
   /**
@@ -166,11 +165,11 @@ const Home: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
     return (
       <div className="home flex-direction-column wh100">
         <div className="page-wrapper wh100 flex-direction-column">
-            {/* search */}
-            {getSearchBoxHtml()}
+          {/* search */}
+          {getSearchBoxHtml()}
 
-            {/* tabs */}
-            {getTabsHtml()}
+          {/* tabs */}
+          {getTabsHtml()}
         </div>
 
         {/* */}
