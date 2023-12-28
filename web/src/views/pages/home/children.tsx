@@ -3,18 +3,39 @@
  * @date 2023-12-27
  * @author poohlaha
  */
-import React, { ReactElement } from 'react'
+import React, {ReactElement, useEffect} from 'react'
 import { observer } from 'mobx-react-lite'
 import { useStore } from '@stores/index'
-import useMount from '@hooks/useMount'
+import List from '@pages/home/list'
+import NoData from '@views/components/noData'
 
 const Children: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
   const { homeStore } = useStore()
 
-  useMount(async () => {})
+  useEffect(() => {
+    if (homeStore.activeTabIndex === 5) {
+      const fetchData = async () => {
+        homeStore.setDefaultNormalSort()
+        homeStore.normalSort.name = homeStore.tabsList[5].key || ''
+        await homeStore.getList(homeStore.normalSort || {})
+      }
+
+      if (homeStore.childrenList.length === 0) {
+        fetchData()
+      }
+    }
+  }, [homeStore.activeTabIndex])
 
   const render = () => {
-    return <div className="children"></div>
+    return (
+        <List
+            list={homeStore.childrenList || []}
+            tabsList={['useDefaultHotTab', 'useDefaultClassTab', 'useDefaultAreaTab', 'useDefaultYearTab']}
+            classTab={homeStore.srTabs}
+            loading={homeStore.loading}
+            className="children"
+        />
+    )
   }
 
   return render()

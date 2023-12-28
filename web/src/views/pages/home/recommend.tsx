@@ -6,9 +6,11 @@
 import React, {ReactElement, useEffect} from 'react'
 import { observer } from 'mobx-react-lite'
 import { useStore } from '@stores/index'
-import { Swiper } from 'antd-mobile'
+import {PullToRefresh, Swiper} from 'antd-mobile'
 import MList from '@views/modules/list'
-import Utils from "@utils/utils";
+import Utils from '@utils/utils'
+import NoData from '@views/components/noData'
+import Refresh from '@views/components/refresh'
 
 const Recommend: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
   const { homeStore } = useStore()
@@ -48,7 +50,10 @@ const Recommend: React.FC<IRouterProps> = (props: IRouterProps): ReactElement =>
    * 解析列表
    */
   const analyzeListHtml = (list: Array<{ [K: string]: any }> = []) => {
-    if (list.length === 0) return null
+    if (homeStore.loading) return null
+    if (list.length === 0) {
+      return (<NoData />)
+    }
 
     return (
         <div className="list-box page-top-margin">
@@ -70,8 +75,15 @@ const Recommend: React.FC<IRouterProps> = (props: IRouterProps): ReactElement =>
   const render = () => {
     return (
         <div className="recommend">
-          {analyzeBannerHtml()}
-          {analyzeListHtml(homeStore.recommendList || [])}
+          <Refresh
+              onRefresh={async () => {
+                await homeStore.getList(homeStore.normalSort || {}, true)
+              }}
+          >
+            {analyzeBannerHtml()}
+            {analyzeListHtml(homeStore.recommendList || [])}
+          </Refresh>
+
         </div>
     )
   }

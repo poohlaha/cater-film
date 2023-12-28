@@ -35,7 +35,7 @@ const MList: React.FC<IMSwiperBarProps> = (props: IMSwiperBarProps): ReactElemen
                 </div>
 
                 <div className="title flex-center">
-                  <p className="over-two-ellipsis text-c">{item.vod_name || ''}</p>
+                  <p className="over-ellipsis text-c">{item.vod_name || ''}</p>
                 </div>
               </div>
           )

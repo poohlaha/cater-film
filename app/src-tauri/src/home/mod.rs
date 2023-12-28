@@ -4,15 +4,19 @@ use crate::config::{get_conf, Home as HomeConf};
 use crate::error::Error;
 use crate::prepare::{HttpResponse, HttpSendRequest, Prepare};
 use async_trait::async_trait;
+use log::error;
 use crate::process::Order;
 
 pub struct Home;
 
-const NAMES: [&str; 4] = [
+pub const NAMES: [&str; 7] = [
     "recommend",
     "dramaSeries",
     "movie",
-    "cartoon"
+    "cartoon",
+    "variety",
+    "children",
+    "record"
 ];
 
 #[async_trait]
@@ -34,27 +38,15 @@ impl Prepare<HttpResponse> for Home {
                 }
             }
 
-            // dramaSeries
-            if let Some(name) = Self::get_name_by_index(1).ok() {
-                if &order.name == name {
-                    return Self::prepare_drama_series(request, &conf.domain, &conf.home, &order).await;
-                }
+            // 其他
+            let method = String::from("GET");
+            let url = Self::get_params_by_name(&order.name,&conf.home);
+            if url.is_empty() {
+                error!("error by empty url to query data !");
+                return Ok(Vec::new());
             }
 
-            // movie
-            if let Some(name) = Self::get_name_by_index(2).ok() {
-                if &order.name == name {
-                    return Self::prepare_movie(request, &conf.domain, &conf.home, &order).await;
-                }
-            }
-
-            // cartoon
-            if let Some(name) = Self::get_name_by_index(3).ok() {
-                if &order.name == name {
-                    return Self::prepare_cartoon(request, &conf.domain, &conf.home, &order).await;
-                }
-            }
-
+            return Self::prepare_normal(request, &conf.domain, order.clone(), &order.name, &method, &url).await;
         }
 
         return Ok(Vec::new());
@@ -63,88 +55,58 @@ impl Prepare<HttpResponse> for Home {
 
 impl Home {
 
+    async fn prepare_request(request: HttpSendRequest, domain: &str, urls: Vec<(HttpSendRequest, Option<Order>)>) -> Result<Vec<HttpResponse>, String> {
+        let mut requests: Vec<HttpSendRequest> = Vec::new();
+        urls.iter().for_each(|(req, order)| {
+            let mut request = request.clone();
+            request.name = req.name.clone();
+            let mut param = String::new();
+            if let Some(order) = order {
+                param = Self::prepare_sort(order);
+            }
+
+            if req.url.starts_with("http://") || req.url.starts_with("https://") {
+                request.url = Self::prepare_url("", &req.url, &param);
+            } else {
+                request.url = Self::prepare_url(domain, &req.url, &param);
+            }
+
+            request.method = req.method.clone();
+            requests.push(request)
+        });
+
+        Self::send(requests).await
+    }
+
     /// 推荐列表
     async fn prepare_recommend(request: HttpSendRequest, domain: &str, conf: &HomeConf) -> Result<Vec<HttpResponse>, String> {
-        // banner
         let mut banner_request = request.clone();
         banner_request.method = Some("GET".to_string());
-        banner_request.url = Self::prepare_url(domain, &conf.banner_url, "");
+        banner_request.url = conf.banner_url.clone();
         banner_request.name = "banner".to_string();
 
         // recommend
         let mut recommend_request = request.clone();
         recommend_request.method = Some("GET".to_string());
-        recommend_request.url = Self::prepare_url(domain, &conf.recommend_url, "");
+        recommend_request.url = conf.recommend_url.clone();
         recommend_request.name = "recommend".to_string();
 
-        let mut list: Vec<HttpSendRequest> = Vec::new();
-        list.push(banner_request);
-        list.push(recommend_request);
+        let mut list: Vec<(HttpSendRequest, Option<Order>)> = Vec::new();
+        list.push((banner_request, None));
+        list.push((recommend_request,  None));
 
         // 发送请求
-        Self::send(list).await
+        Self::prepare_request(request, &domain, list).await
     }
 
-    fn prepare_sort(order: &Order) -> String {
-        // 默认按 time 排序 class=$1&area=$2&lang=$3&year=$4&order=%5
-        let mut sort = order.sort.clone();
-        if sort.is_empty() {
-            sort = String::from("time");
-        }
-
-        let mut param = Vec::new();
-        param.push(format!("class={}", order.class));
-        param.push(format!("area={}", order.area));
-        param.push(format!("lang={}", order.lang));
-        param.push(format!("year={}", order.year));
-        param.push(format!("order={}", &sort));
-        return param.join("&");
+    /// 发送数据
+    async fn prepare_normal(request: HttpSendRequest, domain: &str, order: Order, name: &str, method: &str, url: &str) -> Result<Vec<HttpResponse>, String> {
+        let mut http_request = request.clone();
+        http_request.name = name.to_string();
+        http_request.method = Some(method.to_string());
+        http_request.url = url.to_string();
+        Self::prepare_request(request, domain,vec![(http_request, Some(order))]).await
     }
-
-    /// 剧集列表
-    async fn prepare_drama_series(request: HttpSendRequest, domain: &str, conf: &HomeConf, order: &Order) -> Result<Vec<HttpResponse>, String> {
-        // recommend
-        let mut request = request.clone();
-        request.method = Some("GET".to_string());
-        request.name = "dramaSeries".to_string();
-
-        // 默认按 time 排序 class=$1&area=$2&lang=$3&year=$4&order=%5
-        request.url = Self::prepare_url(domain, &conf.drama_series_url, &Self::prepare_sort(order));
-        Self::send(vec![request]).await
-    }
-
-    /// 电影列表
-    async fn prepare_movie(request: HttpSendRequest, domain: &str, conf: &HomeConf, order: &Order) -> Result<Vec<HttpResponse>, String> {
-        // recommend
-        let mut request = request.clone();
-        request.method = Some("GET".to_string());
-        request.name = "movie".to_string();
-
-        // 默认按 time 排序 class=$1&area=$2&lang=$3&year=$4&order=%5
-        request.url = Self::prepare_url(domain, &conf.movie_url, &Self::prepare_sort(order));
-        Self::send(vec![request]).await
-    }
-
-    /// 动漫
-    async fn prepare_cartoon(request: HttpSendRequest, domain: &str, conf: &HomeConf, order: &Order) -> Result<Vec<HttpResponse>, String> {
-        // recommend
-        let mut request = request.clone();
-        request.method = Some("GET".to_string());
-        request.name = "cartoon".to_string();
-
-        // 默认按 time 排序 class=$1&area=$2&lang=$3&year=$4&order=%5
-        request.url = Self::prepare_url(domain, &conf.cartoon_url, &Self::prepare_sort(order));
-        Self::send(vec![request]).await
-    }
-
-    /// 综艺
-    fn prepare_variety() {}
-
-    /// 少儿
-    fn prepare_children() {}
-
-    /// 记录
-    fn prepare_record() {}
 
     /// 获取 URL
     fn prepare_url(domain: &str, url: &str, param: &str) -> String {
@@ -164,5 +126,86 @@ impl Home {
         }
 
         Err(Error::convert_string("cant not find name by index: index"))
+    }
+
+    /// 查找名字是否存在, 并获取 url 等
+    fn get_params_by_name(name: &str, conf: &HomeConf) -> String {
+        let mut index = -1;
+        for n in NAMES {
+            if n == name {
+                index += 1;
+            }
+        }
+
+        // 找到名字, 大写转驼峰
+        if index != -1 {
+            return Self::find_url_by_name(name, conf);
+        }
+
+        error!("error by name: `{}` to query data !", &name);
+        return String::new();
+    }
+
+    pub fn find_url_by_name(name: &str, conf: &HomeConf) -> String {
+        //dramaSeries
+        if let Some(n) = Self::get_name_by_index(1).ok() {
+            if name == n {
+                return conf.drama_series_url.clone();
+            }
+        }
+
+        // movie
+        if let Some(n) = Self::get_name_by_index(2).ok() {
+            if name == n {
+                return conf.movie_url.clone();
+            }
+        }
+
+        // cartoon
+        if let Some(n) = Self::get_name_by_index(3).ok() {
+            if name == n {
+                return conf.cartoon_url.clone();
+            }
+        }
+
+        // variety
+        if let Some(n) = Self::get_name_by_index(4).ok() {
+            if name == n {
+                return conf.variety_url.clone();
+            }
+        }
+
+        // children
+        if let Some(n) = Self::get_name_by_index(5).ok() {
+            if name == n {
+                return conf.children_url.clone();
+            }
+        }
+
+        // record
+        if let Some(n) = Self::get_name_by_index(6).ok() {
+            if name == n {
+                return conf.record_url.clone();
+            }
+        }
+
+        return String::new()
+    }
+
+    /// 准备参数
+    fn prepare_sort(order: &Order) -> String {
+        // 默认按 time 排序 class=$1&area=$2&lang=$3&year=$4&order=%5
+        let mut sort = order.sort.clone();
+        if sort.is_empty() {
+            sort = String::from("time");
+        }
+
+        let mut param = Vec::new();
+        param.push(format!("class={}", order.class));
+        param.push(format!("area={}", order.area));
+        param.push(format!("lang={}", order.lang));
+        param.push(format!("year={}", order.year));
+        param.push(format!("order={}", &sort));
+        return param.join("&");
     }
 }

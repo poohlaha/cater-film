@@ -15,52 +15,27 @@ const Cartoon: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
   useEffect(() => {
     if (homeStore.activeTabIndex === 3) {
       const fetchData = async () => {
+          homeStore.setDefaultNormalSort()
         homeStore.normalSort.name = homeStore.tabsList[3].key || ''
         await homeStore.getList(homeStore.normalSort || {})
       }
 
-      fetchData()
+        if (homeStore.cartoonList.length === 0) {
+            fetchData()
+        }
     }
   }, [homeStore.activeTabIndex])
 
 
   const render = () => {
     return (
-        <div className="movie overflow-y-auto">
-          <List
-              tabList={[
-                {
-                  tabs: homeStore.newTabs || [],
-                  onChange: async (obj: { [K: string]: any } = {}) => {
-                    homeStore.normalSort.sort = obj.key || ''
-                    await homeStore.getList(homeStore.normalSort || {})
-                  }
-                },
-                {
-                  tabs: homeStore.classTabs || [],
-                  onChange: async (obj: { [K: string]: any } = {}) => {
-                    homeStore.normalSort.class = encodeURIComponent(obj.title) || ''
-                    await homeStore.getList(homeStore.normalSort || {})
-                  }
-                },
-                {
-                  tabs: homeStore.areaTabs || [],
-                  onChange: async (obj: { [K: string]: any } = {}) => {
-                    homeStore.normalSort.area = encodeURIComponent(obj.title) || ''
-                    await homeStore.getList(homeStore.normalSort || {})
-                  }
-                },
-                {
-                  tabs: homeStore.getYearsTabs(),
-                  onChange: async (obj: { [K: string]: any } = {}) => {
-                    homeStore.normalSort.year = obj.key || ''
-                    await homeStore.getList(homeStore.normalSort || {})
-                  }
-                }
-              ]}
-              list={homeStore.cartoonList || []}
-          />
-        </div>
+        <List
+            list={homeStore.cartoonList || []}
+            tabsList={['useDefaultHotTab', 'useDefaultClassTab', 'useDefaultAreaTab', 'useDefaultYearTab']}
+            classTab={homeStore.dmTabs}
+            loading={homeStore.loading}
+            className="cartoon"
+        />
     )
   }
 

@@ -13,8 +13,8 @@ movie_url = "/v6/video?pg=1&tid=21&token=&csrf=dZzpbNGpE2xhYue6jhA%2Bod2%2BT5mRp
 # 动漫 tid = 22
 cartoon_url = "/v6/video?pg=1&tid=22&token=&csrf=Em6Ed9WwaC2uMprfhHv4BBIZhzwCKuWIwpar2OFWxYETUQRZUWi6fLimyv7AiyGOgHNq0817Ju%2F7HzSXbJAB8u70ZGbrkk8LyoU4EZ%2FUva1ciNwOauKhOa9KntiY66bwqxCJdyo1V9KoN2LtrNz5ALiljtjiAVqSap%2BFY2Gby%2Fw%3D"
 # 综艺 tid = 23
-variety_url = "/v6/video?pg=1&tid=23&class=&area=&lang=&year=&order=time&token=&csrf=Em6Ed9WwaC2uMprfhHv4BBIZhzwCKuWIwpar2OFWxYETUQRZUWi6fLimyv7AiyGOgHNq0817Ju%2F7HzSXbJAB8u70ZGbrkk8LyoU4EZ%2FUva1ciNwOauKhOa9KntiY66bwqxCJdyo1V9KoN2LtrNz5ALiljtjiAVqSap%2BFY2Gby%2Fw%3D"
+variety_url = "/v6/video?pg=1&tid=23&token=&csrf=Em6Ed9WwaC2uMprfhHv4BBIZhzwCKuWIwpar2OFWxYETUQRZUWi6fLimyv7AiyGOgHNq0817Ju%2F7HzSXbJAB8u70ZGbrkk8LyoU4EZ%2FUva1ciNwOauKhOa9KntiY66bwqxCJdyo1V9KoN2LtrNz5ALiljtjiAVqSap%2BFY2Gby%2Fw%3D"
 # 少儿 tid = 24
-children_url = "/v6/video?pg=1&tid=24&class=&area=&lang=&year=&order=time&token=&csrf=Em6Ed9WwaC2uMprfhHv4BBIZhzwCKuWIwpar2OFWxYETUQRZUWi6fLimyv7AiyGOgHNq0817Ju%2F7HzSXbJAB8u70ZGbrkk8LyoU4EZ%2FUva1ciNwOauKhOa9KntiY66bwqxCJdyo1V9KoN2LtrNz5ALiljtjiAVqSap%2BFY2Gby%2Fw%3D"
+children_url = "/v6/video?pg=1&tid=24&token=&csrf=Em6Ed9WwaC2uMprfhHv4BBIZhzwCKuWIwpar2OFWxYETUQRZUWi6fLimyv7AiyGOgHNq0817Ju%2F7HzSXbJAB8u70ZGbrkk8LyoU4EZ%2FUva1ciNwOauKhOa9KntiY66bwqxCJdyo1V9KoN2LtrNz5ALiljtjiAVqSap%2BFY2Gby%2Fw%3D"
 # 记录 tid = 25
-record_url = "/v6/video?pg=1&tid=25&class=&area=&lang=&year=&order=time&token=&csrf=Em6Ed9WwaC2uMprfhHv4BBIZhzwCKuWIwpar2OFWxYETUQRZUWi6fLimyv7AiyGOgHNq0817Ju%2F7HzSXbJAB8u70ZGbrkk8LyoU4EZ%2FUva1ciNwOauKhOa9KntiY66bwqxCJdyo1V9KoN2LtrNz5ALiljtjiAVqSap%2BFY2Gby%2Fw%3D"
+record_url = "/v6/video?pg=1&tid=26&token=&csrf=Em6Ed9WwaC2uMprfhHv4BBIZhzwCKuWIwpar2OFWxYETUQRZUWi6fLimyv7AiyGOgHNq0817Ju%2F7HzSXbJAB8u70ZGbrkk8LyoU4EZ%2FUva1ciNwOauKhOa9KntiY66bwqxCJdyo1V9KoN2LtrNz5ALiljtjiAVqSap%2BFY2Gby%2Fw%3D"

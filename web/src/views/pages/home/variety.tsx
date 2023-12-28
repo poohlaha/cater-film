@@ -3,18 +3,39 @@
  * @date 2023-12-27
  * @author poohlaha
  */
-import React, { ReactElement } from 'react'
+import React, {ReactElement, useEffect} from 'react'
 import { observer } from 'mobx-react-lite'
 import { useStore } from '@stores/index'
-import useMount from '@hooks/useMount'
+import List from '@pages/home/list'
+import NoData from '@views/components/noData'
 
 const Variety: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
   const { homeStore } = useStore()
 
-  useMount(async () => {})
+  useEffect(() => {
+    if (homeStore.activeTabIndex === 4) {
+      const fetchData = async () => {
+        homeStore.setDefaultNormalSort()
+        homeStore.normalSort.name = homeStore.tabsList[4].key || ''
+        await homeStore.getList(homeStore.normalSort || {})
+      }
+
+      if (homeStore.varietyList.length === 0) {
+        fetchData()
+      }
+    }
+  }, [homeStore.activeTabIndex])
 
   const render = () => {
-    return <div className="variety"></div>
+    return (
+        <List
+            list={homeStore.varietyList || []}
+            tabsList={['useDefaultHotTab', 'useDefaultClassTab', 'useDefaultAreaTab', 'useDefaultYearTab']}
+            classTab={homeStore.zyTabs}
+            loading={homeStore.loading}
+            className="variety"
+        />
+    )
   }
 
   return render()

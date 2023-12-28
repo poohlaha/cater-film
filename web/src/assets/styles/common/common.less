@@ -697,29 +697,31 @@ div[class$='-page'],
 }
 
 /* 列表没有数据 */
-.no-data {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
+.no-data-box {
+  .no-data {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
 
-  img {
-    width: 5rem;
-    height: 3.4rem;
-  }
+    img, .svg-icon {
+      width: 5rem;
+      height: 3.4rem;
+    }
 
-  p {
-    margin-top: 0.3rem;
-    color: @color_gray;
-    font-size: @font_small;
-  }
+    p {
+      margin-top: 0.3rem;
+      color: @color_gray_light;
+      font-size: @font_smaller;
+    }
 
-  .red {
-    color: @theme;
-    margin-left: 0.25rem;
-    margin-right: 0.25rem;
+    .red {
+      color: @theme;
+      margin-left: 0.25rem;
+      margin-right: 0.25rem;
+    }
   }
 }
 

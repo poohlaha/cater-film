@@ -3,6 +3,7 @@ mod error;
 mod home;
 mod prepare;
 mod process;
+mod utils;
 
 use process::handle;
 

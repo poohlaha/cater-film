@@ -90,7 +90,6 @@
         .card {
           margin: 0 0.2rem 0.4rem 0;
           flex: 0 0 calc((100% - 0.4rem) / 3);
-          height: 5.2rem;
 
           .card-top {
             position: relative;
@@ -115,12 +114,14 @@
 
           .title {
             margin-top: 0.2rem;
-            height: 0.8rem;
+            height: 0.5rem;
             font-size: @font_smallest;
-            width: 100%;
+            // width: 100%;
+            width: 2.8rem;
+            padding: 0 0.2rem;
 
             p {
-              width: 80%;
+             // width: 80%;
             }
           }
         }
@@ -129,6 +130,12 @@
           margin-right: 0 !important;
         }
       }
+    }
+  }
+
+  .page-box {
+    .no-data-box {
+      flex: 1;
     }
   }
 }
