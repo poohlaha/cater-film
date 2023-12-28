@@ -18,3 +18,6 @@ variety_url = "/v6/video?tid=23&token=&csrf=Em6Ed9WwaC2uMprfhHv4BBIZhzwCKuWIwpar
 children_url = "/v6/video?tid=24&token=&csrf=Em6Ed9WwaC2uMprfhHv4BBIZhzwCKuWIwpar2OFWxYETUQRZUWi6fLimyv7AiyGOgHNq0817Ju%2F7HzSXbJAB8u70ZGbrkk8LyoU4EZ%2FUva1ciNwOauKhOa9KntiY66bwqxCJdyo1V9KoN2LtrNz5ALiljtjiAVqSap%2BFY2Gby%2Fw%3D"
 # 记录 tid = 25
 record_url = "/v6/video?tid=26&token=&csrf=Em6Ed9WwaC2uMprfhHv4BBIZhzwCKuWIwpar2OFWxYETUQRZUWi6fLimyv7AiyGOgHNq0817Ju%2F7HzSXbJAB8u70ZGbrkk8LyoU4EZ%2FUva1ciNwOauKhOa9KntiY66bwqxCJdyo1V9KoN2LtrNz5ALiljtjiAVqSap%2BFY2Gby%2Fw%3D"
+
+[rank]
+url = "/v6/rank_video_list?token=&csrf=NRIzPeROcHJjI2k%2BYlqD1UzzL9CBPFCGjwgjOlIHo2xmPaZEgJ2AgmLsrUNeriGmZ5OTsYqfGB6YuAVNcF%2FaQ1FX54Iegtj5hLnAeyq%2FgWB7soYWsbVy5y0V1wLoXE8eY%2FBclUoqktat3ULmfA8xm4R8CWjnEWjIOhzZaTft9%2Bk%3D"

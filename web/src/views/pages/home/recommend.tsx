@@ -18,7 +18,6 @@ const Recommend: React.FC<IRouterProps> = (props: IRouterProps): ReactElement =>
   useEffect(() => {
     if (homeStore.activeTabIndex === 0) {
       const fetchData = async () => {
-        debugger
         homeStore.setDefaultNormalSort()
         homeStore.normalSort.name = homeStore.tabsList[0].key || ''
         await homeStore.getList(homeStore.normalSort || {})
@@ -55,7 +54,7 @@ const Recommend: React.FC<IRouterProps> = (props: IRouterProps): ReactElement =>
   const analyzeListHtml = (list: Array<{ [K: string]: any }> = []) => {
     if (homeStore.loading) return null
     if (list.length === 0) {
-      return <NoData />
+      return <NoData text="抱歉，没有找到相关影片~" />
     }
 
     return (
@@ -78,7 +77,7 @@ const Recommend: React.FC<IRouterProps> = (props: IRouterProps): ReactElement =>
       <div className="recommend wh100">
         <Refresh
           onRefresh={async () => {
-            await homeStore.getList(homeStore.normalSort || {}, true)
+            await homeStore.getList(homeStore.normalSort || {}, 1)
           }}
         >
           {analyzeBannerHtml()}

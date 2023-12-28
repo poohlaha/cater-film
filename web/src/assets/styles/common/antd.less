@@ -47,6 +47,12 @@
 .adm-search-bar {
   height: 100% !important;
 
+  &.adm-search-bar-active {
+    .adm-search-bar-input-box {
+      border-width: 0.03rem;
+    }
+  }
+
   .adm-search-bar-input-box {
     height: 100% !important;
     border-radius: 1rem;
@@ -99,7 +105,7 @@
 
       .adm-tabs-tab-wrapper {
         .adm-tabs-tab {
-          font-size: @font!important;
+          font-size: @font;
         }
 
         .adm-tabs-tab-active {
@@ -209,6 +215,14 @@
     .adm-pull-to-refresh-head-content {
       color: @color_gray_light;
       font-size: @font_smaller;
+      height: 1.5rem!important;
     }
+  }
+}
+
+// adm-infinite-scroll
+.adm-infinite-scroll {
+  span {
+    font-size: @font_smaller;
   }
 }

@@ -5,6 +5,7 @@ use crate::home::Home;
 use crate::prepare::{HttpResponse, Prepare};
 use async_trait::async_trait;
 use serde::{Deserialize, Serialize};
+use crate::rank::Rank;
 
 pub struct Process;
 
@@ -29,22 +30,27 @@ impl Prepare<HttpResponse> for Process {
         }
 
         // home
-        if let Some(name) = Self::get_name_by_index(0).ok() {
+        if Self::find_name_by_index(name, 0) {
             return Home::prepare(name, order).await;
         }
 
-        Err(Error::convert_string("`name` field is error !"))
+        // rank
+        if Self::find_name_by_index(name, 1) {
+            return Rank::prepare(name, order).await;
+        }
+
+        Err(Error::convert_string(&format!("cant not find name by name: {}", name)))
     }
 }
 
 impl Process {
     /// 根据索引获取名字
-    fn get_name_by_index<'a>(index: usize) -> Result<&'a str, String> {
-        if let Some(name) = NAMES.get(index) {
-            return Ok(name.as_ref());
+    fn find_name_by_index(name: &str, index: usize) -> bool {
+        if let Some(n) = NAMES.get(index) {
+            return &name == n
         }
 
-        Err(Error::convert_string("cant not find name by index: index"))
+        return false
     }
 }
 

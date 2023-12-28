@@ -4,6 +4,7 @@ mod home;
 mod prepare;
 mod process;
 mod utils;
+mod rank;
 
 use process::handle;
 

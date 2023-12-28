@@ -1,5 +1,5 @@
 /**
- * @fileOverview dashboard store
+ * @fileOverview home store
  * @date 2023-12-26
  * @author poohlaha
  */
@@ -623,16 +623,30 @@ class HomeStore extends BaseStore {
   }
 
   /**
-   * 获取首页推荐列表
+   * 获取列表
+   * 0: 加载数据 1: 下拉刷新 2: 上拉刷新
    */
   @action
-  async getList(params: { [K: string]: any } = {}, refresh = false) {
+  async getList(params: { [K: string]: any } = {}, index = 0) {
     try {
-      console.info('', params)
+      if (Utils.isBlank(params.name)) return
+      if (params.page > 1) {
+        // @ts-ignore
+        if (this[`${params.name}`]['list'] === 0 || this[`${params.name}`]['list'].totalCount === 0 || this[`${params.name}`]['list'].totalPage === 0) {
+          return
+        }
+      }
+      console.info('send params', params)
       await info(`send params: ${JSON.stringify(params || {})}`)
-      if (!refresh) {
+
+      if (index !== 2) {
+        params.page = 1
+      }
+
+      if (index === 0) {
         this.loading = true
       }
+
       let queryParams: { [K: string]: any } = {}
       queryParams.name = params.name || ''
       queryParams.class = params.class || ''
@@ -642,19 +656,15 @@ class HomeStore extends BaseStore {
       queryParams.sort = params.sort || ''
       queryParams.page = params.page || 1
 
-      if (params.page === 1) {
-        // @ts-ignore
-        this[`${params.name}`]['list'] = []
-      }
-
+      console.log('query params:', queryParams)
       let results: Array<{ [K: string]: any }> = await invoke('handle', { name: 'HOME', order: queryParams })
-      if (!refresh) {
+      if (index === 0) {
         this.loading = false
       }
 
       this.handleResponse(results, params.name)
     } catch (e) {
-      if (!refresh) {
+      if (index === 0) {
         this.loading = false
       }
       console.error('get recommend error !', e)
@@ -669,6 +679,7 @@ class HomeStore extends BaseStore {
   @action
   handleResponse(result: Array<{ [K: string]: any }> = [], name: string = '') {
     console.info('result:', result)
+    if (Utils.isBlank(name)) return
     // analysis results
     result.forEach((item: { [K: string]: any } = {}) => {
       if (item.name === 'banner') {
@@ -681,11 +692,9 @@ class HomeStore extends BaseStore {
         // @ts-ignore
         this[`${name}`]['totalPage'] = item.pagecount || 0
         // @ts-ignore
-        this[`${name}`]['list'] = this[`${name}`]['list'].concat(this.analysisResult(item, '获取视频数据失败') || [])
+        this[`${name}`]['list'] = (this[`${name}`]['list'] || []).concat(this.analysisResult(item, '获取视频数据失败') || [])
       }
     })
-
-    console.log('dramaSeries', this.dramaSeries)
   }
 
   /**

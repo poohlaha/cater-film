@@ -18,7 +18,7 @@ const Refresh: React.FC<IRefreshProps> = (props: IRefreshProps): ReactElement | 
 
   const render = () => {
     return (
-      <PullToRefresh onRefresh={async () => props.onRefresh?.()} refreshingText={getRefreshIcon()} headHeight={60}>
+      <PullToRefresh onRefresh={async () => props.onRefresh?.()} refreshingText={getRefreshIcon()} headHeight={150}>
         {props.children || null}
       </PullToRefresh>
     )
