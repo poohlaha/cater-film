@@ -17,7 +17,6 @@ interface IMSwiperBarProps {
 }
 
 const MList: React.FC<IMSwiperBarProps> = (props: IMSwiperBarProps): ReactElement | null => {
-
   const render = () => {
     if (!props.list || props.list.length === 0) return null
     console.log(props.list)
@@ -26,18 +25,18 @@ const MList: React.FC<IMSwiperBarProps> = (props: IMSwiperBarProps): ReactElemen
       <div className="page-top-margin list flex w100">
         {(props.list || []).map((item: { [K: string]: any } = {}, index: number) => {
           return (
-              <div className="card flex-direction-column card-no-padding" key={index + '_' + item}>
-                <div className="card-top w100">
-                  <img src={item.vod_pic || ''} className="wh100"/>
-                  <div className="name flex-center w100">
-                    <p>{item.vod_remarks || ''}</p>
-                  </div>
-                </div>
-
-                <div className="title flex-center">
-                  <p className="over-ellipsis text-c">{item.vod_name || ''}</p>
+            <div className="card flex-direction-column card-no-padding" key={index + '_' + item}>
+              <div className="card-top w100">
+                <img src={item.vod_pic || ''} className="wh100" />
+                <div className="name flex-center w100">
+                  <p>{item.vod_remarks || ''}</p>
                 </div>
               </div>
+
+              <div className="title flex-center">
+                <p className="over-ellipsis text-c">{item.vod_name || ''}</p>
+              </div>
+            </div>
           )
         })}
       </div>

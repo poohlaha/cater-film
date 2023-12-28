@@ -3,7 +3,7 @@
  * @date 2023-12-27
  * @author poohlaha
  */
-import React, {ReactElement, useEffect} from 'react'
+import React, { ReactElement, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import { useStore } from '@stores/index'
 import List from '@pages/home/list'
@@ -20,7 +20,7 @@ const Children: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => 
         await homeStore.getList(homeStore.normalSort || {})
       }
 
-      if (homeStore.childrenList.length === 0) {
+      if (homeStore.children.list.length === 0) {
         fetchData()
       }
     }
@@ -28,13 +28,13 @@ const Children: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => 
 
   const render = () => {
     return (
-        <List
-            list={homeStore.childrenList || []}
-            tabsList={['useDefaultHotTab', 'useDefaultClassTab', 'useDefaultAreaTab', 'useDefaultYearTab']}
-            classTab={homeStore.srTabs}
-            loading={homeStore.loading}
-            className="children"
-        />
+      <List
+        obj={homeStore.children || {}}
+        tabsList={['useDefaultHotTab', 'useDefaultClassTab', 'useDefaultAreaTab', 'useDefaultYearTab']}
+        classTab={homeStore.srTabs}
+        loading={homeStore.loading}
+        className="children"
+      />
     )
   }
 

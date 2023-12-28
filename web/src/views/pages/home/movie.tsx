@@ -3,7 +3,7 @@
  * @date 2023-12-27
  * @author poohlaha
  */
-import React, {ReactElement, useEffect} from 'react'
+import React, { ReactElement, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import { useStore } from '@stores/index'
 import List from '@pages/home/list'
@@ -20,16 +20,14 @@ const Movie: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
         await homeStore.getList(homeStore.normalSort || {})
       }
 
-        if (homeStore.movieList.length === 0) {
-            fetchData()
-        }
-
+      if (homeStore.movie.list.length === 0) {
+        fetchData()
+      }
     }
   }, [homeStore.activeTabIndex])
 
-
   const render = () => {
-    return (<List list={homeStore.movieList || []} loading={homeStore.loading} className="movie" />)
+    return <List obj={homeStore.movie || {}} loading={homeStore.loading} className="movie" />
   }
 
   return render()

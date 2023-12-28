@@ -7,14 +7,14 @@ banner_url = "/v6/advert?position=2&pkid=com.maitian.baohu&token=&csrf=WObpyaoSv
 # 推荐
 recommend_url = "/v6/index_video?token=&csrf=DLC7rYD06SP%2B%2FFOh%2FhZ9zbqrK1hoxw1%2F8OpSYoxg9Ln4GuHLtmta2G38UkLhx6Nf3%2BCmZ%2FLG2OiG2LlK%2BA4HKfG%2FCKJXq3PUB2SrVOcnGQl4kV2d3NVC9B2w%2F3X8shtncslqv4L9FyZTGFyoXW3duPNNUqFFjB9X2DMSxIbPJkE%3D"
 # 剧集 tid = 20
-drama_series_url = "/v6/video?pg=1&tid=20&token=&csrf=rwkT21B0QYuoUS43G2yp6a1IxprLJ%2FSItzpWpF1fRySGtvnzxoGjpudz1YdEbWNntL8U1ZvMicMxr%2B7iESs5WWxbmEWPcJpIvi7xMlyi0sL2SVl4YuPKpb%2FA6I%2FEPwMLUJdMai9W6IQ%2BSJnO2gA500JDbMRqabrxgCoy8qQ09MI%3D"
+drama_series_url = "/v6/video?tid=20&token=&csrf=rwkT21B0QYuoUS43G2yp6a1IxprLJ%2FSItzpWpF1fRySGtvnzxoGjpudz1YdEbWNntL8U1ZvMicMxr%2B7iESs5WWxbmEWPcJpIvi7xMlyi0sL2SVl4YuPKpb%2FA6I%2FEPwMLUJdMai9W6IQ%2BSJnO2gA500JDbMRqabrxgCoy8qQ09MI%3D"
 # 电影 tid = 21
-movie_url = "/v6/video?pg=1&tid=21&token=&csrf=dZzpbNGpE2xhYue6jhA%2Bod2%2BT5mRpfY2w%2B5F4RPiq2V4vMU7fa%2F2tGdqZaLXr5caTZKYn0uCanhGuAZ8NZuQbosGDcjjiCzioGJQqmBMWNaPeH5RlxuOJW1Ty3ryz75tWG%2FGx2OOCuDm0NOHESIIHZ0ShdRKRGZAzLntetIlQyY%3D"
+movie_url = "/v6/video?tid=21&token=&csrf=dZzpbNGpE2xhYue6jhA%2Bod2%2BT5mRpfY2w%2B5F4RPiq2V4vMU7fa%2F2tGdqZaLXr5caTZKYn0uCanhGuAZ8NZuQbosGDcjjiCzioGJQqmBMWNaPeH5RlxuOJW1Ty3ryz75tWG%2FGx2OOCuDm0NOHESIIHZ0ShdRKRGZAzLntetIlQyY%3D"
 # 动漫 tid = 22
-cartoon_url = "/v6/video?pg=1&tid=22&token=&csrf=Em6Ed9WwaC2uMprfhHv4BBIZhzwCKuWIwpar2OFWxYETUQRZUWi6fLimyv7AiyGOgHNq0817Ju%2F7HzSXbJAB8u70ZGbrkk8LyoU4EZ%2FUva1ciNwOauKhOa9KntiY66bwqxCJdyo1V9KoN2LtrNz5ALiljtjiAVqSap%2BFY2Gby%2Fw%3D"
+cartoon_url = "/v6/video?tid=22&token=&csrf=Em6Ed9WwaC2uMprfhHv4BBIZhzwCKuWIwpar2OFWxYETUQRZUWi6fLimyv7AiyGOgHNq0817Ju%2F7HzSXbJAB8u70ZGbrkk8LyoU4EZ%2FUva1ciNwOauKhOa9KntiY66bwqxCJdyo1V9KoN2LtrNz5ALiljtjiAVqSap%2BFY2Gby%2Fw%3D"
 # 综艺 tid = 23
-variety_url = "/v6/video?pg=1&tid=23&token=&csrf=Em6Ed9WwaC2uMprfhHv4BBIZhzwCKuWIwpar2OFWxYETUQRZUWi6fLimyv7AiyGOgHNq0817Ju%2F7HzSXbJAB8u70ZGbrkk8LyoU4EZ%2FUva1ciNwOauKhOa9KntiY66bwqxCJdyo1V9KoN2LtrNz5ALiljtjiAVqSap%2BFY2Gby%2Fw%3D"
+variety_url = "/v6/video?tid=23&token=&csrf=Em6Ed9WwaC2uMprfhHv4BBIZhzwCKuWIwpar2OFWxYETUQRZUWi6fLimyv7AiyGOgHNq0817Ju%2F7HzSXbJAB8u70ZGbrkk8LyoU4EZ%2FUva1ciNwOauKhOa9KntiY66bwqxCJdyo1V9KoN2LtrNz5ALiljtjiAVqSap%2BFY2Gby%2Fw%3D"
 # 少儿 tid = 24
-children_url = "/v6/video?pg=1&tid=24&token=&csrf=Em6Ed9WwaC2uMprfhHv4BBIZhzwCKuWIwpar2OFWxYETUQRZUWi6fLimyv7AiyGOgHNq0817Ju%2F7HzSXbJAB8u70ZGbrkk8LyoU4EZ%2FUva1ciNwOauKhOa9KntiY66bwqxCJdyo1V9KoN2LtrNz5ALiljtjiAVqSap%2BFY2Gby%2Fw%3D"
+children_url = "/v6/video?tid=24&token=&csrf=Em6Ed9WwaC2uMprfhHv4BBIZhzwCKuWIwpar2OFWxYETUQRZUWi6fLimyv7AiyGOgHNq0817Ju%2F7HzSXbJAB8u70ZGbrkk8LyoU4EZ%2FUva1ciNwOauKhOa9KntiY66bwqxCJdyo1V9KoN2LtrNz5ALiljtjiAVqSap%2BFY2Gby%2Fw%3D"
 # 记录 tid = 25
-record_url = "/v6/video?pg=1&tid=26&token=&csrf=Em6Ed9WwaC2uMprfhHv4BBIZhzwCKuWIwpar2OFWxYETUQRZUWi6fLimyv7AiyGOgHNq0817Ju%2F7HzSXbJAB8u70ZGbrkk8LyoU4EZ%2FUva1ciNwOauKhOa9KntiY66bwqxCJdyo1V9KoN2LtrNz5ALiljtjiAVqSap%2BFY2Gby%2Fw%3D"
+record_url = "/v6/video?tid=26&token=&csrf=Em6Ed9WwaC2uMprfhHv4BBIZhzwCKuWIwpar2OFWxYETUQRZUWi6fLimyv7AiyGOgHNq0817Ju%2F7HzSXbJAB8u70ZGbrkk8LyoU4EZ%2FUva1ciNwOauKhOa9KntiY66bwqxCJdyo1V9KoN2LtrNz5ALiljtjiAVqSap%2BFY2Gby%2Fw%3D"

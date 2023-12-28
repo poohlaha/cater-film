@@ -18,6 +18,7 @@ pub struct Order {
     pub(crate) lang: String,
     pub(crate) year: String,
     pub(crate) sort: String,
+    pub(crate) page: u64,
 }
 
 #[async_trait]

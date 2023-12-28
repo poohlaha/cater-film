@@ -3,7 +3,7 @@
  * @date 2023-12-27
  * @author poohlaha
  */
-import React, {ReactElement, useEffect} from 'react'
+import React, { ReactElement, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import { useStore } from '@stores/index'
 import List from '@pages/home/list'
@@ -20,7 +20,7 @@ const Variety: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
         await homeStore.getList(homeStore.normalSort || {})
       }
 
-      if (homeStore.varietyList.length === 0) {
+      if (homeStore.variety.list.length === 0) {
         fetchData()
       }
     }
@@ -28,13 +28,13 @@ const Variety: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
 
   const render = () => {
     return (
-        <List
-            list={homeStore.varietyList || []}
-            tabsList={['useDefaultHotTab', 'useDefaultClassTab', 'useDefaultAreaTab', 'useDefaultYearTab']}
-            classTab={homeStore.zyTabs}
-            loading={homeStore.loading}
-            className="variety"
-        />
+      <List
+        obj={homeStore.variety || {}}
+        tabsList={['useDefaultHotTab', 'useDefaultClassTab', 'useDefaultAreaTab', 'useDefaultYearTab']}
+        classTab={homeStore.zyTabs}
+        loading={homeStore.loading}
+        className="variety"
+      />
     )
   }
 

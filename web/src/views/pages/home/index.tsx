@@ -3,7 +3,7 @@
  * @date 2023-12-26
  * @author poohlaha
  */
-import React, {lazy, ReactElement, useRef} from 'react'
+import React, { lazy, ReactElement, useRef } from 'react'
 import { observer } from 'mobx-react-lite'
 import { useStore } from '@stores/index'
 import Loading from '@views/components/loading/loading'

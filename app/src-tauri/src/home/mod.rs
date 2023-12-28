@@ -3,21 +3,13 @@
 use crate::config::{get_conf, Home as HomeConf};
 use crate::error::Error;
 use crate::prepare::{HttpResponse, HttpSendRequest, Prepare};
+use crate::process::Order;
 use async_trait::async_trait;
 use log::error;
-use crate::process::Order;
 
 pub struct Home;
 
-pub const NAMES: [&str; 7] = [
-    "recommend",
-    "dramaSeries",
-    "movie",
-    "cartoon",
-    "variety",
-    "children",
-    "record"
-];
+pub const NAMES: [&str; 7] = ["recommend", "dramaSeries", "movie", "cartoon", "variety", "children", "record"];
 
 #[async_trait]
 impl Prepare<HttpResponse> for Home {
@@ -40,7 +32,7 @@ impl Prepare<HttpResponse> for Home {
 
             // 其他
             let method = String::from("GET");
-            let url = Self::get_params_by_name(&order.name,&conf.home);
+            let url = Self::get_params_by_name(&order.name, &conf.home);
             if url.is_empty() {
                 error!("error by empty url to query data !");
                 return Ok(Vec::new());
@@ -54,8 +46,11 @@ impl Prepare<HttpResponse> for Home {
 }
 
 impl Home {
-
-    async fn prepare_request(request: HttpSendRequest, domain: &str, urls: Vec<(HttpSendRequest, Option<Order>)>) -> Result<Vec<HttpResponse>, String> {
+    async fn prepare_request(
+        request: HttpSendRequest,
+        domain: &str,
+        urls: Vec<(HttpSendRequest, Option<Order>)>,
+    ) -> Result<Vec<HttpResponse>, String> {
         let mut requests: Vec<HttpSendRequest> = Vec::new();
         urls.iter().for_each(|(req, order)| {
             let mut request = request.clone();
@@ -93,19 +88,26 @@ impl Home {
 
         let mut list: Vec<(HttpSendRequest, Option<Order>)> = Vec::new();
         list.push((banner_request, None));
-        list.push((recommend_request,  None));
+        list.push((recommend_request, None));
 
         // 发送请求
         Self::prepare_request(request, &domain, list).await
     }
 
     /// 发送数据
-    async fn prepare_normal(request: HttpSendRequest, domain: &str, order: Order, name: &str, method: &str, url: &str) -> Result<Vec<HttpResponse>, String> {
+    async fn prepare_normal(
+        request: HttpSendRequest,
+        domain: &str,
+        order: Order,
+        name: &str,
+        method: &str,
+        url: &str,
+    ) -> Result<Vec<HttpResponse>, String> {
         let mut http_request = request.clone();
         http_request.name = name.to_string();
         http_request.method = Some(method.to_string());
         http_request.url = url.to_string();
-        Self::prepare_request(request, domain,vec![(http_request, Some(order))]).await
+        Self::prepare_request(request, domain, vec![(http_request, Some(order))]).await
     }
 
     /// 获取 URL
@@ -117,7 +119,6 @@ impl Home {
         }
         return request_url;
     }
-
 
     /// 根据索引获取名字
     fn get_name_by_index<'a>(index: usize) -> Result<&'a str, String> {
@@ -189,7 +190,7 @@ impl Home {
             }
         }
 
-        return String::new()
+        return String::new();
     }
 
     /// 准备参数
@@ -201,6 +202,7 @@ impl Home {
         }
 
         let mut param = Vec::new();
+        param.push(format!("pg={}", order.page));
         param.push(format!("class={}", order.class));
         param.push(format!("area={}", order.area));
         param.push(format!("lang={}", order.lang));

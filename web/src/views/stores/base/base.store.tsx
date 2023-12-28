@@ -9,7 +9,7 @@ import { COMMON, TOAST } from '@utils/base'
 
 export default class BaseStore {
   @observable currentPage: number = 1
-  @observable pageSize: number = 10
+  @observable pageSize: number = 20
   @observable loading: boolean = false
   @observable activeTabBarIndex: string = '0' // 激活的 tabBar
 

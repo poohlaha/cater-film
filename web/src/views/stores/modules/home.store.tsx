@@ -8,16 +8,24 @@ import BaseStore from '../base/base.store'
 import { invoke } from '@tauri-apps/api/primitives'
 import { info, error } from '@tauri-apps/plugin-log'
 import { TOAST } from '@utils/base'
+import Utils from '@utils/utils'
 
 class HomeStore extends BaseStore {
   @observable bannerList: Array<{ [K: string]: any }> = [] // banner列表
   @observable recommendList: Array<{ [K: string]: any }> = [] // 推荐列表
-  @observable dramaSeriesList: Array<{ [K: string]: any }> = [] // 剧集列表
-  @observable movieList: Array<{ [K: string]: any }> = [] // 电影列表
-  @observable cartoonList: Array<{ [K: string]: any }> = [] // 动漫列表
-  @observable varietyList: Array<{ [K: string]: any }> = [] // 综艺列表
-  @observable childrenList: Array<{ [K: string]: any }> = [] // 少儿列表
-  @observable recordList: Array<{ [K: string]: any }> = [] // 记录列表
+  readonly defaultObj: { [K: string]: any } = {
+    // default
+    currentPage: 1,
+    totalCount: 0,
+    totalPage: 0,
+    list: [],
+  }
+  @observable dramaSeries: { [K: string]: any } = Utils.deepCopy(this.defaultObj) // 剧集
+  @observable movie: { [K: string]: any } = Utils.deepCopy(this.defaultObj) // 电影
+  @observable cartoon: { [K: string]: any } = Utils.deepCopy(this.defaultObj) // 动漫
+  @observable variety: { [K: string]: any } = Utils.deepCopy(this.defaultObj) // 综艺
+  @observable children: { [K: string]: any } = Utils.deepCopy(this.defaultObj) // 少儿
+  @observable record: { [K: string]: any } = Utils.deepCopy(this.defaultObj) // 记录
   @observable activeTabIndex: number = 0 // 激活的 tab
 
   readonly newTabs: Array<{ [K: string]: any }> = [
@@ -596,55 +604,57 @@ class HomeStore extends BaseStore {
     },
   ]
 
-  // 剧集 tabs 选择
-  @observable normalSort: { [K: string]: any } = {
+  readonly defaultSort: { [K: string]: any } = {
     name: '',
     class: '',
     area: '',
     lang: '',
     year: '',
     sort: '',
-  };
+    page: 1,
+  }
+
+  // 剧集 tabs 选择
+  @observable normalSort: { [K: string]: any } = Utils.deepCopy(this.defaultSort)
 
   @action
   setDefaultNormalSort() {
-    this.normalSort = {
-      name: '',
-      class: '',
-      area: '',
-      lang: '',
-      year: '',
-      sort: '',
-    }
+    this.normalSort = Utils.deepCopy(this.defaultSort)
   }
 
   /**
    * 获取首页推荐列表
    */
   @action
-  async getList(params: {[K: string]: any} = {}, refresh = false) {
+  async getList(params: { [K: string]: any } = {}, refresh = false) {
     try {
       console.info('', params)
       await info(`send params: ${JSON.stringify(params || {})}`)
-      if (!refresh){
+      if (!refresh) {
         this.loading = true
       }
-      let queryParams: {[K: string]: any} = {}
+      let queryParams: { [K: string]: any } = {}
       queryParams.name = params.name || ''
       queryParams.class = params.class || ''
       queryParams.area = params.area || ''
       queryParams.lang = params.lang || ''
       queryParams.year = params.year || ''
       queryParams.sort = params.sort || ''
+      queryParams.page = params.page || 1
+
+      if (params.page === 1) {
+        // @ts-ignore
+        this[`${params.name}`]['list'] = []
+      }
 
       let results: Array<{ [K: string]: any }> = await invoke('handle', { name: 'HOME', order: queryParams })
-      if (!refresh){
+      if (!refresh) {
         this.loading = false
       }
 
       this.handleResponse(results, params.name)
     } catch (e) {
-      if (!refresh){
+      if (!refresh) {
         this.loading = false
       }
       console.error('get recommend error !', e)
@@ -663,18 +673,26 @@ class HomeStore extends BaseStore {
     result.forEach((item: { [K: string]: any } = {}) => {
       if (item.name === 'banner') {
         this.bannerList = this.analysisResult(item, '获取视频数据失败') || []
+      } else if (item.name === 'recommend') {
+        this.recommendList = this.analysisResult(item, '获取视频数据失败') || []
       } else {
         // @ts-ignore
-        this[`${name}List`] = this.analysisResult(item, '获取视频数据失败') || []
+        this[`${name}`]['total'] = item.total || 0
+        // @ts-ignore
+        this[`${name}`]['totalPage'] = item.pagecount || 0
+        // @ts-ignore
+        this[`${name}`]['list'] = this[`${name}`]['list'].concat(this.analysisResult(item, '获取视频数据失败') || [])
       }
     })
+
+    console.log('dramaSeries', this.dramaSeries)
   }
 
   /**
    * 获取 年限tabs
    */
   @action
-   getYearsTabs() {
+  getYearsTabs() {
     const currentYear = new Date().getFullYear()
     const startYear = 2000
     let years: Array<string> = []

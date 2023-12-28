@@ -9,7 +9,7 @@ import { Tabs } from 'antd-mobile'
 
 interface IMSwiperBarProps {
   tabs: Array<{ [K: string]: any }>
-  onChange: (value: {[K: string]: any}) => void
+  onChange: (value: { [K: string]: any }) => void
 }
 
 const MSwiperBar: React.FC<IMSwiperBarProps> = (props: IMSwiperBarProps): ReactElement | null => {
@@ -18,17 +18,18 @@ const MSwiperBar: React.FC<IMSwiperBarProps> = (props: IMSwiperBarProps): ReactE
 
     return (
       <Tabs
-          className="swiper-tabs"
-          onChange={(key: string = '') => {
-            let value = (props.tabs || []).find(
-                (
-                    item: {
-                      [K: string]: any
-                    } = {}
-                ) => item.key === key
+        className="swiper-tabs"
+        onChange={(key: string = '') => {
+          let value =
+            (props.tabs || []).find(
+              (
+                item: {
+                  [K: string]: any
+                } = {}
+              ) => item.key === key
             ) || {}
-            props.onChange?.(value)
-          }}
+          props.onChange?.(value)
+        }}
       >
         {props.tabs.map((tab: { [K: string]: any } = {}) => {
           return <Tabs.Tab title={tab.title || ''} key={tab.key || ''} />

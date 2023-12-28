@@ -3,11 +3,11 @@
  * @date 2023-12-27
  * @author poohlaha
  */
-import React, {ReactElement, useEffect} from 'react'
+import React, { ReactElement, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import { useStore } from '@stores/index'
 import useMount from '@hooks/useMount'
-import List from "@pages/home/list";
+import List from '@pages/home/list'
 
 const Cartoon: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
   const { homeStore } = useStore()
@@ -15,27 +15,26 @@ const Cartoon: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
   useEffect(() => {
     if (homeStore.activeTabIndex === 3) {
       const fetchData = async () => {
-          homeStore.setDefaultNormalSort()
+        homeStore.setDefaultNormalSort()
         homeStore.normalSort.name = homeStore.tabsList[3].key || ''
         await homeStore.getList(homeStore.normalSort || {})
       }
 
-        if (homeStore.cartoonList.length === 0) {
-            fetchData()
-        }
+      if (homeStore.cartoon.list.length === 0) {
+        fetchData()
+      }
     }
   }, [homeStore.activeTabIndex])
 
-
   const render = () => {
     return (
-        <List
-            list={homeStore.cartoonList || []}
-            tabsList={['useDefaultHotTab', 'useDefaultClassTab', 'useDefaultAreaTab', 'useDefaultYearTab']}
-            classTab={homeStore.dmTabs}
-            loading={homeStore.loading}
-            className="cartoon"
-        />
+      <List
+        obj={homeStore.cartoon || {}}
+        tabsList={['useDefaultHotTab', 'useDefaultClassTab', 'useDefaultAreaTab', 'useDefaultYearTab']}
+        classTab={homeStore.dmTabs}
+        loading={homeStore.loading}
+        className="cartoon"
+      />
     )
   }
 

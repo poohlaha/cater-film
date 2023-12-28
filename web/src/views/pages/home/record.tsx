@@ -3,7 +3,7 @@
  * @date 2023-12-27
  * @author poohlaha
  */
-import React, {ReactElement, useEffect} from 'react'
+import React, { ReactElement, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import { useStore } from '@stores/index'
 import List from '@pages/home/list'
@@ -19,7 +19,7 @@ const Record: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
         await homeStore.getList(homeStore.normalSort || {})
       }
 
-      if (homeStore.recordList.length === 0) {
+      if (homeStore.record.list.length === 0) {
         fetchData()
       }
     }
@@ -27,13 +27,13 @@ const Record: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
 
   const render = () => {
     return (
-        <List
-            list={homeStore.recordList || []}
-            tabsList={['useDefaultHotTab', 'useDefaultClassTab', 'useDefaultAreaTab', 'useDefaultYearTab']}
-            classTab={homeStore.jlTabs}
-            loading={homeStore.loading}
-            className="record"
-        />
+      <List
+        obj={homeStore.record || {}}
+        tabsList={['useDefaultHotTab', 'useDefaultClassTab', 'useDefaultAreaTab', 'useDefaultYearTab']}
+        classTab={homeStore.jlTabs}
+        loading={homeStore.loading}
+        className="record wh100"
+      />
     )
   }
 

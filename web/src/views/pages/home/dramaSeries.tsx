@@ -3,7 +3,7 @@
  * @date 2023-12-27
  * @author poohlaha
  */
-import React, {ReactElement, useEffect} from 'react'
+import React, { ReactElement, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import { useStore } from '@stores/index'
 import List from '@pages/home/list'
@@ -20,14 +20,14 @@ const DramaSeries: React.FC<IRouterProps> = (props: IRouterProps): ReactElement 
         await homeStore.getList(homeStore.normalSort || {})
       }
 
-      if (homeStore.dramaSeriesList.length === 0) {
-          fetchData()
+      if (homeStore.dramaSeries.list.length === 0) {
+        fetchData()
       }
     }
   }, [homeStore.activeTabIndex])
 
   const render = () => {
-    return (<List list={homeStore.dramaSeriesList || []} loading={homeStore.loading} className="drama-series"/>)
+    return <List obj={homeStore.dramaSeries || {}} loading={homeStore.loading} className="drama-series" />
   }
 
   return render()
