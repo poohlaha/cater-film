@@ -1,5 +1,5 @@
 /**
- * @fileOverview 滑动 Tab
+ * @fileOverview Tab
  * @date 2023-12-26
  * @author poohlaha
  */
@@ -7,12 +7,12 @@ import React, { ReactElement } from 'react'
 import { observer } from 'mobx-react-lite'
 import { Tabs } from 'antd-mobile'
 
-interface IMSwiperBarProps {
+interface IMTabProps {
   tabs: Array<{ [K: string]: any }>
   onChange: (value: { [K: string]: any }) => void
 }
 
-const MSwiperBar: React.FC<IMSwiperBarProps> = (props: IMSwiperBarProps): ReactElement | null => {
+const MTab: React.FC<IMTabProps> = (props: IMTabProps): ReactElement | null => {
   const render = () => {
     if (!props.tabs || props.tabs.length === 0) return null
 
@@ -41,4 +41,4 @@ const MSwiperBar: React.FC<IMSwiperBarProps> = (props: IMSwiperBarProps): ReactE
   return render()
 }
 
-export default observer(MSwiperBar)
+export default observer(MTab)

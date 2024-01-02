@@ -11,6 +11,9 @@ import { Tabs, Swiper } from 'antd-mobile'
 import { SwiperRef } from 'antd-mobile/es/components/swiper'
 import Recommend from '@pages/home/recommend'
 import Search from '@pages/home/search'
+import MSwiperTabs from '@views/modules/swiperTabs'
+import {getCurrent} from '@tauri-apps/api/window'
+import useMount from '@hooks/useMount'
 
 // dynamic components
 const DramaSeries = lazy(() => import(/* webpackChunkName:'dramaSeries' */ '@pages/home/dramaSeries'))
@@ -24,11 +27,15 @@ const Home: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
   const swiperRef = useRef<SwiperRef>(null)
   const { homeStore } = useStore()
 
+    useMount(() => {
+       // const appWindow = getCurrent()
+
+    })
   const getSearchBoxHtml = () => {
     return (
       <div className="search-box flex-align-center card card-no-margin">
           <div className="search-left flex-1 h100">
-              <div className="search-bar h100 cursor-pointer" onClick={() => homeStore.setProperty('showSearch', true)}>
+              <div className="search-bar h100 cursor-pointer" onClick={() => homeStore.search.show = true}>
                   <div className="search-bar-input-box h100 flex-align-center">
                       <div className="svg-box flex-center">
                           <svg className="svg-icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
@@ -118,51 +125,6 @@ const Home: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
     return null
   }
 
-  const getTabsHtml = () => {
-    return (
-      <div className="content flex-1 overflow-hidden">
-        <Tabs
-          activeKey={homeStore.tabsList[homeStore.activeTabIndex || 0].key}
-          onChange={(key: string) => {
-            const index =
-              homeStore.tabsList.findIndex(
-                (
-                  item: {
-                    [K: string]: any
-                  } = {}
-                ) => item.key === key
-              ) || 0
-            homeStore.setProperty('activeTabIndex', index)
-            swiperRef.current?.swipeTo(index)
-          }}
-        >
-          {homeStore.tabsList.map((item: { [K: string]: any }) => {
-            return <Tabs.Tab title={item.title} key={item.key} />
-          })}
-        </Tabs>
-
-        <Swiper
-          className="swiper-tab-content-box flex-1 overflow-y-auto"
-          direction="horizontal"
-          loop
-          indicator={() => null}
-          ref={swiperRef}
-          defaultIndex={homeStore.activeTabIndex}
-          onIndexChange={(index: number) => {
-            homeStore.setProperty('activeTabIndex', index)
-          }}
-        >
-          {homeStore.tabsList.map((item: { [K: string]: any }, index: number) => {
-            return (
-              <Swiper.Item key={item.key} className="swiper-box">
-                {getComponentsHtml(item.key)}
-              </Swiper.Item>
-            )
-          })}
-        </Swiper>
-      </div>
-    )
-  }
 
   const render = () => {
     return (
@@ -172,14 +134,24 @@ const Home: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
           {getSearchBoxHtml()}
 
           {/* tabs */}
-          {getTabsHtml()}
+            <MSwiperTabs
+                className="content flex-1 overflow-hidden"
+                tabs={homeStore.tabsList || []}
+                activeTabIndex={homeStore.activeTabIndex || 0}
+                onTabChange={(index: number) => {
+                    homeStore.setProperty('activeTabIndex', index)
+                }}
+                getSwiperComponent={(key: string) => {
+                    return getComponentsHtml(key)
+                }}
+            />
         </div>
 
         {/* loading */}
         <Loading show={homeStore.loading} />
 
           {/* search */}
-          {homeStore.showSearch && (<Search />)}
+          {homeStore.search.show && (<Search />)}
       </div>
     )
   }

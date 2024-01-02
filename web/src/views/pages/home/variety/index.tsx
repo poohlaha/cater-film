@@ -1,5 +1,5 @@
 /**
- * @fileOverview 记录
+ * @fileOverview 综艺
  * @date 2023-12-27
  * @author poohlaha
  */
@@ -8,18 +8,18 @@ import { observer } from 'mobx-react-lite'
 import { useStore } from '@stores/index'
 import List from '@pages/home/list'
 
-const Record: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
+const Index: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
   const { homeStore } = useStore()
 
   useEffect(() => {
-    if (homeStore.activeTabIndex === 6) {
+    if (homeStore.activeTabIndex === 4) {
       const fetchData = async () => {
         homeStore.setDefaultNormalSort()
-        homeStore.normalSort.name = homeStore.tabsList[6].key || ''
+        homeStore.normalSort.name = homeStore.tabsList[4].key || ''
         await homeStore.getList(homeStore.normalSort || {})
       }
 
-      if (homeStore.record.list.length === 0) {
+      if (homeStore.variety.list.length === 0) {
         fetchData()
       }
     }
@@ -28,11 +28,11 @@ const Record: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
   const render = () => {
     return (
       <List
-        obj={homeStore.record || {}}
+        obj={homeStore.variety || {}}
         tabsList={['useDefaultHotTab', 'useDefaultClassTab', 'useDefaultAreaTab', 'useDefaultYearTab']}
-        classTab={homeStore.jlTabs}
+        classTab={homeStore.zyTabs}
         loading={homeStore.loading}
-        className="record wh100"
+        className="variety"
       />
     )
   }
@@ -40,4 +40,4 @@ const Record: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
   return render()
 }
 
-export default observer(Record)
+export default observer(Index)

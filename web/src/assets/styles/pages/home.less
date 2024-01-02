@@ -8,9 +8,10 @@
 
   .search-page {
     background: #ffffff!important;
-    padding: 0 0.4rem 0.4rem 0.4rem;
 
     .search-box {
+      margin: 0 0.4rem;
+
       .back {
         width: 0.5rem;
         height: 0.5rem;
@@ -224,7 +225,7 @@
   }
 }
 
-.rank {
+.rank, .search-page {
   .page-content {
     margin-top: 0!important;
 
@@ -235,24 +236,32 @@
   }
 
   .list-box {
-    .list {
+    .list-item {
       margin-top: 0!important;
+      padding: 0!important;
 
       .item {
-        height: 5rem;
+        height: 4.5rem;
 
         .item-left {
           width: 3rem;
-          height: 4rem;
+          height: 100%;
           margin-right: 0.25rem;
         }
 
         .item-right {
 
+          .card-title {
+            font-size: @font_large;
+          }
+
           .card-footer {
+            border-top: unset!important;
+
             .card-tag {
               font-size: @font_smallest;
-              padding: 0.15rem 0.2rem!important;
+              padding: 0.15rem!important;
+              margin-right: 0.15rem!important;
             }
           }
         }
@@ -260,6 +269,20 @@
 
       .item {
         margin-top: 0!important;
+      }
+    }
+  }
+}
+
+.search-page {
+  .list-box {
+    .list-item {
+      .item {
+        height: 3.5rem!important;
+      }
+
+      .item-left {
+        width: 2rem!important;
       }
     }
   }

@@ -6,10 +6,9 @@
 import React, { ReactElement, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import { useStore } from '@stores/index'
-import useMount from '@hooks/useMount'
 import List from '@pages/home/list'
 
-const Cartoon: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
+const Index: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
   const { homeStore } = useStore()
 
   useEffect(() => {
@@ -41,4 +40,4 @@ const Cartoon: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
   return render()
 }
 
-export default observer(Cartoon)
+export default observer(Index)

@@ -29,6 +29,8 @@ tauri-plugin-window = "2.0.0-alpha"
 tauri-plugin-shell = "2.0.0-alpha"
 tauri-plugin-log = "2.0.0-alpha"
 request-http = "0.1"
+base64 = "0.21"
+images-compressor = "1.0.1"
 serde_json = "1.0"
 lazy_static = "1.4"
 

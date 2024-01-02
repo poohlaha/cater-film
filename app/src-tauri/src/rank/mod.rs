@@ -4,13 +4,13 @@ use async_trait::async_trait;
 use crate::config::get_conf;
 use crate::error::Error;
 use crate::prepare::{HttpResponse, HttpSendRequest, Prepare};
-use crate::process::Order;
+use crate::process::{Order, Process};
 
 pub struct Rank;
 
 #[async_trait]
 impl Prepare<HttpResponse> for Rank {
-    async fn prepare(_: &str, order: Order) -> Result<Vec<HttpResponse>, String> {
+    async fn prepare(app: &tauri::AppHandle, _: &str, order: Order) -> Result<Vec<HttpResponse>, String> {
         let conf = get_conf();
         if conf.is_none() {
             return Err(Error::convert_string("analyze `conf.toml` error !"));
@@ -21,7 +21,10 @@ impl Prepare<HttpResponse> for Rank {
             request.name = order.name.to_string();
             request.method = Some(String::from("GET"));
             request.url = Self::prepare_url(&conf.domain, &conf.rank.url, order.page);
-            return Self::send(vec![request]).await
+
+            let images_path = Process::get_image_dir(app)?;
+            let tmp_path = Process::get_tmp_dir(app)?;
+            return Self::send(vec![request], &images_path, &tmp_path).await
         }
 
         return Ok(Vec::new());

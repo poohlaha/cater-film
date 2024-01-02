@@ -12,7 +12,8 @@ const CONFIG_TOML: &[u8] = include_bytes!("../../conf.toml");
 pub struct Conf {
     pub domain: String,
     pub home: Home,
-    pub rank: Rank
+    pub rank: Rank,
+    pub search: Search
 }
 
 #[derive(Clone, Debug, Default, Deserialize, Serialize)]
@@ -29,6 +30,11 @@ pub struct Home {
 
 #[derive(Clone, Debug, Default, Deserialize, Serialize)]
 pub struct Rank {
+    pub(crate) url: String,
+}
+
+#[derive(Clone, Debug, Default, Deserialize, Serialize)]
+pub struct Search {
     pub(crate) url: String,
 }
 

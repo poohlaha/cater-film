@@ -27,7 +27,22 @@ class HomeStore extends BaseStore {
   @observable children: { [K: string]: any } = Utils.deepCopy(this.defaultObj) // 少儿
   @observable record: { [K: string]: any } = Utils.deepCopy(this.defaultObj) // 记录
   @observable activeTabIndex: number = 0 // 激活的 tab
-  @observable showSearch: boolean = false;
+
+  // search
+  readonly defaultSearch: { [K: string]: any } = {
+    show: false,
+    text: '',
+    activeTabIndex: 0,
+    all: Utils.deepCopy(this.defaultObj),
+    dramaSeries: Utils.deepCopy(this.defaultObj),
+    movie: Utils.deepCopy(this.defaultObj),
+    cartoon: Utils.deepCopy(this.defaultObj),
+    variety: Utils.deepCopy(this.defaultObj),
+    children: Utils.deepCopy(this.defaultObj),
+    record: Utils.deepCopy(this.defaultObj),
+  } // 搜索列表
+
+  @observable search = Utils.deepCopy(this.defaultSearch)  // 搜索列表
 
   readonly newTabs: Array<{ [K: string]: any }> = [
     {
@@ -574,36 +589,56 @@ class HomeStore extends BaseStore {
     },
   ]
 
-  readonly tabsList: Array<{ [K: string]: any }> = [
+  readonly tabsDefaultList : Array<{ [K: string]: any }> = [
     {
       key: 'recommend',
       title: '推荐',
+      tid: ''
     },
     {
       key: 'dramaSeries',
       title: '剧集',
+      tid: '20'
     },
     {
       key: 'movie',
       title: '电影',
+      tid: '21'
     },
     {
       key: 'cartoon',
       title: '动漫',
+      tid: '22'
     },
     {
       key: 'variety',
       title: '综艺',
+      tid: '23'
     },
     {
       key: 'children',
       title: '少儿',
+      tid: '24'
     },
     {
       key: 'record',
       title: '记录',
+      tid: '25'
     },
   ]
+
+  readonly tabsList = Utils.deepCopy(this.tabsDefaultList)
+  @observable searchTabsList = Utils.deepCopy(this.tabsDefaultList)
+  constructor() {
+    super()
+
+    this.searchTabsList.shift()
+    this.searchTabsList.unshift( {
+      key: 'all',
+      title: '全部',
+      tid: '0'
+    },)
+  }
 
   readonly defaultSort: { [K: string]: any } = {
     name: '',
@@ -631,12 +666,27 @@ class HomeStore extends BaseStore {
   async getList(params: { [K: string]: any } = {}, index = 0) {
     try {
       if (Utils.isBlank(params.name)) return
-      if (params.page > 1) {
+      if (params.page === 1) {
+        if (params.name === 'search') {
+
+        } else {
+          if (params.name !== 'recommend') {
+            // @ts-ignore
+            this[`${params.name}`]['list'] = []
+            // @ts-ignore
+            this[`${params.name}`].totalCount = 0
+            // @ts-ignore
+            this[`${params.name}`].totalPage = 0
+          }
+        }
+      } else {
         // @ts-ignore
-        if (this[`${params.name}`]['list'] === 0 || this[`${params.name}`]['list'].totalCount === 0 || this[`${params.name}`]['list'].totalPage === 0) {
+        if (this[`${params.name}`]['list'].length === 0 || this[`${params.name}`].totalCount === 0 || this[`${params.name}`].totalPage === 0) {
           return
         }
       }
+
+
       console.info('send params', params)
       await info(`send params: ${JSON.stringify(params || {})}`)
 
@@ -656,6 +706,8 @@ class HomeStore extends BaseStore {
       queryParams.year = params.year || ''
       queryParams.sort = params.sort || ''
       queryParams.page = params.page || 1
+      queryParams.tid = params.tid || ''
+      queryParams.text = params.text || ''
 
       console.log('query params:', queryParams)
       let results: Array<{ [K: string]: any }> = await invoke('handle', { name: 'HOME', order: queryParams })
@@ -681,21 +733,35 @@ class HomeStore extends BaseStore {
   handleResponse(result: Array<{ [K: string]: any }> = [], name: string = '') {
     console.info('result:', result)
     if (Utils.isBlank(name)) return
-    // analysis results
-    result.forEach((item: { [K: string]: any } = {}) => {
+    for (let item of result) {
       if (item.name === 'banner') {
         this.bannerList = this.analysisResult(item, '获取视频数据失败') || []
+        continue
       } else if (item.name === 'recommend') {
         this.recommendList = this.analysisResult(item, '获取视频数据失败') || []
-      } else {
+        continue
+      } if(item.name === 'search') {
+        let obj = this.searchTabsList.find((item: { [K: string]: any } = {}, index: number) => index === this.search.activeTabIndex) || {}
+        this.search[`${obj.key}`]['list'] = (this.search[`${obj.key}`]['list'] || []).concat(this.analysisResult(item, '获取视频数据失败') || [])
+        this.search[`${obj.key}`]['totalCount'] = item.body.total || 0
         // @ts-ignore
-        this[`${name}`]['total'] = item.total || 0
-        // @ts-ignore
-        this[`${name}`]['totalPage'] = item.pagecount || 0
-        // @ts-ignore
-        this[`${name}`]['list'] = (this[`${name}`]['list'] || []).concat(this.analysisResult(item, '获取视频数据失败') || [])
+        this.search[`${obj.key}`]['totalPage'] = Math.ceil(item.total / this.pageSize) || 0
+        console.log('search', this.search)
+        continue
       }
-    })
+
+      // @ts-ignore
+      this[`${name}`]['totalCount'] = item.total || 0
+      let totalPage = item.pagecount || 0
+      if (totalPage === 0) {
+        totalPage = Math.ceil(item.total / this.pageSize)
+      }
+      // @ts-ignore
+      this[`${name}`]['totalPage'] = totalPage || 0
+      // @ts-ignore
+      this[`${name}`]['list'] = (this[`${name}`]['list'] || []).concat(this.analysisResult(item, '获取视频数据失败') || [])
+    }
+
   }
 
   /**
@@ -726,6 +792,60 @@ class HomeStore extends BaseStore {
     })
 
     return tabs
+  }
+
+  @action
+  getSearchObj() {
+    if (this.search.activeTabIndex === 0) {
+      return this.search.all || {}
+    }
+
+    if (this.search.activeTabIndex === 1) {
+      return this.search.dramaSeries || {}
+    }
+
+    if (this.search.activeTabIndex === 2) {
+      return this.search.movie || {}
+    }
+
+    if (this.search.activeTabIndex === 3) {
+      return this.search.cartoon || {}
+    }
+
+    if (this.search.activeTabIndex === 4) {
+      return this.search.variety || {}
+    }
+
+    if (this.search.activeTabIndex === 5) {
+      return this.search.children || {}
+    }
+
+    if (this.search.activeTabIndex === 6) {
+      return this.search.record || {}
+    }
+
+    return {}
+  }
+
+  @action
+  async getSearchList(refreshIndex: number = 0) {
+    let obj = this.getSearchObj() || {}
+    if (Utils.isObjectNull(obj)) {
+      return
+    }
+    console.log(obj)
+
+    let list = obj.list || []
+    if (refreshIndex === 0 && list.length > 0) {
+      return
+    }
+
+    await this.getList({
+      name: 'search',
+      page: obj.currentPage || 1,
+      tid: obj.tid || '0',
+      text: encodeURIComponent(this.search.text || '')
+    }, refreshIndex)
   }
 }
 

@@ -5,7 +5,7 @@
  */
 import React, { ReactElement } from 'react'
 import { observer } from 'mobx-react-lite'
-import MSwiperBar from '@views/modules/swiperTab'
+import MTab from '@views/modules/tab'
 import MList from '@views/modules/list'
 import { useStore } from '@views/stores'
 import NoData from '@views/components/noData'
@@ -169,7 +169,7 @@ const List: React.FC<IListProps> = (props: IListProps): ReactElement | null => {
             <div className="page-top">
               {(tabsList || []).map((item: { [K: string]: any } = {}, index: number) => {
                 return (
-                    <MSwiperBar
+                    <MTab
                         key={index}
                         tabs={item.tabs}
                         onChange={(obj: { [K: string]: any } = {}) => item.onChange?.(obj)}

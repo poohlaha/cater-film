@@ -1,5 +1,5 @@
 /**
- * @fileOverview 综艺
+ * @fileOverview 少儿
  * @date 2023-12-27
  * @author poohlaha
  */
@@ -7,20 +7,19 @@ import React, { ReactElement, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import { useStore } from '@stores/index'
 import List from '@pages/home/list'
-import NoData from '@views/components/noData'
 
-const Variety: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
+const Index: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
   const { homeStore } = useStore()
 
   useEffect(() => {
-    if (homeStore.activeTabIndex === 4) {
+    if (homeStore.activeTabIndex === 5) {
       const fetchData = async () => {
         homeStore.setDefaultNormalSort()
-        homeStore.normalSort.name = homeStore.tabsList[4].key || ''
+        homeStore.normalSort.name = homeStore.tabsList[5].key || ''
         await homeStore.getList(homeStore.normalSort || {})
       }
 
-      if (homeStore.variety.list.length === 0) {
+      if (homeStore.children.list.length === 0) {
         fetchData()
       }
     }
@@ -29,11 +28,11 @@ const Variety: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
   const render = () => {
     return (
       <List
-        obj={homeStore.variety || {}}
+        obj={homeStore.children || {}}
         tabsList={['useDefaultHotTab', 'useDefaultClassTab', 'useDefaultAreaTab', 'useDefaultYearTab']}
-        classTab={homeStore.zyTabs}
+        classTab={homeStore.srTabs}
         loading={homeStore.loading}
-        className="variety"
+        className="children"
       />
     )
   }
@@ -41,4 +40,4 @@ const Variety: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
   return render()
 }
 
-export default observer(Variety)
+export default observer(Index)

@@ -12,7 +12,7 @@ import Utils from '@utils/utils'
 import NoData from '@views/components/noData'
 import Refresh from '@views/components/refresh'
 
-const Recommend: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
+const Index: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
   const { homeStore } = useStore()
 
   useEffect(() => {
@@ -90,4 +90,4 @@ const Recommend: React.FC<IRouterProps> = (props: IRouterProps): ReactElement =>
   return render()
 }
 
-export default observer(Recommend)
+export default observer(Index)

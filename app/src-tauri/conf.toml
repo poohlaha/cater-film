@@ -1,6 +1,9 @@
 
 domain = "http://23.225.92.244:12345/tiankong.php"
 
+[search]
+url = "/v6/search?token=&csrf=itrwDUz171Uho47GsVx5Og%2F%2BY8AiHJfKmPBI%2FiSBqp5briAaYuA84D8qjhcdwErsMcxVJ0a8bI9F8R9BnnJNp4IDL3N3W5jJBPTEzLXsz6fcm8zzvxgYkG5DrirRgejCANrujM5cPo0YVEljVuUrECb2DukvO%2F3oYIij5mMuNF0%3D"
+
 [home]
 # banner
 banner_url = "/v6/advert?position=2&pkid=com.maitian.baohu&token=&csrf=WObpyaoSv%2FyeMhF53v40oNiwn3GxPC2E6WMMf8DKeLcRiypJSQk0LyoENBJ2mz%2FkHFMGPT%2Byfsp0Uroypa%2FoepkoG35bBoHqI%2FZmxmImzXfU4c2VW%2BJ%2BL43c80mKX5ScG%2Ffj5kLvL%2B5hbYwRS3ualIB4pJGzDM9NsCd4tTMXabE%3D"

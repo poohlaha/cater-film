@@ -52,6 +52,8 @@ class RankStore extends BaseStore {
             queryParams.year = ''
             queryParams.sort = ''
             queryParams.page = this.activeTabIndex + 1
+            queryParams.tid = ''
+            queryParams.text = ''
             console.log('query params:', queryParams)
 
             let results: Array<{ [K: string]: any }> = await invoke('handle', { name: 'RANK', order: queryParams })
