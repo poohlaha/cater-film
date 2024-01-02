@@ -27,7 +27,7 @@ const Search: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
 
     const getHistoryList = () => {
         return (
-            <div className="history card card-no-margin card-no-padding-lr">
+            <div className="history card card-no-margin">
                 <div className="card-title flex-jsc-between">
                     <p>历史记录</p>
                     <div className="svg-box">
