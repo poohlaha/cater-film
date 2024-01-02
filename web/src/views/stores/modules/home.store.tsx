@@ -27,6 +27,7 @@ class HomeStore extends BaseStore {
   @observable children: { [K: string]: any } = Utils.deepCopy(this.defaultObj) // 少儿
   @observable record: { [K: string]: any } = Utils.deepCopy(this.defaultObj) // 记录
   @observable activeTabIndex: number = 0 // 激活的 tab
+  @observable showSearch: boolean = false;
 
   readonly newTabs: Array<{ [K: string]: any }> = [
     {

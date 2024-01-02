@@ -6,10 +6,73 @@
 .home {
   font-size: @font;
 
+  .search-page {
+    background: #ffffff!important;
+    padding: 0 0.4rem 0.4rem 0.4rem;
+
+    .search-box {
+      .back {
+        width: 0.5rem;
+        height: 0.5rem;
+        margin-right: 0.2rem;
+      }
+    }
+
+
+    .history {
+
+      .card-title {
+        font-size: @font;
+
+        .svg-box {
+          width: 0.5rem;
+          height: 0.5rem;
+          cursor: pointer;
+
+          .svg-icon {
+            margin-right: 0!important;
+          }
+        }
+      }
+
+      .card-content {
+        .card-tag {
+          font-size: @font_smallest;
+          padding: 0.15rem 0.3rem;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
   .search-box {
     height: 1.2rem;
     padding-top: 0.2rem;
     padding-bottom: 0.2rem;
+
+    .search-bar {
+      .search-bar-input-box {
+        border-radius: 1rem;
+        padding-left: 0.25rem;
+        background: #f5f5f5;
+
+        .svg-box {
+          width: 0.4rem;
+          height: 0.4rem;
+        }
+
+        .search-bar-input {
+          margin-left: 0.15rem;
+
+          input {
+            font-size: @font_smaller;
+            font-family: @font_PingFangSC_Medium;
+            pointer-events: none;
+            background: transparent;
+          }
+        }
+      }
+    }
 
     .search-right {
       margin-left: 0.25rem;

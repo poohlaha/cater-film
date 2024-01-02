@@ -7,17 +7,18 @@ import React, { lazy, ReactElement, useRef } from 'react'
 import { observer } from 'mobx-react-lite'
 import { useStore } from '@stores/index'
 import Loading from '@views/components/loading/loading'
-import { SearchBar, Tabs, Swiper } from 'antd-mobile'
+import { Tabs, Swiper } from 'antd-mobile'
 import { SwiperRef } from 'antd-mobile/es/components/swiper'
 import Recommend from '@pages/home/recommend'
-import Movie from '@pages/home/movie'
+import Search from '@pages/home/search'
 
 // dynamic components
 const DramaSeries = lazy(() => import(/* webpackChunkName:'dramaSeries' */ '@pages/home/dramaSeries'))
-import Cartoon from '@pages/home/cartoon'
-import Variety from '@pages/home/variety'
-import Children from '@pages/home/children'
-import Record from '@pages/home/record'
+const Movie = lazy(() => import(/* webpackChunkName:'movie' */ '@pages/home/movie'))
+const Cartoon = lazy(() => import(/* webpackChunkName:'cartoon' */ '@pages/home/cartoon'))
+const Variety = lazy(() => import(/* webpackChunkName:'variety' */ '@pages/home/variety'))
+const Children = lazy(() => import(/* webpackChunkName:'children' */ '@pages/home/children'))
+const Record = lazy(() => import(/* webpackChunkName:'record' */ '@pages/home/record'))
 
 const Home: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
   const swiperRef = useRef<SwiperRef>(null)
@@ -27,24 +28,25 @@ const Home: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
     return (
       <div className="search-box flex-align-center card card-no-margin">
           <div className="search-left flex-1 h100">
-              <div className="adm-search-bar">
-                  <div className="adm-search-bar-input-box">
-                      <div className="adm-search-bar-input-box-icon flex-center">
-                          <svg width="1em" height="1em" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" className="svg--icon">
+              <div className="search-bar h100 cursor-pointer" onClick={() => homeStore.setProperty('showSearch', true)}>
+                  <div className="search-bar-input-box h100 flex-align-center">
+                      <div className="svg-box flex-center">
+                          <svg className="svg-icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
                               <g id="SearchOutline-SearchOutline" stroke="none" strokeWidth="1" fill="none"
                                  fillRule="evenodd">
-                                  <g id="SearchOutline-编组">
-                                      <rect id="SearchOutline-矩形" fill="#FFFFFF" opacity="0" x="0" y="0" width="48"
+                                  <g>
+                                      <rect fill="currentColor" opacity="0" x="0" y="0" width="48"
                                             height="48"></rect>
                                       <path
                                           d="M10.2434135,10.1505371 C17.2346315,3.28315429 28.5696354,3.28315429 35.5608534,10.1505371 C42.3159331,16.7859644 42.5440954,27.4048667 36.2453405,34.3093889 L43.7095294,41.6422249 C43.8671196,41.7970419 43.8693677,42.0502979 43.7145508,42.2078881 C43.7128864,42.2095822 43.7112069,42.2112616 43.7095126,42.2129259 L42.1705322,43.7246464 C42.014915,43.8775072 41.7655181,43.8775006 41.6099089,43.7246316 L34.0775268,36.3248916 L34.0775268,36.3248916 C27.0485579,41.8551751 16.7593545,41.4200547 10.2434135,35.0195303 C3.25219551,28.1521474 3.25219551,17.0179199 10.2434135,10.1505371 Z M12.3532001,12.2229532 C6.52718516,17.9457722 6.52718516,27.2242951 12.3532001,32.9471142 C18.1792151,38.6699332 27.6250517,38.6699332 33.4510667,32.9471142 C39.2770817,27.2242951 39.2770817,17.9457722 33.4510667,12.2229532 C27.6250517,6.50013419 18.1792151,6.50013419 12.3532001,12.2229532 Z"
-                                          id="SearchOutline-形状" fill="currentColor" fillRule="nonzero"></path>
+                                          fill="currentColor" fillRule="nonzero"></path>
                                   </g>
                               </g>
                           </svg>
                       </div>
-                      <div className="adm-input adm-search-bar-input" aria-label="搜索框"><input
-                          className="adm-input-element" readOnly={true} placeholder="请输入关键字" type="search" aria-label="搜索框" value="" enterKeyHint="search"/></div>
+                      <div className="search-bar-input h100" aria-label="搜索框">
+                          <input className="h100" readOnly={true} placeholder="请输入关键字" type="search" aria-label="搜索框" value="" enterKeyHint="search"/>
+                      </div>
                   </div>
               </div>
           </div>
@@ -173,8 +175,11 @@ const Home: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
           {getTabsHtml()}
         </div>
 
-        {/* */}
+        {/* loading */}
         <Loading show={homeStore.loading} />
+
+          {/* search */}
+          {homeStore.showSearch && (<Search />)}
       </div>
     )
   }
