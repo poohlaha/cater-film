@@ -352,3 +352,118 @@ body {
   background-color: rgba(0, 0, 0, 0.4);
   transition: all 0.2s ease-in;
 }
+
+/* vConsole */
+@__vconsole_theme: #f09e38;
+@__vconsole_theme_to: #fcf1e4;
+@__vconsole_button: #1677ff;
+@__vconsole_button_green: #00b578;
+
+#__vconsole {
+  font-family: PingFangSC-Regular, PingFang SC !important;
+  --VC-BRAND: @__vconsole_theme!important;
+  --VC-INDIGO: @__vconsole_theme!important;
+  --VC-TEXTGREEN: @__vconsole_theme!important;
+
+  .vc-switch {
+    bottom: 2rem !important;
+    background-color: @__vconsole_theme!important;
+    border-radius: 1.25rem !important;
+    width: 1.25rem !important;
+    height: 1.25rem !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 0.35rem !important;
+    padding: 0 !important;
+    letter-spacing: 0.02rem;
+  }
+
+  .vc-panel {
+    .vc-tabbar {
+      .vc-actived {
+        color: @__vconsole_theme!important;
+      }
+    }
+
+    .vc-topbar {
+      .vc-actived {
+        color: @__vconsole_theme!important;
+        border-bottom-width: 0.05rem !important;
+      }
+
+      .vc-toptab:active {
+        background-color: @__vconsole_theme_to!important;
+      }
+    }
+
+    .vc-content {
+      .vc-logbox {
+        .vc-log {
+          .vc-item-copy,
+          .vc-icon-clippy,
+          .vc-icon-check {
+            width: 0.4rem !important;
+            height: 0.4rem !important;
+          }
+        }
+      }
+
+      #__vc_log_storage {
+        .tabs {
+          .tab-list {
+            &.svelte-sp52j5 {
+              height: 1rem !important;
+            }
+          }
+
+          .table {
+            padding-top: 1rem !important;
+
+            .row.svelte-dhd3ex:first-child {
+              .item,
+              .action {
+                text-align: center !important;
+              }
+            }
+
+            .row.svelte-dhd3ex {
+              .item {
+                font-size: 0.32rem !important;
+              }
+
+              &:last-child {
+                .item {
+                  color: @__vconsole_theme!important;
+                }
+              }
+            }
+          }
+
+          .svelte-wph4en,
+          .svelte-dhd3ex {
+            font-size: 0.35rem !important;
+            color: #666666 !important;
+
+            &.selected {
+              border-bottom-width: 0.05rem !important;
+              color: @__vconsole_theme!important;
+            }
+          }
+        }
+      }
+
+      .vc-cmd {
+        .vc-cmd-btn {
+          color: @__vconsole_button_green!important;
+        }
+      }
+    }
+
+    .vc-toolbar {
+      .vc-tool {
+        color: @__vconsole_button!important;
+      }
+    }
+  }
+}

@@ -160,47 +160,47 @@ const List: React.FC<IListProps> = (props: IListProps): ReactElement | null => {
     let tabsList = getTabsList() || []
 
     return (
-        <Refresh
-            onRefresh={async () => {
-              await homeStore.getList(homeStore.normalSort || {}, 1)
-            }}
-        >
-          <div className={`page-box wh100 flex-direction-column ${props.className || ''}`}>
-            <div className="page-top">
-              {(tabsList || []).map((item: { [K: string]: any } = {}, index: number) => {
-                return (
-                    <MTab
-                        key={index}
-                        tabs={item.tabs}
-                        onChange={(obj: { [K: string]: any } = {}) => item.onChange?.(obj)}
-                    />
-                )
-              })}
-            </div>
+      <Refresh
+        onRefresh={async () => {
+          await homeStore.getList(homeStore.normalSort || {}, 1)
+        }}
+      >
+        <div className={`page-box wh100 flex-direction-column ${props.className || ''}`}>
+          <div className="page-top">
+            {(tabsList || []).map((item: { [K: string]: any } = {}, index: number) => {
+              return (
+                <MTab
+                  key={index}
+                  tabs={item.tabs}
+                  onChange={(obj: { [K: string]: any } = {}) => item.onChange?.(obj)}
+                />
+              )
+            })}
+          </div>
 
-            <div className="page-content page-top-margin flex-1 flex">
-              <div className="list-box flex-1 page-top-margin flex-direction-column w100">
-                {getListHtml()}
+          <div className="page-content page-top-margin flex-1 flex">
+            <div className="list-box flex-1 page-top-margin flex-direction-column w100">
+              {getListHtml()}
 
-                {hasScroll() && (
-                    <InfiniteScroll
-                        loadMore={async () => {
-                          console.log('上拉刷新')
-                          if (Utils.isObjectNull(props.obj || {})) return
+              {hasScroll() && (
+                <InfiniteScroll
+                  loadMore={async () => {
+                    console.log('上拉刷新')
+                    if (Utils.isObjectNull(props.obj || {})) return
 
-                          let list = props.obj.list || []
-                          if (list.length === 0) return
-                          homeStore.normalSort.page += 1
-                          await homeStore.getList(homeStore.normalSort || {}, 2)
-                        }}
-                        threshold={150}
-                        hasMore={hasMore()}
-                    />
-                )}
-              </div>
+                    let list = props.obj.list || []
+                    if (list.length === 0) return
+                    homeStore.normalSort.page += 1
+                    await homeStore.getList(homeStore.normalSort || {}, 2)
+                  }}
+                  threshold={150}
+                  hasMore={hasMore()}
+                />
+              )}
             </div>
           </div>
-        </Refresh>
+        </div>
+      </Refresh>
     )
   }
 

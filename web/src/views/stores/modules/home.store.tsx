@@ -42,7 +42,7 @@ class HomeStore extends BaseStore {
     record: Utils.deepCopy(this.defaultObj),
   } // 搜索列表
 
-  @observable search = Utils.deepCopy(this.defaultSearch)  // 搜索列表
+  @observable search = Utils.deepCopy(this.defaultSearch) // 搜索列表
 
   readonly newTabs: Array<{ [K: string]: any }> = [
     {
@@ -589,41 +589,41 @@ class HomeStore extends BaseStore {
     },
   ]
 
-  readonly tabsDefaultList : Array<{ [K: string]: any }> = [
+  readonly tabsDefaultList: Array<{ [K: string]: any }> = [
     {
       key: 'recommend',
       title: '推荐',
-      tid: ''
+      tid: '',
     },
     {
       key: 'dramaSeries',
       title: '剧集',
-      tid: '20'
+      tid: '20',
     },
     {
       key: 'movie',
       title: '电影',
-      tid: '21'
+      tid: '21',
     },
     {
       key: 'cartoon',
       title: '动漫',
-      tid: '22'
+      tid: '22',
     },
     {
       key: 'variety',
       title: '综艺',
-      tid: '23'
+      tid: '23',
     },
     {
       key: 'children',
       title: '少儿',
-      tid: '24'
+      tid: '24',
     },
     {
       key: 'record',
       title: '记录',
-      tid: '25'
+      tid: '25',
     },
   ]
 
@@ -633,11 +633,11 @@ class HomeStore extends BaseStore {
     super()
 
     this.searchTabsList.shift()
-    this.searchTabsList.unshift( {
+    this.searchTabsList.unshift({
       key: 'all',
       title: '全部',
-      tid: '0'
-    },)
+      tid: '0',
+    })
   }
 
   readonly defaultSort: { [K: string]: any } = {
@@ -668,7 +668,6 @@ class HomeStore extends BaseStore {
       if (Utils.isBlank(params.name)) return
       if (params.page === 1) {
         if (params.name === 'search') {
-
         } else {
           if (params.name !== 'recommend') {
             // @ts-ignore
@@ -681,11 +680,14 @@ class HomeStore extends BaseStore {
         }
       } else {
         // @ts-ignore
-        if (this[`${params.name}`]['list'].length === 0 || this[`${params.name}`].totalCount === 0 || this[`${params.name}`].totalPage === 0) {
+        if (
+          this[`${params.name}`]['list'].length === 0 ||
+          this[`${params.name}`].totalCount === 0 ||
+          this[`${params.name}`].totalPage === 0
+        ) {
           return
         }
       }
-
 
       console.info('send params', params)
       await info(`send params: ${JSON.stringify(params || {})}`)
@@ -740,9 +742,15 @@ class HomeStore extends BaseStore {
       } else if (item.name === 'recommend') {
         this.recommendList = this.analysisResult(item, '获取视频数据失败') || []
         continue
-      } if(item.name === 'search') {
-        let obj = this.searchTabsList.find((item: { [K: string]: any } = {}, index: number) => index === this.search.activeTabIndex) || {}
-        this.search[`${obj.key}`]['list'] = (this.search[`${obj.key}`]['list'] || []).concat(this.analysisResult(item, '获取视频数据失败') || [])
+      }
+      if (item.name === 'search') {
+        let obj =
+          this.searchTabsList.find(
+            (item: { [K: string]: any } = {}, index: number) => index === this.search.activeTabIndex
+          ) || {}
+        this.search[`${obj.key}`]['list'] = (this.search[`${obj.key}`]['list'] || []).concat(
+          this.analysisResult(item, '获取视频数据失败') || []
+        )
         this.search[`${obj.key}`]['totalCount'] = item.body.total || 0
         // @ts-ignore
         this.search[`${obj.key}`]['totalPage'] = Math.ceil(item.total / this.pageSize) || 0
@@ -759,9 +767,10 @@ class HomeStore extends BaseStore {
       // @ts-ignore
       this[`${name}`]['totalPage'] = totalPage || 0
       // @ts-ignore
-      this[`${name}`]['list'] = (this[`${name}`]['list'] || []).concat(this.analysisResult(item, '获取视频数据失败') || [])
+      this[`${name}`]['list'] = (this[`${name}`]['list'] || []).concat(
+        this.analysisResult(item, '获取视频数据失败') || []
+      )
     }
-
   }
 
   /**
@@ -840,12 +849,15 @@ class HomeStore extends BaseStore {
       return
     }
 
-    await this.getList({
-      name: 'search',
-      page: obj.currentPage || 1,
-      tid: obj.tid || '0',
-      text: encodeURIComponent(this.search.text || '')
-    }, refreshIndex)
+    await this.getList(
+      {
+        name: 'search',
+        page: obj.currentPage || 1,
+        tid: obj.tid || '0',
+        text: encodeURIComponent(this.search.text || ''),
+      },
+      refreshIndex
+    )
   }
 }
 

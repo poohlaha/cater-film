@@ -14,6 +14,8 @@ import Utils from '@utils/utils'
 import { observer } from 'mobx-react-lite'
 import { useStore } from '@views/stores'
 import { CONSTANT } from '@config/index'
+import useMount from '@hooks/useMount'
+import VConsole from 'vconsole'
 import 'lib-flexible'
 import '@assets/styles/theme/index.less'
 
@@ -75,6 +77,14 @@ const Layout = (): ReactElement => {
   useEffect(() => {
     switchSkin(commonStore.skin)
   }, [commonStore.skin])
+
+  useMount(() => {
+    // 非生产环境引入控制台
+    new VConsole()
+    console.log('Console is ready')
+    // @ts-ignore
+    document.querySelector('.vc-switch').innerHTML = '调试'
+  })
 
   const render = () => {
     return RenderRoutes(routes)
