@@ -144,9 +144,10 @@ const List: React.FC<IListProps> = (props: IListProps): ReactElement | null => {
 
   const hasMore = () => {
     if (Utils.isObjectNull(props.obj || {})) return false
+    console.log('has more props obj: ', props.obj)
     let list = props.obj.list || []
-    if (list.length === 0) return false
-    return props.obj.currentPage > props.obj.totalPage
+    if (list.length === 0 || props.obj.totalPage === 0) return false
+    return props.obj.currentPage < props.obj.totalPage
   }
 
   const hasScroll = () => {
@@ -165,7 +166,7 @@ const List: React.FC<IListProps> = (props: IListProps): ReactElement | null => {
           await homeStore.getList(homeStore.normalSort || {}, 1)
         }}
       >
-        <div className={`page-box wh100 flex-direction-column ${props.className || ''}`}>
+        <div className={`page-swiper page-box wh100 flex-direction-column ${props.className || ''}`}>
           <div className="page-top">
             {(tabsList || []).map((item: { [K: string]: any } = {}, index: number) => {
               return (
@@ -179,14 +180,15 @@ const List: React.FC<IListProps> = (props: IListProps): ReactElement | null => {
           </div>
 
           <div className="page-content page-top-margin flex-1 flex">
-            <div className="list-box flex-1 page-top-margin flex-direction-column w100">
+            <div className="list-box flex-1 flex-direction-column w100">
               {getListHtml()}
 
               {hasScroll() && (
                 <InfiniteScroll
                   loadMore={async () => {
+                    console.log('开始上拉刷新', props.loading, props.obj)
+                    if (props.loading || Utils.isObjectNull(props.obj || {})) return
                     console.log('上拉刷新')
-                    if (Utils.isObjectNull(props.obj || {})) return
 
                     let list = props.obj.list || []
                     if (list.length === 0) return

@@ -25,13 +25,15 @@ impl Prepare<HttpResponse> for Home {
             let mut request = HttpSendRequest::default();
             request.name = order.name.to_string();
 
-            let images_path = Process::get_image_dir(app)?;
-            let tmp_dir = Process::get_tmp_dir(app)?;
+            // let images_path = Process::get_image_dir(app)?;
+            // let tmp_dir = Process::get_tmp_dir(app)?;
+            let images_path = PathBuf::new();
+            let tmp_path = PathBuf::new();
 
             // recommend
             if let Some(name) = Self::get_name_by_index(0).ok() {
                 if &order.name == name {
-                    return Self::prepare_recommend(request, &conf.domain, &conf.home, &images_path, &tmp_dir).await;
+                    return Self::prepare_recommend(request, &conf.domain, &conf.home, &images_path, &tmp_path).await;
                 }
             }
 
@@ -43,7 +45,7 @@ impl Prepare<HttpResponse> for Home {
                 return Ok(Vec::new());
             }
 
-            return Self::prepare_normal(request, &conf.domain, order.clone(), &order.name, &method, &url, &images_path, &tmp_dir).await;
+            return Self::prepare_normal(request, &conf.domain, order.clone(), &order.name, &method, &url, &images_path, &tmp_path).await;
         }
 
         return Ok(Vec::new());

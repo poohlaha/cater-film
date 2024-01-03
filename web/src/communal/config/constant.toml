@@ -5,6 +5,7 @@ PRODUCT_NAME = 'Cater Film'
 SKINS = ['theme_blue', 'theme_black']
 LANGUAGES_NAME = 'lang'
 LANGUAGES = ['zh', 'en']
+HISTORY_TOKEN = 'IHeENhcdVw2Gq2GIDgc-QKoUBc42qox_x94Qhaws4qESJwtgIEFUTXH^4R(gVKyC'
 
 [CONSTANT.REQUEST]
 DEFAULT_URL_FORMAT = 'JSON'

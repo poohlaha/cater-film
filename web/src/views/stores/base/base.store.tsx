@@ -55,6 +55,6 @@ export default class BaseStore {
       return body.data || []
     }
 
-    return ''
+    return result.body
   }
 }

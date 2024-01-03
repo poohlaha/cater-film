@@ -24,7 +24,7 @@ const List: React.FC<IRouterProps> = (props: IRouterProps): ReactElement | null 
           await homeStore.getSearchList(1)
         }}
       >
-        <div className="search-item-list flex page-content page-top-margin flex-1">
+        <div className="search-item-list h100 flex page-content page-top-margin flex-1">
           <MCard loading={homeStore.loading} className="search-list-box" list={list || []} />
         </div>
       </Refresh>

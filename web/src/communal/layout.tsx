@@ -80,10 +80,12 @@ const Layout = (): ReactElement => {
 
   useMount(() => {
     // 非生产环境引入控制台
-    new VConsole()
-    console.log('Console is ready')
-    // @ts-ignore
-    document.querySelector('.vc-switch').innerHTML = '调试'
+    if (process.env.APP_NODE_ENV !== 'local') {
+      new VConsole()
+      console.log('Console is ready')
+      // @ts-ignore
+      document.querySelector('.vc-switch').innerHTML = '调试'
+    }
   })
 
   const render = () => {

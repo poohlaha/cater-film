@@ -1,5 +1,6 @@
 //! 排行版
 
+use std::path::PathBuf;
 use async_trait::async_trait;
 use crate::config::get_conf;
 use crate::error::Error;
@@ -22,8 +23,10 @@ impl Prepare<HttpResponse> for Rank {
             request.method = Some(String::from("GET"));
             request.url = Self::prepare_url(&conf.domain, &conf.rank.url, order.page);
 
-            let images_path = Process::get_image_dir(app)?;
-            let tmp_path = Process::get_tmp_dir(app)?;
+            // let images_path = Process::get_image_dir(app)?;
+            // let tmp_path = Process::get_tmp_dir(app)?;
+            let images_path = PathBuf::new();
+            let tmp_path = PathBuf::new();
             return Self::send(vec![request], &images_path, &tmp_path).await
         }
 

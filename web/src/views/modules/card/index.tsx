@@ -26,7 +26,7 @@ const MCard: React.FC<IMCardProps> = (props: IMCardProps): ReactElement | null =
 
     let searchText = props.searchText || ''
     return (
-      <div className="list-box w100 flex-1 page-top-margin flex">
+      <div className="list-box w100 flex-1 flex">
         <div className={`page-top-margin list-item flex-direction-column w100 ${props.className || ''}`}>
           {props.list.map((item: { [K: string]: any }, index: number) => {
             let tags = (item.vod_actor || '').split(',') || []

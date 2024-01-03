@@ -57,7 +57,7 @@ const MSwiperTabs: React.FC<IMSwiperTabsProps> = (props: IMSwiperTabsProps): Rea
         >
           {props.tabs.map((item: { [K: string]: any }, index: number) => {
             return (
-              <Swiper.Item key={item.key} className="swiper-box">
+              <Swiper.Item key={item.key} className={`swiper-box swiper-${props.activeTabIndex || 0}`}>
                 {props.getSwiperComponent?.(item.key)}
               </Swiper.Item>
             )

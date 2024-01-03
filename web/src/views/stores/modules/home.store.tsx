@@ -9,6 +9,7 @@ import { invoke } from '@tauri-apps/api/primitives'
 import { info, error } from '@tauri-apps/plugin-log'
 import { TOAST } from '@utils/base'
 import Utils from '@utils/utils'
+import {CONSTANT} from '@config/index'
 
 class HomeStore extends BaseStore {
   @observable bannerList: Array<{ [K: string]: any }> = [] // banner列表
@@ -27,11 +28,14 @@ class HomeStore extends BaseStore {
   @observable children: { [K: string]: any } = Utils.deepCopy(this.defaultObj) // 少儿
   @observable record: { [K: string]: any } = Utils.deepCopy(this.defaultObj) // 记录
   @observable activeTabIndex: number = 0 // 激活的 tab
+  @observable searchHistoryList: Array<string> = [] // 搜索历史记录
+  readonly MAX_SEARCH_HISTORY_COUNT = 10
 
   // search
   readonly defaultSearch: { [K: string]: any } = {
     show: false,
     text: '',
+    showList: false,
     activeTabIndex: 0,
     all: Utils.deepCopy(this.defaultObj),
     dramaSeries: Utils.deepCopy(this.defaultObj),
@@ -628,17 +632,6 @@ class HomeStore extends BaseStore {
   ]
 
   readonly tabsList = Utils.deepCopy(this.tabsDefaultList)
-  @observable searchTabsList = Utils.deepCopy(this.tabsDefaultList)
-  constructor() {
-    super()
-
-    this.searchTabsList.shift()
-    this.searchTabsList.unshift({
-      key: 'all',
-      title: '全部',
-      tid: '0',
-    })
-  }
 
   readonly defaultSort: { [K: string]: any } = {
     name: '',
@@ -652,6 +645,75 @@ class HomeStore extends BaseStore {
 
   // 剧集 tabs 选择
   @observable normalSort: { [K: string]: any } = Utils.deepCopy(this.defaultSort)
+
+  @observable searchTabsList = Utils.deepCopy(this.tabsDefaultList)
+  constructor() {
+    super()
+
+    this.init()
+    this.searchTabsList.shift()
+    this.searchTabsList.unshift({
+      key: 'all',
+      title: '全部',
+      tid: '0',
+    })
+  }
+
+  /**
+   * 初始化
+   */
+  init() {
+    try {
+      let historyList = Utils.getLocal(CONSTANT.HISTORY_TOKEN)
+      if (typeof historyList === 'string') {
+        this.searchHistoryList = JSON.parse(historyList) || []
+      } else {
+        this.searchHistoryList = historyList || []
+      }
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+  /**
+   * 设置默认值
+   */
+  @action
+  setDefaultSearch(show: boolean = false) {
+    let search = Utils.deepCopy(this.defaultSearch) || {}
+    search.show = show
+    this.search = search
+  }
+
+  /**
+   * 添加搜索历史
+   */
+  @action
+  setSearchHistory(name: string = '') {
+    if (Utils.isBlank(name)) return
+    // 判断名字是不是存在
+
+    let historyList: Array<string> = []
+    for (let str of this.searchHistoryList) {
+      let s = (str || '').trim()
+      if (s !== name.trim() && !Utils.isBlank(s) && (historyList.length < this.MAX_SEARCH_HISTORY_COUNT - 1)) {
+        historyList.push(s)
+      }
+    }
+
+    historyList.unshift(name.trim())
+    this.searchHistoryList = historyList || []
+    Utils.setLocal(CONSTANT.HISTORY_TOKEN, this.searchHistoryList)
+  }
+
+  /**
+   * 清除搜索历史
+   */
+  @action
+  clearSearchHistory() {
+    Utils.removeLocal(CONSTANT.HISTORY_TOKEN)
+    this.searchHistoryList = []
+  }
 
   @action
   setDefaultNormalSort() {
@@ -679,10 +741,12 @@ class HomeStore extends BaseStore {
           }
         }
       } else {
-        // @ts-ignore
         if (
+            // @ts-ignore
           this[`${params.name}`]['list'].length === 0 ||
+            // @ts-ignore
           this[`${params.name}`].totalCount === 0 ||
+            // @ts-ignore
           this[`${params.name}`].totalPage === 0
         ) {
           return
@@ -733,7 +797,7 @@ class HomeStore extends BaseStore {
    */
   @action
   handleResponse(result: Array<{ [K: string]: any }> = [], name: string = '') {
-    console.info('result:', result)
+    console.info('name: ', name, ' result: ', result)
     if (Utils.isBlank(name)) return
     for (let item of result) {
       if (item.name === 'banner') {
@@ -743,33 +807,41 @@ class HomeStore extends BaseStore {
         this.recommendList = this.analysisResult(item, '获取视频数据失败') || []
         continue
       }
+
+      let body = this.analysisResult(item, '获取视频数据失败', 'data') || {}
+      if (Utils.isObjectNull(body)) {
+        return
+      }
+
+      if (body.code !== 1) {
+        TOAST.show({ message: '获取视频数据失败', type: 3 })
+        return
+      }
+
+      let totalPage = body.pagecount || 0
+      if (totalPage === 0) {
+        totalPage = Math.ceil(body.total / this.pageSize) || 0
+      }
+
       if (item.name === 'search') {
         let obj =
-          this.searchTabsList.find(
-            (item: { [K: string]: any } = {}, index: number) => index === this.search.activeTabIndex
-          ) || {}
-        this.search[`${obj.key}`]['list'] = (this.search[`${obj.key}`]['list'] || []).concat(
-          this.analysisResult(item, '获取视频数据失败') || []
-        )
-        this.search[`${obj.key}`]['totalCount'] = item.body.total || 0
+            this.searchTabsList.find(
+                (item: { [K: string]: any } = {}, index: number) => index === this.search.activeTabIndex
+            ) || {}
+        this.search[`${obj.key}`]['list'] = (this.search[`${obj.key}`]['list'] || []).concat(body.data || [])
+        this.search[`${obj.key}`]['totalCount'] = body.total || 0
         // @ts-ignore
-        this.search[`${obj.key}`]['totalPage'] = Math.ceil(item.total / this.pageSize) || 0
-        console.log('search', this.search)
+        this.search[`${obj.key}`]['totalPage'] = totalPage
         continue
       }
 
       // @ts-ignore
-      this[`${name}`]['totalCount'] = item.total || 0
-      let totalPage = item.pagecount || 0
-      if (totalPage === 0) {
-        totalPage = Math.ceil(item.total / this.pageSize)
-      }
+      this[`${name}`]['totalCount'] = body.total || 0
+
       // @ts-ignore
       this[`${name}`]['totalPage'] = totalPage || 0
       // @ts-ignore
-      this[`${name}`]['list'] = (this[`${name}`]['list'] || []).concat(
-        this.analysisResult(item, '获取视频数据失败') || []
-      )
+      this[`${name}`]['list'] = (this[`${name}`]['list'] || []).concat(body.data || [])
     }
   }
 

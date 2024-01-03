@@ -23,7 +23,7 @@ const Index: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
         await homeStore.getList(homeStore.normalSort || {})
       }
 
-      if (homeStore.record.list.length === 0) {
+      if (homeStore.recommendList.length === 0) {
         fetchData()
       }
     }
@@ -74,7 +74,7 @@ const Index: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
 
   const render = () => {
     return (
-      <div className="recommend wh100">
+      <div className="recommend wh100 page-swiper">
         <Refresh
           onRefresh={async () => {
             await homeStore.getList(homeStore.normalSort || {}, 1)

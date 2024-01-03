@@ -6,6 +6,7 @@ use crate::error::Error;
 use crate::home::Home;
 use crate::prepare::{HttpResponse, Prepare};
 use async_trait::async_trait;
+use log::info;
 use serde::{Deserialize, Serialize};
 use tauri::{AppHandle, Manager};
 use crate::rank::Rank;
@@ -63,9 +64,11 @@ impl Process {
     pub fn get_data_dir(app: &AppHandle, dir_name: &str) -> Result<PathBuf, String> {
         let home_dir = app.path().home_dir().map_err(|_| Error::convert_string("获取 App 主目录失败 !"))?;
         let mut dir = home_dir.join("cater-film");
-        println!("data dir: {:#?}", dir);
+        info!("data dir: {:#?}", dir);
+
         if !dir_name.is_empty() {
             dir = dir.join(dir_name);
+            // return Err(format!("data dir: {:#?}", dir));
 
             if !dir.exists() {
                 create_dir_all(dir.clone()).map_err(|_| Error::convert_string(&format!("创建目录 `{}` 失败", dir_name)))?;
