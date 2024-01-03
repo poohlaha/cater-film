@@ -7,6 +7,7 @@ import React, { ReactElement, useRef } from 'react'
 import { observer } from 'mobx-react-lite'
 import { Swiper, Tabs } from 'antd-mobile'
 import { SwiperRef } from 'antd-mobile/es/components/swiper'
+import Utils from '@utils/utils'
 
 interface IMSwiperTabsProps {
   className: string
@@ -14,6 +15,7 @@ interface IMSwiperTabsProps {
   activeTabIndex: number
   onTabChange: (index: number) => void
   getSwiperComponent: (key: string) => React.ReactNode
+  isSearch?: boolean
 }
 
 const MSwiperTabs: React.FC<IMSwiperTabsProps> = (props: IMSwiperTabsProps): ReactElement | null => {
@@ -21,6 +23,11 @@ const MSwiperTabs: React.FC<IMSwiperTabsProps> = (props: IMSwiperTabsProps): Rea
 
   const render = () => {
     if (!props.tabs || props.tabs.length === 0) return null
+
+      let isSearch = props.isSearch
+      if (isSearch === undefined || isSearch === null) {
+          isSearch = false
+      }
 
     return (
       <div className={`${props.className || ''} m-swiper-tabs swiper-box`}>
@@ -45,7 +52,7 @@ const MSwiperTabs: React.FC<IMSwiperTabsProps> = (props: IMSwiperTabsProps): Rea
         </Tabs>
 
         <Swiper
-          className="swiper-tab-content-box flex-1 overflow-y-auto"
+          className="swiper-tab-content-box flex-1"
           direction="horizontal"
           loop
           indicator={() => null}
@@ -55,9 +62,10 @@ const MSwiperTabs: React.FC<IMSwiperTabsProps> = (props: IMSwiperTabsProps): Rea
             props.onTabChange?.(index)
           }}
         >
-          {props.tabs.map((item: { [K: string]: any }, index: number) => {
+          {props.tabs.map((item: { [K: string]: any }) => {
+
             return (
-              <Swiper.Item key={item.key} className={`swiper-box swiper-${props.activeTabIndex || 0}`}>
+              <Swiper.Item key={item.key} className={`swiper-box swiper-${isSearch ? 'search-' : ''}${item.key}`}>
                 {props.getSwiperComponent?.(item.key)}
               </Swiper.Item>
             )

@@ -14,12 +14,14 @@ import { InfiniteScroll } from 'antd-mobile'
 import Utils from '@utils/utils'
 
 interface IListProps extends IRouterProps {
+  name: string
   loading: boolean
   tabsList?: Array<string>
   obj: { [K: string]: any }
   langTab?: Array<{ [K: string]: any }>
   classTab?: Array<{ [K: string]: any }>
   className?: string
+  activeTabIndex: number
 }
 
 const List: React.FC<IListProps> = (props: IListProps): ReactElement | null => {
@@ -133,13 +135,16 @@ const List: React.FC<IListProps> = (props: IListProps): ReactElement | null => {
   }
 
   const getListHtml = () => {
-    if (props.loading || Utils.isObjectNull(props.obj || {})) return null
+    if (Utils.isObjectNull(props.obj || {})) {
+      return <NoData text="抱歉，没有找到相关影片~" />
+    }
 
     if (props.obj.list.length === 0) {
       return <NoData text="抱歉，没有找到相关影片~" />
     }
 
-    return <MList list={props.obj.list || []} />
+    console.log('jey1:', props.name)
+    return <MList list={props.obj.list || []} currentPage={props.obj.currentPage || 1} only={props.name || ''} />
   }
 
   const hasMore = () => {
@@ -159,7 +164,6 @@ const List: React.FC<IListProps> = (props: IListProps): ReactElement | null => {
 
   const render = () => {
     let tabsList = getTabsList() || []
-
     return (
       <Refresh
         onRefresh={async () => {
@@ -186,13 +190,16 @@ const List: React.FC<IListProps> = (props: IListProps): ReactElement | null => {
               {hasScroll() && (
                 <InfiniteScroll
                   loadMore={async () => {
-                    console.log('开始上拉刷新', props.loading, props.obj)
                     if (props.loading || Utils.isObjectNull(props.obj || {})) return
-                    console.log('上拉刷新')
+                    console.log('上拉刷新, loading: ', homeStore.scrollLoading)
+
+                    if (homeStore.scrollLoading) return
+                    homeStore.scrollLoading = true
 
                     let list = props.obj.list || []
                     if (list.length === 0) return
                     homeStore.normalSort.page += 1
+                    homeStore.normalSort.name = props.name
                     await homeStore.getList(homeStore.normalSort || {}, 2)
                   }}
                   threshold={150}

@@ -85,7 +85,7 @@ const Rank: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
         </Tabs>
 
         <Swiper
-          className="swiper-tab-content-box flex-1 overflow-y-auto"
+          className="swiper-tab-content-box flex-1"
           direction="horizontal"
           loop
           indicator={() => null}

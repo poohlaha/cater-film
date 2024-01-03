@@ -33,6 +33,8 @@ const Index: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
         classTab={homeStore.zyTabs}
         loading={homeStore.loading}
         className="variety"
+        name={homeStore.tabsList[4].key || ''}
+        activeTabIndex={homeStore.activeTabIndex || 0}
       />
     )
   }

@@ -6,7 +6,7 @@
 import React, { ReactElement, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import { useStore } from '@stores/index'
-import Index from '@pages/home/list'
+import List from '@pages/home/list'
 
 const Movie: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
   const { homeStore } = useStore()
@@ -26,7 +26,12 @@ const Movie: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
   }, [homeStore.activeTabIndex])
 
   const render = () => {
-    return <Index obj={homeStore.movie || {}} loading={homeStore.loading} className="movie" />
+    return <List
+        obj={homeStore.movie || {}} loading={homeStore.loading}
+        className="movie"
+        name={homeStore.tabsList[2].key || ''}
+        activeTabIndex={homeStore.activeTabIndex || 0}
+    />
   }
 
   return render()

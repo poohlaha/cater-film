@@ -30,6 +30,7 @@ class HomeStore extends BaseStore {
   @observable activeTabIndex: number = 0 // 激活的 tab
   @observable searchHistoryList: Array<string> = [] // 搜索历史记录
   readonly MAX_SEARCH_HISTORY_COUNT = 10
+  @observable scrollLoading: boolean = false // 滚动 loading 条
 
   // search
   readonly defaultSearch: { [K: string]: any } = {
@@ -727,37 +728,38 @@ class HomeStore extends BaseStore {
   @action
   async getList(params: { [K: string]: any } = {}, index = 0) {
     try {
-      if (Utils.isBlank(params.name)) return
-      if (params.page === 1) {
+      console.info('send params', params)
+      if (Utils.isBlank(params.name) || this.loading) return
+      if (params.page > 1) {
         if (params.name === 'search') {
-        } else {
-          if (params.name !== 'recommend') {
-            // @ts-ignore
-            this[`${params.name}`]['list'] = []
-            // @ts-ignore
-            this[`${params.name}`].totalCount = 0
-            // @ts-ignore
-            this[`${params.name}`].totalPage = 0
+          let obj = this.getSearchObj() || {}
+          if (obj.list.length === 0 || obj.totalCount === 0 || obj.totalPage === 0) {
+            return
           }
-        }
-      } else {
-        if (
-            // @ts-ignore
-          this[`${params.name}`]['list'].length === 0 ||
-            // @ts-ignore
-          this[`${params.name}`].totalCount === 0 ||
-            // @ts-ignore
-          this[`${params.name}`].totalPage === 0
-        ) {
-          return
+        } else {
+          if (
+              // @ts-ignore
+              this[`${params.name}`]['list'].length === 0 ||
+              // @ts-ignore
+              this[`${params.name}`].totalCount === 0 ||
+              // @ts-ignore
+              this[`${params.name}`].totalPage === 0
+          ) {
+            return
+          }
         }
       }
 
-      console.info('send params', params)
       await info(`send params: ${JSON.stringify(params || {})}`)
 
+      let currentPage = params.page || 1
       if (index !== 2) {
-        params.page = 1
+        currentPage = 1
+      }
+
+      if (params.name !== 'recommend') {
+        // @ts-ignore
+        this[`${params.name}`].currentPage = currentPage
       }
 
       if (index === 0) {
@@ -771,7 +773,7 @@ class HomeStore extends BaseStore {
       queryParams.lang = params.lang || ''
       queryParams.year = params.year || ''
       queryParams.sort = params.sort || ''
-      queryParams.page = params.page || 1
+      queryParams.page = currentPage || 1
       queryParams.tid = params.tid || ''
       queryParams.text = params.text || ''
 
@@ -781,14 +783,22 @@ class HomeStore extends BaseStore {
         this.loading = false
       }
 
-      this.handleResponse(results, params.name)
+      if (this.scrollLoading) {
+        this.scrollLoading = false
+      }
+
+      this.handleResponse(results, params.name, index)
     } catch (e) {
       if (index === 0) {
         this.loading = false
       }
+      if (this.scrollLoading) {
+        this.scrollLoading = false
+      }
       console.error('get recommend error !', e)
       TOAST.show({ message: '获取推荐列表失败', type: 3 })
       await error(`get recommend error: ${e.toString()}`)
+      throw new Error('get recommend error !')
     }
   }
 
@@ -796,26 +806,31 @@ class HomeStore extends BaseStore {
    * 处理结果
    */
   @action
-  handleResponse(result: Array<{ [K: string]: any }> = [], name: string = '') {
+  handleResponse(result: Array<{ [K: string]: any }> = [], name: string = '', index: number) {
     console.info('name: ', name, ' result: ', result)
     if (Utils.isBlank(name)) return
     for (let item of result) {
-      if (item.name === 'banner') {
-        this.bannerList = this.analysisResult(item, '获取视频数据失败') || []
-        continue
-      } else if (item.name === 'recommend') {
-        this.recommendList = this.analysisResult(item, '获取视频数据失败') || []
-        continue
-      }
-
       let body = this.analysisResult(item, '获取视频数据失败', 'data') || {}
       if (Utils.isObjectNull(body)) {
-        return
+        throw new Error('获取视频数据失败 !')
       }
 
       if (body.code !== 1) {
         TOAST.show({ message: '获取视频数据失败', type: 3 })
-        return
+        if (item.name === 'banner' || item.name === 'recommend') {
+          continue;
+        } else {
+          throw new Error('获取视频数据失败 !')
+        }
+      }
+
+      let data = body.data || []
+      if (item.name === 'banner') {
+        this.bannerList = data
+        continue
+      } else if (item.name === 'recommend') {
+        this.recommendList = data
+        continue
       }
 
       let totalPage = body.pagecount || 0
@@ -828,11 +843,26 @@ class HomeStore extends BaseStore {
             this.searchTabsList.find(
                 (item: { [K: string]: any } = {}, index: number) => index === this.search.activeTabIndex
             ) || {}
-        this.search[`${obj.key}`]['list'] = (this.search[`${obj.key}`]['list'] || []).concat(body.data || [])
+
+        // 上拉刷新
+        if (index === 2) {
+          this.search[`${obj.key}`]['list'] = (this.search[`${obj.key}`]['list'] || []).concat(data)
+        } else {
+          this.search[`${obj.key}`]['list'] = data
+        }
+
         this.search[`${obj.key}`]['totalCount'] = body.total || 0
         // @ts-ignore
         this.search[`${obj.key}`]['totalPage'] = totalPage
         continue
+      }
+
+      if (index === 2) {
+        // @ts-ignore
+        this[`${name}`]['list'] = (this[`${name}`]['list'] || []).concat(data)
+      } else {
+        // @ts-ignore
+        this[`${name}`]['list'] = data
       }
 
       // @ts-ignore
@@ -840,8 +870,6 @@ class HomeStore extends BaseStore {
 
       // @ts-ignore
       this[`${name}`]['totalPage'] = totalPage || 0
-      // @ts-ignore
-      this[`${name}`]['list'] = (this[`${name}`]['list'] || []).concat(body.data || [])
     }
   }
 
@@ -909,22 +937,23 @@ class HomeStore extends BaseStore {
   }
 
   @action
-  async getSearchList(refreshIndex: number = 0) {
+  async getSearchList(refreshIndex: number = 0, page: number = 1) {
     let obj = this.getSearchObj() || {}
     if (Utils.isObjectNull(obj)) {
       return
     }
-    console.log(obj)
 
     let list = obj.list || []
     if (refreshIndex === 0 && list.length > 0) {
       return
     }
 
+    let currentPage = page || 1
+    obj.currentPage = currentPage
     await this.getList(
       {
         name: 'search',
-        page: obj.currentPage || 1,
+        page: currentPage,
         tid: obj.tid || '0',
         text: encodeURIComponent(this.search.text || ''),
       },

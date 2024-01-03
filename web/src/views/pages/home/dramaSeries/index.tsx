@@ -26,7 +26,12 @@ const Index: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
   }, [homeStore.activeTabIndex])
 
   const render = () => {
-    return <List obj={homeStore.dramaSeries || {}} loading={homeStore.loading} className="drama-series" />
+    return <List
+        obj={homeStore.dramaSeries || {}} loading={homeStore.loading}
+        className="drama-series"
+        name={homeStore.tabsList[1].key || ''}
+        activeTabIndex={homeStore.activeTabIndex || 0}
+    />
   }
 
   return render()

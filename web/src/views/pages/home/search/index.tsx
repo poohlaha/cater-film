@@ -60,7 +60,7 @@ const Search: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
                         homeStore.search.text = (name || '').trim()
                         homeStore.search.showList = true
                         homeStore.setSearchHistory(name || '')
-                        await homeStore.getSearchList()
+                        await homeStore.getSearchList(0, 1)
                       }}
                   >
                     {name || ''}
@@ -120,7 +120,7 @@ const Search: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
                 homeStore.setSearchHistory(val)
                 homeStore.search.showList = true
                 homeStore.search.text = (val || '').trim()
-                await homeStore.getSearchList()
+                await homeStore.getSearchList(0, 1)
               }}
             />
           </div>

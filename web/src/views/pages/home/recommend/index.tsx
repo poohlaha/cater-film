@@ -64,7 +64,7 @@ const Index: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
             <div className="flex-direction-column item" key={index}>
               {!Utils.isBlank(item.name) && <p className="list-title">{item.name || ''}</p>}
 
-              <MList list={item.vlist || []} />
+              <MList list={item.vlist || []} currentPage={1} only={homeStore.tabsList[0].key || ''}/>
             </div>
           )
         })}
