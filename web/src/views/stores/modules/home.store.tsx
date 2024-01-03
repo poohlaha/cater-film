@@ -9,7 +9,7 @@ import { invoke } from '@tauri-apps/api/primitives'
 import { info, error } from '@tauri-apps/plugin-log'
 import { TOAST } from '@utils/base'
 import Utils from '@utils/utils'
-import {CONSTANT} from '@config/index'
+import { CONSTANT } from '@config/index'
 
 class HomeStore extends BaseStore {
   @observable bannerList: Array<{ [K: string]: any }> = [] // banner列表
@@ -697,7 +697,7 @@ class HomeStore extends BaseStore {
     let historyList: Array<string> = []
     for (let str of this.searchHistoryList) {
       let s = (str || '').trim()
-      if (s !== name.trim() && !Utils.isBlank(s) && (historyList.length < this.MAX_SEARCH_HISTORY_COUNT - 1)) {
+      if (s !== name.trim() && !Utils.isBlank(s) && historyList.length < this.MAX_SEARCH_HISTORY_COUNT - 1) {
         historyList.push(s)
       }
     }
@@ -738,12 +738,12 @@ class HomeStore extends BaseStore {
           }
         } else {
           if (
-              // @ts-ignore
-              this[`${params.name}`]['list'].length === 0 ||
-              // @ts-ignore
-              this[`${params.name}`].totalCount === 0 ||
-              // @ts-ignore
-              this[`${params.name}`].totalPage === 0
+            // @ts-ignore
+            this[`${params.name}`]['list'].length === 0 ||
+            // @ts-ignore
+            this[`${params.name}`].totalCount === 0 ||
+            // @ts-ignore
+            this[`${params.name}`].totalPage === 0
           ) {
             return
           }
@@ -818,7 +818,7 @@ class HomeStore extends BaseStore {
       if (body.code !== 1) {
         TOAST.show({ message: '获取视频数据失败', type: 3 })
         if (item.name === 'banner' || item.name === 'recommend') {
-          continue;
+          continue
         } else {
           throw new Error('获取视频数据失败 !')
         }
@@ -840,9 +840,9 @@ class HomeStore extends BaseStore {
 
       if (item.name === 'search') {
         let obj =
-            this.searchTabsList.find(
-                (item: { [K: string]: any } = {}, index: number) => index === this.search.activeTabIndex
-            ) || {}
+          this.searchTabsList.find(
+            (item: { [K: string]: any } = {}, index: number) => index === this.search.activeTabIndex
+          ) || {}
 
         // 上拉刷新
         if (index === 2) {

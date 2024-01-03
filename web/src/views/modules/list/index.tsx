@@ -20,7 +20,6 @@ interface IMSwiperBarProps {
 }
 
 const MList: React.FC<IMSwiperBarProps> = (props: IMSwiperBarProps): ReactElement | null => {
-
   const render = () => {
     if (!props.list || props.list.length === 0) return null
     return (

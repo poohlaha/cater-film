@@ -5,7 +5,7 @@
  */
 import React, { ReactElement } from 'react'
 import { observer } from 'mobx-react-lite'
-import {Image, InfiniteScroll} from 'antd-mobile'
+import { Image, InfiniteScroll } from 'antd-mobile'
 import Utils from '@utils/utils'
 import NoData from '@views/components/noData'
 import MScrollTop from '@views/modules/scrollTop'
@@ -20,7 +20,6 @@ interface IMCardProps {
 }
 
 const MCard: React.FC<IMCardProps> = (props: IMCardProps): ReactElement | null => {
-
   const hasMore = () => {
     if (Utils.isObjectNull(props.obj || {})) return false
 
@@ -97,15 +96,14 @@ const MCard: React.FC<IMCardProps> = (props: IMCardProps): ReactElement | null =
 
         {/* 上拉刷新 */}
         {hasScroll() && (
-            <InfiniteScroll
-                loadMore={async () => {
-                  return props.loadMore?.();
-                }}
-                threshold={150}
-                hasMore={hasMore()}
-            />
+          <InfiniteScroll
+            loadMore={async () => {
+              return props.loadMore?.()
+            }}
+            threshold={150}
+            hasMore={hasMore()}
+          />
         )}
-
       </div>
     )
   }

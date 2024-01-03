@@ -26,12 +26,15 @@ const Movie: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
   }, [homeStore.activeTabIndex])
 
   const render = () => {
-    return <List
-        obj={homeStore.movie || {}} loading={homeStore.loading}
+    return (
+      <List
+        obj={homeStore.movie || {}}
+        loading={homeStore.loading}
         className="movie"
         name={homeStore.tabsList[2].key || ''}
         activeTabIndex={homeStore.activeTabIndex || 0}
-    />
+      />
+    )
   }
 
   return render()

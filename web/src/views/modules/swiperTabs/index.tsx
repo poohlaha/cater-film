@@ -24,10 +24,10 @@ const MSwiperTabs: React.FC<IMSwiperTabsProps> = (props: IMSwiperTabsProps): Rea
   const render = () => {
     if (!props.tabs || props.tabs.length === 0) return null
 
-      let isSearch = props.isSearch
-      if (isSearch === undefined || isSearch === null) {
-          isSearch = false
-      }
+    let isSearch = props.isSearch
+    if (isSearch === undefined || isSearch === null) {
+      isSearch = false
+    }
 
     return (
       <div className={`${props.className || ''} m-swiper-tabs swiper-box`}>
@@ -63,7 +63,6 @@ const MSwiperTabs: React.FC<IMSwiperTabsProps> = (props: IMSwiperTabsProps): Rea
           }}
         >
           {props.tabs.map((item: { [K: string]: any }) => {
-
             return (
               <Swiper.Item key={item.key} className={`swiper-box swiper-${isSearch ? 'search-' : ''}${item.key}`}>
                 {props.getSwiperComponent?.(item.key)}
