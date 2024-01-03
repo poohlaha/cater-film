@@ -34,7 +34,7 @@ const MScrollTop: React.FC<IScrollTopProps> = (props: IScrollTopProps): ReactEle
           callback?.()
         }}
       >
-        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="24" height="24" viewBox="0 0 24 24">
+        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 24 24">
           <defs>
             <clipPath id="master_svg0_480_00701">
               <rect x="0" y="0" width="24" height="24" rx="0" />
