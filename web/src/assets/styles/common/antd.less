@@ -122,6 +122,8 @@
       }
 
       .adm-tabs-tab-wrapper {
+        background: unset;
+
         .adm-tabs-tab {
           font-size: @font;
         }
@@ -129,6 +131,7 @@
         .adm-tabs-tab-active {
           font-family: @font_PingFangSC_Medium;
           font-size: @font_larger;
+          color: @theme;
         }
       }
     }
@@ -208,7 +211,7 @@
       .adm-tabs-tab-wrapper {
         flex: unset !important;
         padding: 0 0.4rem;
-        background: @color_menu_active;
+        background: unset;
         border-radius: 1rem;
 
         .adm-tabs-tab {
@@ -217,6 +220,7 @@
 
         .adm-tabs-tab-active {
           font-size: @font_smaller!important;
+          color: @color_tab_color;
         }
       }
 

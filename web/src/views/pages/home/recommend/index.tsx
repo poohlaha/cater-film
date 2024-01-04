@@ -34,14 +34,24 @@ const Recommend: React.FC<IRouterProps> = (props: IRouterProps): ReactElement =>
    */
   const analyzeBannerHtml = () => {
     if (homeStore.bannerList.length === 0) return null
+
+    // 过滤没有名字的banner， 应该就是广告了
+    let list : Array<{[K: string]: any}> = []
+   homeStore.bannerList.forEach((item: { [K: string]: any } = {}) =>{
+     let name = (item.name || '').trim()
+     if (!Utils.isBlank(name) && item.name !== '.') {
+       list.push(item)
+     }
+   })
+
     return (
-      <Swiper className="banner" loop autoplay onIndexChange={(i: number) => {}}>
-        {homeStore.bannerList.map((item: { [K: string]: any }, index: number) => {
+      <Swiper className="banner" loop autoplay onIndexChange={() => {}}>
+        {list.map((item: { [K: string]: any } = {}, index: number) => {
           return (
-            <Swiper.Item key={index}>
-              <img src={item.content || ''} className="wh100" />
-              <p className="name">{item.name || ''}</p>
-            </Swiper.Item>
+              <Swiper.Item key={index}>
+                <img src={item.content || ''} className="wh100" />
+                <p className="name">{item.name || ''}</p>
+              </Swiper.Item>
           )
         })}
       </Swiper>
