@@ -17,7 +17,7 @@ interface IMCardProps {
   obj: { [K: string]: any }
   loading: boolean
   loadMore?: () => Promise<any>
-   needInfiniteScroll?: boolean
+  needInfiniteScroll?: boolean
 }
 
 const MCard: React.FC<IMCardProps> = (props: IMCardProps): ReactElement | null => {
@@ -97,8 +97,9 @@ const MCard: React.FC<IMCardProps> = (props: IMCardProps): ReactElement | null =
             )
           })}
 
-          {/* 回到顶部 */}
+          {/* 回到顶部
           <MScrollTop currentPage={props.obj?.currentPage || 1} only={props.only || ''} />
+          */}
         </div>
 
         {/* 上拉刷新 */}

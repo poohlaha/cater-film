@@ -29,7 +29,7 @@ const Search: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
     return (
       <div className="history card card-no-margin">
         <div className="card-title flex-jsc-between">
-          <p>历史记录</p>
+          <p className="font-bold">历史</p>
           {list.length > 0 && (
             <div className="svg-box" onClick={() => homeStore.clearSearchHistory()}>
               <svg className="svg-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">

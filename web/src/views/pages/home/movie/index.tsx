@@ -29,6 +29,7 @@ const Movie: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
     return (
       <List
         obj={homeStore.movie || {}}
+        select={homeStore.getSelectObj() || {}}
         loading={homeStore.loading}
         className="movie"
         name={homeStore.tabsList[2].key || ''}

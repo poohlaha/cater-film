@@ -41,8 +41,9 @@ const MList: React.FC<IMSwiperBarProps> = (props: IMSwiperBarProps): ReactElemen
           )
         })}
 
-        {/* 回到顶部 */}
+        {/* 回到顶部
         <MScrollTop currentPage={props.currentPage || 1} only={props.only || ''} />
+        */}
       </div>
     )
   }

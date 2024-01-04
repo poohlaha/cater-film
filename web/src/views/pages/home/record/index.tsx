@@ -29,6 +29,7 @@ const Record: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
     return (
       <List
         obj={homeStore.record || {}}
+        select={homeStore.getSelectObj() || {}}
         tabsList={['useDefaultHotTab', 'useDefaultClassTab', 'useDefaultAreaTab', 'useDefaultYearTab']}
         classTab={homeStore.jlTabs}
         loading={homeStore.loading}

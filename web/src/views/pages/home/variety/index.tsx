@@ -29,6 +29,7 @@ const Variety: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
     return (
       <List
         obj={homeStore.variety || {}}
+        select={homeStore.getSelectObj() || {}}
         tabsList={['useDefaultHotTab', 'useDefaultClassTab', 'useDefaultAreaTab', 'useDefaultYearTab']}
         classTab={homeStore.zyTabs}
         loading={homeStore.loading}

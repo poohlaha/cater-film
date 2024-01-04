@@ -640,7 +640,7 @@ class HomeStore extends BaseStore {
     area: '',
     lang: '',
     year: '',
-    sort: '',
+    sort: 'time',
     page: 1,
   }
 
@@ -807,7 +807,7 @@ class HomeStore extends BaseStore {
    */
   @action
   handleResponse(result: Array<{ [K: string]: any }> = [], name: string = '', index: number) {
-    console.info('name: ', name, ' result: ', result)
+    console.info('response: name: ', name, ' result: ', result)
     if (Utils.isBlank(name)) return
     for (let item of result) {
       let body = this.analysisResult(item, '获取视频数据失败', 'data') || {}
@@ -901,6 +901,23 @@ class HomeStore extends BaseStore {
     })
 
     return tabs
+  }
+
+  /**
+   * 获取选中的数据
+   */
+  getSelectObj() {
+    if (Utils.isObjectNull(this.normalSort || {})) return {}
+    let nameObj = this.tabsList.find((item: {[K: string]: any}) => item.key === this.normalSort.name) || {}
+    let sortObj = this.newTabs.find((item: {[K: string]: any}) => item.key === this.normalSort.sort) || {}
+
+    return {
+      name: nameObj.title || '',
+      class: decodeURIComponent(this.normalSort.class || ''),
+      area: decodeURIComponent(this.normalSort.area || ''),
+      year: this.normalSort.year || '',
+      sort: sortObj.title || ''
+    }
   }
 
   @action

@@ -28,6 +28,7 @@ const Cartoon: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
   const render = () => {
     return (
       <List
+        select={homeStore.getSelectObj() || {}}
         obj={homeStore.cartoon || {}}
         tabsList={['useDefaultHotTab', 'useDefaultClassTab', 'useDefaultAreaTab', 'useDefaultYearTab']}
         classTab={homeStore.dmTabs}

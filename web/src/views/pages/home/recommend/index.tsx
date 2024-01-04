@@ -48,7 +48,7 @@ const Recommend: React.FC<IRouterProps> = (props: IRouterProps): ReactElement =>
       <Swiper className="banner" loop autoplay onIndexChange={() => {}}>
         {list.map((item: { [K: string]: any } = {}, index: number) => {
           return (
-              <Swiper.Item key={index}>
+              <Swiper.Item key={index} className="swiper-banner">
                 <img src={item.content || ''} className="wh100" />
                 <p className="name">{item.name || ''}</p>
               </Swiper.Item>

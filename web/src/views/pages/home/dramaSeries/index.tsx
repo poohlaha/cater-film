@@ -29,6 +29,7 @@ const DramaSeries: React.FC<IRouterProps> = (props: IRouterProps): ReactElement 
     return (
       <List
         obj={homeStore.dramaSeries || {}}
+        select={homeStore.getSelectObj() || {}}
         loading={homeStore.loading}
         className="drama-series"
         name={homeStore.tabsList[1].key || ''}

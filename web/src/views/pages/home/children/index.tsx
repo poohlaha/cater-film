@@ -29,6 +29,7 @@ const Children: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => 
     return (
       <List
         obj={homeStore.children || {}}
+        select={homeStore.getSelectObj() || {}}
         tabsList={['useDefaultHotTab', 'useDefaultClassTab', 'useDefaultAreaTab', 'useDefaultYearTab']}
         classTab={homeStore.srTabs}
         loading={homeStore.loading}

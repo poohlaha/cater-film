@@ -24,6 +24,7 @@
       .adm-tab-bar-item-title {
         font-size: @font_smallest_much!important;
         color: @color;
+        margin-top: 0.2rem;
       }
 
       .adm-badge-wrapper {
@@ -49,8 +50,10 @@
   height: 100% !important;
 
   &.adm-search-bar-active {
+
     .adm-search-bar-input-box {
       border-width: 0.03rem;
+
     }
   }
 
@@ -72,25 +75,34 @@
     height: 100% !important;
     border-radius: 1rem;
     padding-left: 0.25rem;
+    background: @background_gay!important;
+    border: unset!important;
 
     .adm-search-bar-input-box-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
       svg {
         width: 0.4rem;
         height: 0.4rem;
-        color: @color_svg;
+        color: @color_svg_gray;
       }
     }
 
     .adm-search-bar-input {
       height: 100% !important;
       margin-left: 0.15rem;
+      padding: 0!important;
 
       input {
         caret-color: @theme!important;
+        --caret-width: 0.1rem;
       }
 
       .adm-input-element {
         font-size: @font_smaller;
+        height: 100% !important;
       }
 
       .adm-input-clear {

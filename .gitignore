@@ -17,6 +17,7 @@ src-tauri/target
 gen
 *.lock
 *-lock*
+tauri.conf.json
 
 
 # Editor directories and files

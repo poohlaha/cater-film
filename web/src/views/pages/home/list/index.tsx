@@ -3,7 +3,7 @@
  * @date 2023-12-27
  * @author poohlaha
  */
-import React, { ReactElement } from 'react'
+import React, {ReactElement} from 'react'
 import { observer } from 'mobx-react-lite'
 import MTab from '@views/modules/tab'
 import MList from '@views/modules/list'
@@ -18,6 +18,7 @@ interface IListProps extends IRouterProps {
   loading: boolean
   tabsList?: Array<string>
   obj: { [K: string]: any }
+  select?: { [K: string]: any }
   langTab?: Array<{ [K: string]: any }>
   classTab?: Array<{ [K: string]: any }>
   className?: string
@@ -76,8 +77,12 @@ const List: React.FC<IListProps> = (props: IListProps): ReactElement | null => {
     return {
       tabs: homeStore.getYearsTabs(),
       onChange: async (obj: { [K: string]: any } = {}) => {
+        let text = obj.key || ''
+        if (obj.key === 'all') {
+          text = ''
+        }
         homeStore.normalSort.page = 1
-        homeStore.normalSort.year = obj.key || ''
+        homeStore.normalSort.year = text || ''
         await homeStore.getList(homeStore.normalSort || {})
       },
     }
@@ -143,13 +148,11 @@ const List: React.FC<IListProps> = (props: IListProps): ReactElement | null => {
       return <NoData text="抱歉，没有找到相关影片~" />
     }
 
-    console.log('jey1:', props.name)
     return <MList list={props.obj.list || []} currentPage={props.obj.currentPage || 1} only={props.name || ''} />
   }
 
   const hasMore = () => {
     if (Utils.isObjectNull(props.obj || {})) return false
-    console.log('has more props obj: ', props.obj)
     let list = props.obj.list || []
     if (list.length === 0 || props.obj.totalPage === 0) return false
     return props.obj.currentPage < props.obj.totalPage
@@ -164,6 +167,8 @@ const List: React.FC<IListProps> = (props: IListProps): ReactElement | null => {
 
   const render = () => {
     let tabsList = getTabsList() || []
+    let select = props.select || {}
+
     return (
       <Refresh
         onRefresh={async () => {
@@ -184,6 +189,22 @@ const List: React.FC<IListProps> = (props: IListProps): ReactElement | null => {
           </div>
 
           <div className="page-content page-top-margin flex-1 flex">
+            {
+              !Utils.isObjectNull(select) && (
+                  <div className="select-box flex-center" onClick={() => {
+                    let dom = document.querySelector(`.swiper-${props.name}`)
+                    console.log('scroll Dom', dom)
+                    // @ts-ignore
+                    dom?.scrollTo?.(0, 0)
+                  }}>
+                    <p>{select.name || ''} ・ </p>
+                    <p>{select.sort || ''}</p>
+                    {!Utils.isBlank(select.class || '') && (<p> ・ {select.class || ''}</p>)}
+                    {!Utils.isBlank(select.area || '') && (<p> ・ {select.area || ''}</p>)}
+                    {!Utils.isBlank(select.year || '') && (<p> ・ {select.year || ''}</p>)}
+                  </div>
+              )
+            }
             <div className="list-box flex-1 flex-direction-column w100">
               {getListHtml()}
 
