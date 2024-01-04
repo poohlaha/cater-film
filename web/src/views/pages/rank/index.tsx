@@ -45,17 +45,17 @@ const Rank: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
   const getComponentsHtml = (key: string = '') => {
     // 热播剧
     if (key === rankStore.tabsList[0].key) {
-      return <List obj={{list: rankStore.hotJList}} name={rankStore.tabsList[0].key} />
+      return <List obj={{ list: rankStore.hotJList }} name={rankStore.tabsList[0].key} />
     }
 
     // 热播影
     if (key === rankStore.tabsList[1].key) {
-      return <List obj={{list: rankStore.hotMList}} name={rankStore.tabsList[1].key} />
+      return <List obj={{ list: rankStore.hotMList }} name={rankStore.tabsList[1].key} />
     }
 
     // 热播漫
     if (key === rankStore.tabsList[2].key) {
-      return <List obj={{list: rankStore.hotCList}} name={rankStore.tabsList[2].key} />
+      return <List obj={{ list: rankStore.hotCList }} name={rankStore.tabsList[2].key} />
     }
 
     return null

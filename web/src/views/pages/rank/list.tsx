@@ -29,7 +29,13 @@ const List: React.FC<IListProps> = (props: IListProps): ReactElement | null => {
       >
         <div className={`page-box wh100 flex-direction-column ${props.className || ''}`}>
           <div className="page-content page-top-margin flex-1 flex">
-            <MCard loading={rankStore.loading} className="rank-list-box" obj={props.obj || {}} only={'rank'} needInfiniteScroll={false} />
+            <MCard
+              loading={rankStore.loading}
+              className="rank-list-box"
+              obj={props.obj || {}}
+              only={'rank'}
+              needInfiniteScroll={false}
+            />
           </div>
         </div>
       </Refresh>

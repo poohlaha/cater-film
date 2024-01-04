@@ -3,7 +3,7 @@
  * @date 2023-12-27
  * @author poohlaha
  */
-import React, {ReactElement} from 'react'
+import React, { ReactElement } from 'react'
 import { observer } from 'mobx-react-lite'
 import MTab from '@views/modules/tab'
 import MList from '@views/modules/list'
@@ -189,22 +189,23 @@ const List: React.FC<IListProps> = (props: IListProps): ReactElement | null => {
           </div>
 
           <div className="page-content page-top-margin flex-1 flex">
-            {
-              !Utils.isObjectNull(select) && (
-                  <div className="select-box flex-center" onClick={() => {
-                    let dom = document.querySelector(`.swiper-${props.name}`)
-                    console.log('scroll Dom', dom)
-                    // @ts-ignore
-                    dom?.scrollTo?.(0, 0)
-                  }}>
-                    <p>{select.name || ''} ・ </p>
-                    <p>{select.sort || ''}</p>
-                    {!Utils.isBlank(select.class || '') && (<p> ・ {select.class || ''}</p>)}
-                    {!Utils.isBlank(select.area || '') && (<p> ・ {select.area || ''}</p>)}
-                    {!Utils.isBlank(select.year || '') && (<p> ・ {select.year || ''}</p>)}
-                  </div>
-              )
-            }
+            {!Utils.isObjectNull(select) && (
+              <div
+                className="select-box flex-center"
+                onClick={() => {
+                  let dom = document.querySelector(`.swiper-${props.name}`)
+                  console.log('scroll Dom', dom)
+                  // @ts-ignore
+                  dom?.scrollTo?.(0, 0)
+                }}
+              >
+                <p>{select.name || ''} ・ </p>
+                <p>{select.sort || ''}</p>
+                {!Utils.isBlank(select.class || '') && <p> ・ {select.class || ''}</p>}
+                {!Utils.isBlank(select.area || '') && <p> ・ {select.area || ''}</p>}
+                {!Utils.isBlank(select.year || '') && <p> ・ {select.year || ''}</p>}
+              </div>
+            )}
             <div className="list-box flex-1 flex-direction-column w100">
               {getListHtml()}
 

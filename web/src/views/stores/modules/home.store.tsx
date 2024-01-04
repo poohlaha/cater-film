@@ -908,15 +908,15 @@ class HomeStore extends BaseStore {
    */
   getSelectObj() {
     if (Utils.isObjectNull(this.normalSort || {})) return {}
-    let nameObj = this.tabsList.find((item: {[K: string]: any}) => item.key === this.normalSort.name) || {}
-    let sortObj = this.newTabs.find((item: {[K: string]: any}) => item.key === this.normalSort.sort) || {}
+    let nameObj = this.tabsList.find((item: { [K: string]: any }) => item.key === this.normalSort.name) || {}
+    let sortObj = this.newTabs.find((item: { [K: string]: any }) => item.key === this.normalSort.sort) || {}
 
     return {
       name: nameObj.title || '',
       class: decodeURIComponent(this.normalSort.class || ''),
       area: decodeURIComponent(this.normalSort.area || ''),
       year: this.normalSort.year || '',
-      sort: sortObj.title || ''
+      sort: sortObj.title || '',
     }
   }
 
