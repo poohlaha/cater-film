@@ -13,7 +13,8 @@ pub struct Conf {
     pub domain: String,
     pub home: Home,
     pub rank: Rank,
-    pub search: Search
+    pub search: Search,
+    pub detail: Detail,
 }
 
 #[derive(Clone, Debug, Default, Deserialize, Serialize)]
@@ -36,6 +37,12 @@ pub struct Rank {
 #[derive(Clone, Debug, Default, Deserialize, Serialize)]
 pub struct Search {
     pub(crate) url: String,
+}
+
+#[derive(Clone, Debug, Default, Deserialize, Serialize)]
+pub struct Detail {
+    pub(crate) url: String,
+    pub(crate) guess_url: String,
 }
 
 #[derive(Debug, Default, Deserialize, Serialize)]

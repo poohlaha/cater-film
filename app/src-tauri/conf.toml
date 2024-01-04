@@ -22,5 +22,9 @@ children_url = "/v6/video?tid=24&token=&csrf=Em6Ed9WwaC2uMprfhHv4BBIZhzwCKuWIwpa
 # 记录 tid = 25
 record_url = "/v6/video?tid=26&token=&csrf=Em6Ed9WwaC2uMprfhHv4BBIZhzwCKuWIwpar2OFWxYETUQRZUWi6fLimyv7AiyGOgHNq0817Ju%2F7HzSXbJAB8u70ZGbrkk8LyoU4EZ%2FUva1ciNwOauKhOa9KntiY66bwqxCJdyo1V9KoN2LtrNz5ALiljtjiAVqSap%2BFY2Gby%2Fw%3D"
 
+[detail]
+url = "/v6/video_detail?id=130432&ck=QFtjIVPi6XPrBc0PeE%2FJztZCeHM3a0uEenmnRuy4nl%2BrKxcwqxEk0hIaCcUZS1EfRHm7Z804jmI32TM%2BninJzqbtajsh6902eK%2BSgHkTh9SxGFYwQjGf%2BA3sDaU6xZOI7hHIL8gx084Cwu4iUixhAfOHaZ0CQWGHqYpJJX1t7fM%3D&pkid=com.maitian.baohu&token=&csrf=FbNvuMrdjDQyRL%2B%2F6ZL0eU8d25f%2BRHYjwmi58z0FMhrnuY3JTXKKkgikB3%2F6oxP6vmeSZsu%2BpAiOv6f1p8hGGAzqsPLyWaV0c52lTYFYXLVZOw6IA5Zc7JdbZqzs9GoefsJNUMw3REgGk1MxMsqvecXYLz5jDBiPo43IvKm%2FKU0%3D"
+guess_url = "/v6/video_prefer?tid=20&vid=130432&token=&csrf=GrGsNATWobdY%2Fmzvs2%2BV3vIb%2Bg2ew1hX1OxrqH17eooqnGtW2mljiM%2BYrNmKEQyhhGXUp2S4%2BOHvxnFXs33BKfNDBcd74VA7HLoDygXX7c9C571OXdDqn9k2PoH8yOMUSMIDqijXjkV175DXQ%2BMz2qSd08UIwO%2FyqVvnZNy5u5s%3D"
+
 [rank]
 url = "/v6/rank_video_list?token=&csrf=NRIzPeROcHJjI2k%2BYlqD1UzzL9CBPFCGjwgjOlIHo2xmPaZEgJ2AgmLsrUNeriGmZ5OTsYqfGB6YuAVNcF%2FaQ1FX54Iegtj5hLnAeyq%2FgWB7soYWsbVy5y0V1wLoXE8eY%2FBclUoqktat3ULmfA8xm4R8CWjnEWjIOhzZaTft9%2Bk%3D"

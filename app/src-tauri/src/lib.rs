@@ -16,6 +16,7 @@ pub fn run() {
         .plugin(tauri_plugin_window::init())
         .plugin(tauri_plugin_shell::init())
         .plugin(tauri_plugin_log::Builder::default().build())
+        /*
         .setup(move |app| {
             if let Some(window) = app.get_window("main") {
                 let _ = window.show();
@@ -23,6 +24,7 @@ pub fn run() {
             }
             Ok(())
         })
+         */
         .invoke_handler(tauri::generate_handler![handle, get_setting_window])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

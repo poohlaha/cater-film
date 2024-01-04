@@ -65,9 +65,9 @@ class RankStore extends BaseStore {
       if (!refresh) {
         this.loading = false
       }
-      console.error('get recommend error !', e)
+      console.error('get rank list error !', e)
       TOAST.show({ message: '获取排行榜列表失败', type: 3 })
-      await error(`get recommend error: ${e.toString()}`)
+      await error(`get rank list error: ${e.toString()}`)
     }
   }
 

@@ -797,10 +797,10 @@ class HomeStore extends BaseStore {
       if (this.scrollLoading) {
         this.scrollLoading = false
       }
-      console.error('get recommend error !', e)
+      console.error('get home list error !', e)
       TOAST.show({ message: '获取推荐列表失败', type: 3 })
-      await error(`get recommend error: ${e.toString()}`)
-      throw new Error('get recommend error !')
+      await error(`get home list error: ${e.toString()}`)
+      throw new Error('get home list error !')
     }
   }
 

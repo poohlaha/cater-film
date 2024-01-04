@@ -1,0 +1,125 @@
+/**
+ * @fileOverview detail
+ * @date 2023-12-26
+ * @author poohlaha
+ */
+@video_height: 5rem;
+
+.detail-page {
+  background: @background;
+
+  .video {
+    width: 100%;
+    height: @video_height;
+    border-bottom: @border_theme;
+  }
+
+  .card {
+    .arrow {
+      width: 0.3rem;
+      height: 0.3rem;
+
+      .svg-icon {
+        margin-right: 0 !important;
+      }
+    }
+  }
+
+  .card-title {
+    .card-title-right {
+      font-size: @font_smallest;
+      font-family: @font_PingFangSC!important;
+    }
+  }
+
+  .select-more {
+    margin-top: 0.4rem;
+
+    .select-info {
+      .name {
+
+      }
+    }
+  }
+
+  .info {
+    p:first-child {
+      margin-right: 0.4rem;
+    }
+  }
+
+  .selects {
+    .adm-tabs-header {
+      height: 1.5rem;
+    }
+
+    .adm-tabs-tab-list {
+      .adm-tabs-tab-wrapper {
+        padding: 0 0.5rem;
+        height: 1.2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: @background_gay;
+        border-radius: @border_radius;
+      }
+
+      .adm-tabs-tab-wrapper:not(:last-child) {
+        margin-right: 0.2rem;
+      }
+
+      .adm-tabs-tab-active {
+        color: @color_tab_color!important;
+      }
+    }
+  }
+
+  .detail-select-more-popup {
+    .adm-popup-body {
+      height: calc(100% - @video_height);
+    }
+
+    .adm-mask {
+      display: none!important;
+    }
+
+    .select-mores-popup {
+      .title {
+        p {
+          font-size: @font_larger;
+        }
+
+        .svg-box {
+          width: 0.4rem;
+          height: 0.4rem;
+
+          .svg-icon {
+            transform: rotate(90deg);
+          }
+        }
+      }
+    }
+
+    .more-info {
+      margin-top: 0.4rem;
+
+      .more-item {
+        width: calc((100% - 1.25rem) / 6); // 0.25 * 5
+        height: 1.2rem;
+        margin-bottom: 0.2rem;
+        margin-right: 0.25rem;
+        border-radius: @border_radius;
+        background: @background_gay;
+
+        &.active {
+          background: @color_background_tab;
+          color: @color_tab_color;
+        }
+      }
+
+      .more-item:nth-child(6n) {
+        margin-right: 0 !important;
+      }
+    }
+  }
+}
