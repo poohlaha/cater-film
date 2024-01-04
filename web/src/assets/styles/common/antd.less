@@ -1,7 +1,7 @@
 // tabbar
 .adm-tab-bar {
   background: @background;
-  height: 1.3rem !important;
+  height: 1.5rem !important;
   border-top: @border;
 
   .adm-tab-bar-wrap {
@@ -13,6 +13,7 @@
       &.adm-tab-bar-item-active {
         .adm-tab-bar-item-title {
           color: @theme!important;
+          font-family: @font_PingFangSC_Medium;
         }
 
         .adm-tab-bar-item-icon {
@@ -21,16 +22,16 @@
       }
 
       .adm-tab-bar-item-title {
-        font-size: @font!important;
-        color: @color_gray;
+        font-size: @font_smallest_much!important;
+        color: @color;
       }
 
       .adm-badge-wrapper {
-        margin-bottom: 0.25rem;
+        margin-bottom: 0.1rem;
 
         .adm-tab-bar-item-icon {
-          width: 0.5rem !important;
-          height: 0.5rem !important;
+          width: 0.55rem !important;
+          height: 0.55rem !important;
           color: @color_svg;
 
           .svg-icon {
@@ -90,7 +91,6 @@
 
       .adm-input-element {
         font-size: @font_smaller;
-        font-family: @font_PingFangSC_Medium;
       }
 
       .adm-input-clear {

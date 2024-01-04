@@ -16,7 +16,8 @@ interface IMCardProps {
   className?: string
   obj: { [K: string]: any }
   loading: boolean
-  loadMore: () => Promise<any>
+  loadMore?: () => Promise<any>
+   needInfiniteScroll?: boolean
 }
 
 const MCard: React.FC<IMCardProps> = (props: IMCardProps): ReactElement | null => {
@@ -29,6 +30,12 @@ const MCard: React.FC<IMCardProps> = (props: IMCardProps): ReactElement | null =
   }
 
   const hasScroll = () => {
+    let needInfiniteScroll = props.needInfiniteScroll
+    if (needInfiniteScroll === null || needInfiniteScroll === undefined) {
+      needInfiniteScroll = true
+    }
+
+    if (!needInfiniteScroll) return false
     if (Utils.isObjectNull(props.obj || {}) || props.loading) return false
     let list = props.obj.list || []
     if (list.length === 0) return false

@@ -8,7 +8,7 @@ import { observer } from 'mobx-react-lite'
 import { useStore } from '@stores/index'
 import List from '@pages/home/list'
 
-const Index: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
+const Record: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
   const { homeStore } = useStore()
 
   useEffect(() => {
@@ -42,4 +42,4 @@ const Index: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
   return render()
 }
 
-export default observer(Index)
+export default observer(Record)

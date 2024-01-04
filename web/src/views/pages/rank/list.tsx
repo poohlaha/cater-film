@@ -14,7 +14,7 @@ import MCard from '@views/modules/card'
 interface IListProps extends IRouterProps {
   name: string
   className?: string
-  list: Array<{ [K: string]: any }>
+  obj: { [K: string]: any }
 }
 
 const List: React.FC<IListProps> = (props: IListProps): ReactElement | null => {
@@ -29,7 +29,7 @@ const List: React.FC<IListProps> = (props: IListProps): ReactElement | null => {
       >
         <div className={`page-box wh100 flex-direction-column ${props.className || ''}`}>
           <div className="page-content page-top-margin flex-1 flex">
-            <MCard loading={rankStore.loading} className="rank-list-box" list={props.list || []} />
+            <MCard loading={rankStore.loading} className="rank-list-box" obj={props.obj || {}} only={'rank'} needInfiniteScroll={false} />
           </div>
         </div>
       </Refresh>

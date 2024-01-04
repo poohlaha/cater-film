@@ -14,7 +14,7 @@
 @font_maximum: 0.75rem;
 
 // 主题
-@theme: #1989fa; // 默认主题色
+@theme: #030303; // 默认主题色
 @theme_to: #e6f4ff; // 橙色选中高亮
 @theme_shadow: rgba(25, 37, 50, 0.5); // 主题色阴影
 
@@ -27,10 +27,11 @@
 @color_border_gray: #f1f3f6; // border
 @color_normal: #37373b; // 普通或图标下方等字体颜色
 @color_button: #ffbf47; // 按钮颜色
-@color_svg: #7e8e9f; // svg color
+@color_svg: #030303; // svg color
 @color_menu_active: #f2f2f2; // 菜单激活颜色
 @color_expend: #252626;
 @color_disabled: #d3d2d1; // 失效颜色
+@color_background_tag: #09B6BA; // tag 颜色
 
 // 背景
 @background: #ffffff; // 背景
@@ -40,9 +41,9 @@
 
 // 线条
 @divider: rgb(210 215 227 / 30%); // 分割线颜色
-@border: 1px solid @divider; // 线条
-@border_theme: 1px solid @theme; // 主题色线条
-@border_button_plan: 1px solid #d2d7e3; // 扁平按钮边框
+@border: 0.01rem solid @divider; // 线条
+@border_theme: 0.01rem solid @theme; // 主题色线条
+@border_button_plan: 0.01rem solid #d2d7e3; // 扁平按钮边框
 @border_radius: 0.15rem;
 
 // 其他
@@ -86,6 +87,7 @@
   @color_menu_active,
   @color_expend,
   @color_disabled,
+  @color_background_tag,
 
   @background,
   @background_card,

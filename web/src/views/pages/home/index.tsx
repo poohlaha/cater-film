@@ -64,8 +64,18 @@ const Home: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
           </div>
         </div>
 
-        <div className="search-right h100 flex-align-center">
-          {/* 下载 */}
+        <div className="search-right h100 flex-center">
+          <div className="zhui-ju flex-center">
+            <svg className="svg-icon" viewBox="0 0 1024 1024" version="1.1"
+                 xmlns="http://www.w3.org/2000/svg" >
+              <path
+                  d="M512 896c-6.4 0-16-3.2-22.4-6.4-28.8-22.4-275.2-214.4-326.4-288-57.6-76.8-67.2-118.4-67.2-192C96 256 208 128 348.8 128c60.8 0 118.4 22.4 163.2 64 44.8-41.6 102.4-64 163.2-64 140.8 0 252.8 128 252.8 281.6 0 70.4-9.6 112-67.2 192-51.2 70.4-300.8 265.6-326.4 288-6.4 3.2-16 6.4-22.4 6.4z"
+                  fill="currentColor"></path>
+            </svg>
+
+            <span>追</span>
+          </div>
+          {/* 下载
           <div className="svg-box flex-center">
             <svg className="svg-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
               <path
@@ -74,8 +84,10 @@ const Home: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
               ></path>
             </svg>
           </div>
+           */}
 
-          {/* 历史记录 */}
+
+          {/* 历史记录
           <div className="svg-box flex-center">
             <svg className="svg-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
               <path
@@ -84,6 +96,8 @@ const Home: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
               ></path>
             </svg>
           </div>
+           */}
+
         </div>
       </div>
     )
