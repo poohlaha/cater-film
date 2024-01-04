@@ -1,15 +1,18 @@
 /**
- * @fileOverview 排行榜
+ * @fileOverview 我的
  * @date 2023-12-26
  * @author poohlaha
  */
-import React, { ReactElement, useRef } from 'react'
+import React, { ReactElement } from 'react'
 import { observer } from 'mobx-react-lite'
 import { useStore } from '@stores/index'
 import Loading from '@views/components/loading/loading'
 import useMount from '@hooks/useMount'
 
 const My: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
+
+  const { homeStore } = useStore()
+
   /**
    * 获取头像
    */
@@ -42,7 +45,9 @@ const My: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
             </div>
 
             <div className="actor-right">
-              <div className="svg-box">
+              <div className="svg-box setting" onClick={async () => {
+                await homeStore.openSettingWindow()
+              }}>
                 <svg className="svg-icon" viewBox="0 0 1084 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
                   <path
                     fill="currentColor"
@@ -72,7 +77,7 @@ const My: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
 
             <div className="card-content flex">
               <div className="item flex-1 h100">
-                <img className="w100" src="https://wx3.sinaimg.cn/large/002do8ZNly1hin0dveutyj60zk1khts502.jpg" />
+                <img className="w100" src="https://m.ykimg.com/050E000065659838C847B7129D1A088E" />
                 <div className="card-desc desc flex-center">
                   <p>一念关山</p>
                   <p>第一集</p>
@@ -80,7 +85,7 @@ const My: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
               </div>
 
               <div className="item flex-1 h100">
-                <img className="w100" src="https://wx3.sinaimg.cn/large/002do8ZNly1hin0dveutyj60zk1khts502.jpg" />
+                <img className="w100" src="https://m.ykimg.com/050E000065659838C847B7129D1A088E" />
                 <div className="card-desc desc flex-center">
                   <p>一念关山</p>
                   <p>第一集</p>
@@ -88,7 +93,7 @@ const My: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
               </div>
 
               <div className="item flex-1 h100">
-                <img className="w100" src="https://wx3.sinaimg.cn/large/002do8ZNly1hin0dveutyj60zk1khts502.jpg" />
+                <img className="w100" src="https://m.ykimg.com/050E000065659838C847B7129D1A088E" />
                 <div className="card-desc desc flex-center">
                   <p>一念关山</p>
                   <p>第一集</p>

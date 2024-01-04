@@ -16,6 +16,7 @@ interface IMSwiperBarProps {
   list: Array<{ [K: string]: any }>
   currentPage: number
   only: string
+  toDetailPage?: (item: {[K: string]: any}) => void
 }
 
 const MList: React.FC<IMSwiperBarProps> = (props: IMSwiperBarProps): ReactElement | null => {
@@ -25,7 +26,7 @@ const MList: React.FC<IMSwiperBarProps> = (props: IMSwiperBarProps): ReactElemen
       <div className="page-top-margin list flex w100">
         {(props.list || []).map((item: { [K: string]: any } = {}, index: number) => {
           return (
-            <div className="card flex-direction-column card-no-padding" key={index + '_' + item}>
+            <div className="card flex-direction-column card-no-padding" key={index + '_' + item} onClick={() => props.toDetailPage?.(item || {})}>
               <div className="card-top w100">
                 <Image src={item.vod_pic || ''} className="wh100" lazy={true} />
                 <div className="name flex-center w100">

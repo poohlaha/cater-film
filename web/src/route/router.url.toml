@@ -3,4 +3,6 @@ HOME_URL = '/home'
 RANK_URL = '/rank'
 MY_URL = '/my'
 DASHBOARD_URL = '/dashboard'
+DETAIL_URL = '/detail'
+SETTING_URL = '/setting'
 

@@ -11,9 +11,12 @@ import MList from '@views/modules/list'
 import Utils from '@utils/utils'
 import NoData from '@views/components/noData'
 import Refresh from '@views/components/refresh'
+import {useNavigate} from 'react-router-dom'
+import RouterUrls from "@route/router.url.toml";
 
 const Recommend: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
-  const { homeStore } = useStore()
+  const { homeStore, commonStore } = useStore()
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (homeStore.activeTabIndex === 0) {
@@ -74,7 +77,14 @@ const Recommend: React.FC<IRouterProps> = (props: IRouterProps): ReactElement =>
             <div className="flex-direction-column item" key={index}>
               {!Utils.isBlank(item.name) && <p className="list-title">{item.name || ''}</p>}
 
-              <MList list={item.vlist || []} currentPage={1} only={homeStore.tabsList[0].key || ''} />
+              <MList
+                  list={item.vlist || []}
+                  currentPage={1}
+                  only={homeStore.tabsList[0].key || ''}
+                  toDetailPage={() => {
+                    navigate(RouterUrls.DETAIL_URL)
+                  }}
+              />
             </div>
           )
         })}

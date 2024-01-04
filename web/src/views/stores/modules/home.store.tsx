@@ -980,6 +980,11 @@ class HomeStore extends BaseStore {
       refreshIndex
     )
   }
+
+  @action
+ async openSettingWindow() {
+    await invoke('get_setting_window')
+  }
 }
 
 export default new HomeStore()
