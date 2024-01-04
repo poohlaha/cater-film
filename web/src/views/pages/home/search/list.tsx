@@ -31,7 +31,11 @@ const List: React.FC<IRouterProps> = (props: IRouterProps): ReactElement | null 
     return (
       <Refresh
         onRefresh={async () => {
-          await homeStore.getSearchList(1, 1)
+          let obj =
+            homeStore.searchTabsList.find(
+              (item: { [K: string]: any }, i: number) => homeStore.search.activeTabIndex === i
+            ) || {}
+          await homeStore.getSearchList(1, 1, obj.tid || '0')
         }}
       >
         <div className="search-item-list h100 flex page-content page-top-margin flex-1">
@@ -49,7 +53,12 @@ const List: React.FC<IRouterProps> = (props: IRouterProps): ReactElement | null 
 
               let list = obj.list || []
               if (list.length === 0) return
-              return await homeStore.getSearchList(2, obj.currentPage + 1)
+
+              let search =
+                homeStore.searchTabsList.find(
+                  (item: { [K: string]: any }, i: number) => homeStore.search.activeTabIndex === i
+                ) || {}
+              return await homeStore.getSearchList(2, obj.currentPage + 1, search.tid || '')
             }}
           />
         </div>
@@ -66,7 +75,8 @@ const List: React.FC<IRouterProps> = (props: IRouterProps): ReactElement | null 
         activeTabIndex={homeStore.search.activeTabIndex || 0}
         onTabChange={async (index: number) => {
           homeStore.search.activeTabIndex = index || 0
-          await homeStore.getSearchList(0)
+          let obj = homeStore.searchTabsList.find((item: { [K: string]: any }, i: number) => index === i) || {}
+          await homeStore.getSearchList(0, 1, obj.tid || '0')
         }}
         getSwiperComponent={(key: string) => {
           return getComponentsHtml(key)

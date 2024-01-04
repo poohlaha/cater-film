@@ -70,7 +70,6 @@ const Search: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
   }
 
   const render = () => {
-    console.log('obj', homeStore.search)
     return (
       <div className="search-page flex-direction-column wh100 mark">
         <div className="page-wrapper wh100 flex-direction-column">

@@ -7,6 +7,7 @@ import React, { ReactElement, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import { useStore } from '@stores/index'
 import List from '@pages/home/list'
+import Utils from '@utils/utils'
 
 const Cartoon: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
   const { homeStore } = useStore()
@@ -14,9 +15,9 @@ const Cartoon: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
   useEffect(() => {
     if (homeStore.activeTabIndex === 3) {
       const fetchData = async () => {
-        homeStore.setDefaultNormalSort()
-        homeStore.normalSort.name = homeStore.tabsList[3].key || ''
-        await homeStore.getList(homeStore.normalSort || {})
+        homeStore.cartoon = Utils.deepCopy(homeStore.defaultObj)
+        homeStore.cartoon.normalSort.name = homeStore.tabsList[3].key || ''
+        await homeStore.getList(homeStore.cartoon.normalSort || {})
       }
 
       if (homeStore.cartoon.list.length === 0) {
@@ -28,8 +29,8 @@ const Cartoon: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
   const render = () => {
     return (
       <List
-        select={homeStore.getSelectObj() || {}}
         obj={homeStore.cartoon || {}}
+        select={homeStore.getSelectObj(homeStore.cartoon.normalSort || {}) || {}}
         tabsList={['useDefaultHotTab', 'useDefaultClassTab', 'useDefaultAreaTab', 'useDefaultYearTab']}
         classTab={homeStore.dmTabs}
         loading={homeStore.loading}

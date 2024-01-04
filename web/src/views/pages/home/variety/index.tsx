@@ -7,6 +7,7 @@ import React, { ReactElement, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import { useStore } from '@stores/index'
 import List from '@pages/home/list'
+import Utils from '@utils/utils'
 
 const Variety: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
   const { homeStore } = useStore()
@@ -14,9 +15,9 @@ const Variety: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
   useEffect(() => {
     if (homeStore.activeTabIndex === 4) {
       const fetchData = async () => {
-        homeStore.setDefaultNormalSort()
-        homeStore.normalSort.name = homeStore.tabsList[4].key || ''
-        await homeStore.getList(homeStore.normalSort || {})
+        homeStore.variety = Utils.deepCopy(homeStore.defaultObj)
+        homeStore.variety.normalSort.name = homeStore.tabsList[4].key || ''
+        await homeStore.getList(homeStore.variety.normalSort || {})
       }
 
       if (homeStore.variety.list.length === 0) {
@@ -29,7 +30,7 @@ const Variety: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
     return (
       <List
         obj={homeStore.variety || {}}
-        select={homeStore.getSelectObj() || {}}
+        select={homeStore.getSelectObj(homeStore.variety.normalSort || {}) || {}}
         tabsList={['useDefaultHotTab', 'useDefaultClassTab', 'useDefaultAreaTab', 'useDefaultYearTab']}
         classTab={homeStore.zyTabs}
         loading={homeStore.loading}

@@ -7,6 +7,7 @@ import React, { ReactElement, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import { useStore } from '@stores/index'
 import List from '@pages/home/list'
+import Utils from '@utils/utils'
 
 const Record: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
   const { homeStore } = useStore()
@@ -14,9 +15,9 @@ const Record: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
   useEffect(() => {
     if (homeStore.activeTabIndex === 6) {
       const fetchData = async () => {
-        homeStore.setDefaultNormalSort()
-        homeStore.normalSort.name = homeStore.tabsList[6].key || ''
-        await homeStore.getList(homeStore.normalSort || {})
+        homeStore.record = Utils.deepCopy(homeStore.defaultObj)
+        homeStore.record.normalSort.name = homeStore.tabsList[6].key || ''
+        await homeStore.getList(homeStore.record.normalSort || {})
       }
 
       if (homeStore.record.list.length === 0) {
@@ -29,7 +30,7 @@ const Record: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
     return (
       <List
         obj={homeStore.record || {}}
-        select={homeStore.getSelectObj() || {}}
+        select={homeStore.getSelectObj(homeStore.record.normalSort || {}) || {}}
         tabsList={['useDefaultHotTab', 'useDefaultClassTab', 'useDefaultAreaTab', 'useDefaultYearTab']}
         classTab={homeStore.jlTabs}
         loading={homeStore.loading}

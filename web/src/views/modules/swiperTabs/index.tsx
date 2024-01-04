@@ -20,11 +20,34 @@ interface IMSwiperTabsProps {
 const MSwiperTabs: React.FC<IMSwiperTabsProps> = (props: IMSwiperTabsProps): ReactElement | null => {
   const swiperRef = useRef<SwiperRef>(null)
 
+  // 防抖
+  const debounce = (fn: Function, delay: number = 300) => {
+    let timer: any = null
+    let handler = function () {
+      if (timer) {
+        clearTimeout(timer)
+      }
+
+      // @ts-ignore
+      let that = this
+      let args = arguments
+      timer = setTimeout(() => {
+        fn.apply(that, args)
+      }, delay)
+    }
+
+    // @ts-ignore
+    handler.cancel = () => {
+      if (timer) clearTimeout(timer)
+    }
+
+    return handler
+  }
+
   useEffect(() => {
     let tabDomList =
       document.querySelectorAll('.swiper-tab-content-box .adm-swiper-slide-active .adm-swiper-item') || null
     if (!tabDomList || tabDomList.length === 0) return
-    console.log(tabDomList)
 
     let tabDom: Element | null = null
     for (let i = 0; i < tabDomList.length; i++) {
@@ -39,7 +62,6 @@ const MSwiperTabs: React.FC<IMSwiperTabsProps> = (props: IMSwiperTabsProps): Rea
       tabDom = dom
     }
 
-    console.log(tabDom)
     let topDom = tabDom?.querySelector('.page-top') || null
     if (!topDom) return
 
@@ -47,19 +69,24 @@ const MSwiperTabs: React.FC<IMSwiperTabsProps> = (props: IMSwiperTabsProps): Rea
     if (!selectBoxDom) return
 
     let topRect = topDom.getBoundingClientRect() || {}
-    tabDom?.addEventListener('scroll', () => {
-      onScroll(topRect.height, tabDom?.scrollTop, selectBoxDom)
-    })
+    tabDom?.addEventListener(
+      'scroll',
+      debounce(() => {
+        onScroll(topRect.height, tabDom?.scrollTop, selectBoxDom)
+      }, 20)
+    )
 
     return () => {
-      tabDom?.removeEventListener('scroll', () => {
-        onScroll(topRect.height, tabDom?.scrollTop, selectBoxDom)
-      })
+      tabDom?.removeEventListener(
+        'scroll',
+        debounce(() => {
+          onScroll(topRect.height, tabDom?.scrollTop, selectBoxDom)
+        }, 20)
+      )
     }
   }, [props.activeTabIndex])
 
   const onScroll = (topHeight: number = 0, scrollTop: number = 0, selectBoxDom: null | Element = null) => {
-    console.log('scrollTop: ', scrollTop, 'topHeight: ', topHeight)
     let classList = selectBoxDom?.classList || []
     if (scrollTop < topHeight) {
       if (classList.length > 0) {
@@ -114,9 +141,6 @@ const MSwiperTabs: React.FC<IMSwiperTabsProps> = (props: IMSwiperTabsProps): Rea
           indicator={() => null}
           ref={swiperRef}
           defaultIndex={props.activeTabIndex || 0}
-          onIndexChange={(index: number) => {
-            props.onTabChange?.(index)
-          }}
         >
           {props.tabs.map((item: { [K: string]: any }) => {
             return (

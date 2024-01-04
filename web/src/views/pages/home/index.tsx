@@ -13,6 +13,7 @@ import Search from '@pages/home/search'
 import MSwiperTabs from '@views/modules/swiperTabs'
 import { getCurrent } from '@tauri-apps/api/window'
 import useMount from '@hooks/useMount'
+import Utils from '@utils/utils'
 
 // dynamic components
 const DramaSeries = lazy(() => import(/* webpackChunkName:'dramaSeries' */ '@pages/home/dramaSeries'))
@@ -175,6 +176,8 @@ const Home: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
             tabs={homeStore.tabsList || []}
             activeTabIndex={homeStore.activeTabIndex || 0}
             onTabChange={(index: number) => {
+              let obj = homeStore.tabsList.find((item: { [K: string]: any } = {}, i: number) => index === i) || {}
+              if (Utils.isObjectNull(obj)) return
               homeStore.setProperty('activeTabIndex', index)
             }}
             getSwiperComponent={(key: string) => {

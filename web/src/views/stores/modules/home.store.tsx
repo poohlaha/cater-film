@@ -20,6 +20,16 @@ class HomeStore extends BaseStore {
     totalCount: 0,
     totalPage: 0,
     list: [],
+    tid: '',
+    normalSort: {
+      name: '',
+      class: '',
+      area: '',
+      lang: '',
+      year: '',
+      sort: 'time',
+      page: 1,
+    },
   }
   @observable dramaSeries: { [K: string]: any } = Utils.deepCopy(this.defaultObj) // 剧集
   @observable movie: { [K: string]: any } = Utils.deepCopy(this.defaultObj) // 电影
@@ -628,7 +638,7 @@ class HomeStore extends BaseStore {
     {
       key: 'record',
       title: '记录',
-      tid: '25',
+      tid: '26',
     },
   ]
 
@@ -643,9 +653,6 @@ class HomeStore extends BaseStore {
     sort: 'time',
     page: 1,
   }
-
-  // 剧集 tabs 选择
-  @observable normalSort: { [K: string]: any } = Utils.deepCopy(this.defaultSort)
 
   @observable searchTabsList = Utils.deepCopy(this.tabsDefaultList)
   constructor() {
@@ -714,11 +721,6 @@ class HomeStore extends BaseStore {
   clearSearchHistory() {
     Utils.removeLocal(CONSTANT.HISTORY_TOKEN)
     this.searchHistoryList = []
-  }
-
-  @action
-  setDefaultNormalSort() {
-    this.normalSort = Utils.deepCopy(this.defaultSort)
   }
 
   /**
@@ -906,16 +908,16 @@ class HomeStore extends BaseStore {
   /**
    * 获取选中的数据
    */
-  getSelectObj() {
-    if (Utils.isObjectNull(this.normalSort || {})) return {}
-    let nameObj = this.tabsList.find((item: { [K: string]: any }) => item.key === this.normalSort.name) || {}
-    let sortObj = this.newTabs.find((item: { [K: string]: any }) => item.key === this.normalSort.sort) || {}
+  getSelectObj(normalSort: { [K: string]: any } = {}) {
+    if (Utils.isObjectNull(normalSort || {})) return {}
+    let nameObj = this.tabsList.find((item: { [K: string]: any }) => item.key === normalSort.name) || {}
+    let sortObj = this.newTabs.find((item: { [K: string]: any }) => item.key === normalSort.sort) || {}
 
     return {
       name: nameObj.title || '',
-      class: decodeURIComponent(this.normalSort.class || ''),
-      area: decodeURIComponent(this.normalSort.area || ''),
-      year: this.normalSort.year || '',
+      class: decodeURIComponent(normalSort.class || ''),
+      area: decodeURIComponent(normalSort.area || ''),
+      year: normalSort.year || '',
       sort: sortObj.title || '',
     }
   }
@@ -954,7 +956,7 @@ class HomeStore extends BaseStore {
   }
 
   @action
-  async getSearchList(refreshIndex: number = 0, page: number = 1) {
+  async getSearchList(refreshIndex: number = 0, page: number = 1, tid: string = '0') {
     let obj = this.getSearchObj() || {}
     if (Utils.isObjectNull(obj)) {
       return
@@ -967,6 +969,7 @@ class HomeStore extends BaseStore {
 
     let currentPage = page || 1
     obj.currentPage = currentPage
+    obj.tid = tid || '0'
     await this.getList(
       {
         name: 'search',

@@ -32,9 +32,12 @@ const List: React.FC<IListProps> = (props: IListProps): ReactElement | null => {
     return {
       tabs: homeStore.newTabs || [],
       onChange: async (obj: { [K: string]: any } = {}) => {
-        homeStore.normalSort.page = 1
-        homeStore.normalSort.sort = obj.key || ''
-        await homeStore.getList(homeStore.normalSort || {})
+        // @ts-ignore
+        homeStore[props.name || ''].normalSort.page = 1
+        // @ts-ignore
+        homeStore[props.name || ''].normalSort.sort = obj.key || ''
+        // @ts-ignore
+        await homeStore.getList(homeStore[props.name || ''].normalSort || {})
       },
     }
   }
@@ -47,9 +50,12 @@ const List: React.FC<IListProps> = (props: IListProps): ReactElement | null => {
         if (obj.key === 'all') {
           text = ''
         }
-        homeStore.normalSort.page = 1
-        homeStore.normalSort.area = encodeURIComponent(text) || ''
-        await homeStore.getList(homeStore.normalSort || {})
+        // @ts-ignore
+        homeStore[props.name || ''].normalSort.page = 1
+        // @ts-ignore
+        homeStore[props.name || ''].normalSort.area = encodeURIComponent(text) || ''
+        // @ts-ignore
+        await homeStore.getList(homeStore[props.name || ''].normalSort || {})
       },
     }
   }
@@ -66,9 +72,13 @@ const List: React.FC<IListProps> = (props: IListProps): ReactElement | null => {
         if (obj.key === 'all') {
           text = ''
         }
-        homeStore.normalSort.page = 1
-        homeStore.normalSort.class = encodeURIComponent(text) || ''
-        await homeStore.getList(homeStore.normalSort || {})
+
+        // @ts-ignore
+        homeStore[props.name || ''].normalSort.page = 1
+        // @ts-ignore
+        homeStore[props.name || ''].normalSort.class = encodeURIComponent(text) || ''
+        // @ts-ignore
+        await homeStore.getList(homeStore[props.name || ''].normalSort || {})
       },
     }
   }
@@ -81,9 +91,13 @@ const List: React.FC<IListProps> = (props: IListProps): ReactElement | null => {
         if (obj.key === 'all') {
           text = ''
         }
-        homeStore.normalSort.page = 1
-        homeStore.normalSort.year = text || ''
-        await homeStore.getList(homeStore.normalSort || {})
+
+        // @ts-ignore
+        homeStore[props.name || ''].normalSort.page = 1
+        // @ts-ignore
+        homeStore[props.name || ''].normalSort.year = text || ''
+        // @ts-ignore
+        await homeStore.getList(homeStore[props.name || ''].normalSort || {})
       },
     }
   }
@@ -100,19 +114,23 @@ const List: React.FC<IListProps> = (props: IListProps): ReactElement | null => {
         if (obj.key === 'all') {
           text = ''
         }
-        homeStore.normalSort.page = 1
-        homeStore.normalSort.lang = encodeURIComponent(text) || ''
-        await homeStore.getList(homeStore.normalSort || {})
+
+        // @ts-ignore
+        homeStore[props.name || ''].normalSort.page = 1
+        // @ts-ignore
+        homeStore[props.name || ''].normalSort.lang = encodeURIComponent(text) || ''
+        // @ts-ignore
+        await homeStore.getList(homeStore[props.name || ''].normalSort || {})
       },
     }
   }
 
   /**
-   *  useDefaultHotTab?: boolean
-   *  useDefaultAreaTab?: boolean
-   *  useDefaultClassTab?: boolean
-   *  useDefaultLangTab?: boolean
-   *  useDefaultYearTab?: boolean
+   *  useDefaultHotTab: boolean
+   *  useDefaultAreaTab: boolean
+   *  useDefaultClassTab: boolean
+   *  useDefaultLangTab: boolean
+   *  useDefaultYearTab: boolean
    */
   const getTabsList = () => {
     let tabsList = props.tabsList || []
@@ -140,6 +158,7 @@ const List: React.FC<IListProps> = (props: IListProps): ReactElement | null => {
   }
 
   const getListHtml = () => {
+    if (props.loading) return null
     if (Utils.isObjectNull(props.obj || {})) {
       return <NoData text="抱歉，没有找到相关影片~" />
     }
@@ -172,7 +191,8 @@ const List: React.FC<IListProps> = (props: IListProps): ReactElement | null => {
     return (
       <Refresh
         onRefresh={async () => {
-          await homeStore.getList(homeStore.normalSort || {}, 1)
+          // @ts-ignore
+          await homeStore.getList(homeStore[props.name || ''].normalSort || {}, 1)
         }}
       >
         <div className={`page-swiper page-box wh100 flex-direction-column ${props.className || ''}`}>
@@ -220,9 +240,13 @@ const List: React.FC<IListProps> = (props: IListProps): ReactElement | null => {
 
                     let list = props.obj.list || []
                     if (list.length === 0) return
-                    homeStore.normalSort.page += 1
-                    homeStore.normalSort.name = props.name
-                    await homeStore.getList(homeStore.normalSort || {}, 2)
+
+                    // @ts-ignore
+                    homeStore[props.name || ''].normalSort.page += 1
+                    // @ts-ignore
+                    homeStore[props.name || ''].normalSort.name = props.name
+                    // @ts-ignore
+                    await homeStore.getList(homeStore[props.name || ''].normalSort || {}, 2)
                   }}
                   threshold={150}
                   hasMore={hasMore()}

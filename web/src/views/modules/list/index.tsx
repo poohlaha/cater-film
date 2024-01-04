@@ -11,7 +11,6 @@
 import React, { ReactElement } from 'react'
 import { observer } from 'mobx-react-lite'
 import { Image } from 'antd-mobile'
-import MScrollTop from '@views/modules/scrollTop'
 
 interface IMSwiperBarProps {
   list: Array<{ [K: string]: any }>
