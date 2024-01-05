@@ -11,11 +11,14 @@ import Loading from '@views/components/loading/loading'
 import useMount from '@hooks/useMount'
 import Utils from '@utils/utils'
 import {Tabs, Popup} from 'antd-mobile'
+import MHeaderBar from '@views/components/headerBar'
+import {useNavigate} from 'react-router-dom'
 
 const Detail: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
-  const { homeStore } = useStore()
+    const { homeStore } = useStore()
     const [popupVisible, setPopupVisible] = useState(false)
     const [popupInfoVisible, setPopupInfoVisible] = useState(false)
+    const navigate = useNavigate()
 
     const getMockData = () => {
       let arr = []
@@ -44,6 +47,9 @@ const Detail: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
     const render = () => {
         return (
             <div className="detail-page wh100 flex-direction-column">
+                {/*  header bar */}
+                <MHeaderBar text="标题" onBack={() => {navigate(-1)}} />
+
                 {/* video */}
                 <div className="video">
 
@@ -122,7 +128,7 @@ const Detail: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
                 {/* 简介 Popup */}
                 <Popup
                     getContainer={() => document.querySelector('.detail-page') || document.body}
-                    className="detail-select-more-popup" visible={popupInfoVisible} onClose={() => setPopupInfoVisible(false)}>
+                    className="detail-select-more-popup detail-jianjie-popup" visible={popupInfoVisible} onClose={() => setPopupInfoVisible(false)}>
                     <div className="select-mores-popup card card-no-padding">
                         <div className="title flex-jsc-between flex-align-center">
                             <p className="font-medium">近战法师</p>
@@ -146,30 +152,29 @@ const Detail: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
                                 */}
                             </div>
 
-                            <div className="desc-item">
-                                <p>导演:</p>
+                            <div className="desc-item flex card-top-margin">
+                                <p className="card-right-margin">导演:</p>
                                 <p>周靖韬，邹曦</p>
                             </div>
-                            <div className="desc-item">
-                                <p>主演:</p>
+                            <div className="desc-item flex card-top-margin">
+                                <p className="card-right-margin">主演:</p>
                                 <p>刘诗诗，刘宇宁，方逸伦，何蓝逗，陈昊宇，常华森，陈宥维，王一哲，陈都灵，陈小纭，黄梦莹，张芷溪</p>
                             </div>
-                            <div className="desc-item">
-                                <p>类型:</p>
+                            <div className="desc-item flex card-top-margin">
+                                <p className="card-right-margin">类型:</p>
                                 <p>普通话，古装，电视，大陆，国产，动作，内地，连续，战争，情，集</p>
                             </div>
-                            <div className="desc-item">
-                                <p>地区:</p>
+                            <div className="desc-item flex card-top-margin">
+                                <p className="card-right-margin">地区:</p>
                                 <p>大陆</p>
                             </div>
-                            <div className="desc-item">
-                                <p>年代:</p>
+                            <div className="desc-item flex card-top-margin">
+                                <p className="card-right-margin">年代:</p>
                                 <p>2023</p>
                             </div>
                         </div>
 
-                        <div className="video-info flex-direction-column card-top-margin">
-                            <p className="font-medium">近战法师</p>
+                        <div className="video-info flex-direction-column">
                             <p className="card-top-margin">
                                 新云洗绯色，黄沙漫漫红衣长。江湖行远舟，关山阵阵万重霜。柠萌影业出品，原创古装传奇剧《一念关山》讲述安国朱衣卫前左使任如意因机缘巧合成为梧国迎帝使小分队成员，和梧国六道堂堂主宁远舟、风流浪子于十三、公主杨盈、聪敏少年元禄、御前侍卫钱昭等人经历生死，共同成长的故事。
                             </p>

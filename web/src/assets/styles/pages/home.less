@@ -16,13 +16,12 @@
       top: 0;
       background: @background;
       font-size: @font_small;
-      z-index: -99;
-      opacity: 0;
+      display: none;
     }
 
     .select-box.show {
       z-index: 99;
-      opacity: 1;
+      display: flex;
     }
   }
 
@@ -384,5 +383,32 @@
         width: 2rem !important;
       }
     }
+  }
+}
+
+.header-bar {
+  height: 1.5rem;
+  padding: 0 0.4rem;
+  border-bottom: @border_theme;
+  position: relative;
+  background: @theme;
+  color: @background;
+
+  .back {
+    position: absolute;
+    left: 0.4rem;
+    width: 0.5rem;
+    height: 0.5rem;
+  }
+
+  .center {
+    p {
+      font-size: @font_large;
+    }
+  }
+
+  .header-right {
+    position: absolute;
+    right: 0.5rem;
   }
 }

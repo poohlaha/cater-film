@@ -125,7 +125,7 @@ const MSwiperTabs: React.FC<IMSwiperTabsProps> = (props: IMSwiperTabsProps): Rea
                   } = {}
                 ) => item.key === key
               ) || 0
-            props.onTabChange?.(index)
+            // props.onTabChange?.(index)
             swiperRef.current?.swipeTo(index)
           }}
         >
@@ -141,6 +141,9 @@ const MSwiperTabs: React.FC<IMSwiperTabsProps> = (props: IMSwiperTabsProps): Rea
           indicator={() => null}
           ref={swiperRef}
           defaultIndex={props.activeTabIndex || 0}
+          onIndexChange={index => {
+            props.onTabChange?.(index)
+          }}
         >
           {props.tabs.map((item: { [K: string]: any }) => {
             return (

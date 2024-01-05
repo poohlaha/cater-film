@@ -4,6 +4,7 @@
  * @author poohlaha
  */
 @video_height: 5rem;
+@video_header_bar_height: 1.5rem;
 
 .detail-page {
   background: @background;
@@ -76,7 +77,7 @@
 
   .detail-select-more-popup {
     .adm-popup-body {
-      height: calc(100% - @video_height);
+      height: calc(100% - @video_height - @video_header_bar_height);
     }
 
     .adm-mask {
@@ -120,6 +121,14 @@
       .more-item:nth-child(6n) {
         margin-right: 0 !important;
       }
+    }
+  }
+
+  .detail-jianjie-popup {
+    .video-info {
+      margin-top: 0.5rem;
+      border-top: @border;
+      padding: 0.25rem 0;
     }
   }
 }
