@@ -1,13 +1,11 @@
 //! 首页
 
-use std::path::PathBuf;
 use crate::config::{Conf, get_conf, Home as HomeConf};
 use crate::error::Error;
 use crate::prepare::{HttpResponse, HttpSendRequest, Prepare};
-use crate::process::{Order, Process};
+use crate::process::{Order};
 use async_trait::async_trait;
 use log::error;
-use tauri::AppHandle;
 
 pub struct Home;
 
@@ -15,7 +13,7 @@ pub const NAMES: [&str; 8] = ["recommend", "dramaSeries", "movie", "cartoon", "v
 
 #[async_trait]
 impl Prepare<HttpResponse> for Home {
-    async fn prepare(app: &AppHandle, _: &str, order: Order) -> Result<Vec<HttpResponse>, String> {
+    async fn prepare(_: &str, order: Order) -> Result<Vec<HttpResponse>, String> {
         let conf = get_conf();
         if conf.is_none() {
             return Err(Error::convert_string("analyze `conf.toml` error !"));
@@ -25,15 +23,10 @@ impl Prepare<HttpResponse> for Home {
             let mut request = HttpSendRequest::default();
             request.name = order.name.to_string();
 
-            // let images_path = Process::get_image_dir(app)?;
-            // let tmp_dir = Process::get_tmp_dir(app)?;
-            let images_path = PathBuf::new();
-            let tmp_path = PathBuf::new();
-
             // recommend
             if let Some(name) = Self::get_name_by_index(0).ok() {
                 if &order.name == name {
-                    return Self::prepare_recommend(request, &conf.domain, &conf.home, &images_path, &tmp_path).await;
+                    return Self::prepare_recommend(request, &conf.domain, &conf.home).await;
                 }
             }
 
@@ -45,7 +38,7 @@ impl Prepare<HttpResponse> for Home {
                 return Ok(Vec::new());
             }
 
-            return Self::prepare_normal(request, &conf.domain, order.clone(), &order.name, &method, &url, &images_path, &tmp_path).await;
+            return Self::prepare_normal(request, &conf.domain, order.clone(), &order.name, &method, &url).await;
         }
 
         return Ok(Vec::new());
@@ -57,8 +50,6 @@ impl Home {
         request: HttpSendRequest,
         domain: &str,
         urls: Vec<(HttpSendRequest, Option<Order>)>,
-        images_path: &PathBuf,
-        tmp_path: &PathBuf
     ) -> Result<Vec<HttpResponse>, String> {
         let mut requests: Vec<HttpSendRequest> = Vec::new();
         urls.iter().for_each(|(req, order)| {
@@ -79,11 +70,11 @@ impl Home {
             requests.push(request)
         });
 
-        Self::send(requests, images_path, tmp_path).await
+        Self::send(requests).await
     }
 
     /// 推荐列表
-    async fn prepare_recommend(request: HttpSendRequest, domain: &str, conf: &HomeConf, images_path: &PathBuf, tmp_path: &PathBuf) -> Result<Vec<HttpResponse>, String> {
+    async fn prepare_recommend(request: HttpSendRequest, domain: &str, conf: &HomeConf) -> Result<Vec<HttpResponse>, String> {
         let mut banner_request = request.clone();
         banner_request.method = Some("GET".to_string());
         banner_request.url = conf.banner_url.clone();
@@ -100,7 +91,7 @@ impl Home {
         list.push((recommend_request, None));
 
         // 发送请求
-        Self::prepare_request(request, &domain, list, images_path, tmp_path).await
+        Self::prepare_request(request, &domain, list).await
     }
 
     /// 发送数据
@@ -110,15 +101,13 @@ impl Home {
         order: Order,
         name: &str,
         method: &str,
-        url: &str,
-        images_path: &PathBuf,
-        tmp_path: &PathBuf
+        url: &str
     ) -> Result<Vec<HttpResponse>, String> {
         let mut http_request = request.clone();
         http_request.name = name.to_string();
         http_request.method = Some(method.to_string());
         http_request.url = url.to_string();
-        Self::prepare_request(request, domain, vec![(http_request, Some(order))], images_path, tmp_path).await
+        Self::prepare_request(request, domain, vec![(http_request, Some(order))]).await
     }
 
     /// 获取 URL

@@ -1,12 +1,6 @@
-mod config;
-mod error;
-mod home;
-mod prepare;
-mod process;
-mod utils;
-mod rank;
 
-use tauri::Manager;
+mod process;
+
 use process::handle;
 use process::get_setting_window;
 

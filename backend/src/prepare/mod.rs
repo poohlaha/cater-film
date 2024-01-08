@@ -10,7 +10,6 @@ use crate::process::Order;
 use async_trait::async_trait;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
-use std::path::PathBuf;
 
 #[derive(Default, Debug, Clone, Serialize, Deserialize)]
 pub struct HttpResponse {
@@ -38,9 +37,9 @@ pub trait Prepare<R>
 where
     R: HttpResponseData,
 {
-    async fn send(params: Vec<HttpSendRequest>, images_path: &PathBuf, tmp_path: &PathBuf) -> Result<Vec<HttpResponse>, String> {
-        Request::send_batch::<R>(params, images_path, tmp_path).await
+    async fn send(params: Vec<HttpSendRequest>) -> Result<Vec<HttpResponse>, String> {
+        Request::send_batch::<R>(params).await
     }
 
-    async fn prepare(app: &tauri::AppHandle, name: &str, order: Order) -> Result<Vec<HttpResponse>, String>;
+    async fn prepare(name: &str, order: Order) -> Result<Vec<HttpResponse>, String>;
 }

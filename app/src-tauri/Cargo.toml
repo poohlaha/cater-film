@@ -22,6 +22,7 @@ thiserror = "1.0"
 toml = "0.8"
 log = "0.4"
 async-trait = "0.1"
+backend = {path = "../../backend"}
 futures = { version = "0.3", default-features = false }
 serde = { version = "1.0.193", features = ["derive"] }
 tauri = { version = "2.0.0-alpha", features = [] }
