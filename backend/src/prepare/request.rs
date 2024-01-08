@@ -5,14 +5,13 @@ use crate::prepare::{HttpResponse, HttpResponseData, HttpSendRequest};
 use futures::future::join_all;
 use serde_json::Value;
 use std::collections::HashMap;
-use log::info;
-use tauri::async_runtime::spawn;
+use std::sync::Arc;
 
 pub struct Request;
 
 impl Request {
     /// 发送请求
-    async fn send(param: HttpSendRequest) -> HttpResponse {
+    async fn send(param: &HttpSendRequest) -> HttpResponse {
         let opts = request_http::options::Options {
             url: param.url.clone(),
             method: param.method.clone(),
@@ -37,9 +36,11 @@ impl Request {
     }
 
     /// 批量发送请求
-    pub(crate) async fn send_batch<R>(params: Vec<HttpSendRequest>) -> Result<Vec<HttpResponse>, String>
-        where
-            R: HttpResponseData,
+    pub(crate) async fn send_batch<R>(
+        params: Vec<HttpSendRequest>,
+    ) -> Result<Vec<HttpResponse>, String>
+    where
+        R: HttpResponseData,
     {
         if params.len() == 0 {
             return Err(Error::convert_string("params is empty !"));
@@ -52,7 +53,10 @@ impl Request {
     pub(crate) async fn task(params: &Vec<HttpSendRequest>) -> Vec<HttpResponse> {
         let mut tasks = Vec::new();
         for param in params.clone() {
-            tasks.push(spawn(async move { Self::send(param.clone()).await }));
+            let param_cloned = Arc::new(param.clone());
+            tasks.push(tokio::spawn(
+                async move { Self::send(&*param_cloned).await },
+            ));
         }
 
         let mut response_list: Vec<HttpResponse> = Vec::new();
@@ -60,7 +64,10 @@ impl Request {
         for (i, result) in results.iter().enumerate() {
             if result.is_err() {
                 let name = params.get(i).unwrap().name.as_str();
-                let response = Self::get_error_response(name, result.as_ref().err().unwrap().to_string().as_str());
+                let response = Self::get_error_response(
+                    name,
+                    result.as_ref().err().unwrap().to_string().as_str(),
+                );
                 response_list.push(response);
                 continue;
             }

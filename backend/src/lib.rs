@@ -4,14 +4,14 @@ mod error;
 mod home;
 mod prepare;
 mod process;
-mod utils;
 mod rank;
+mod utils;
 
 pub mod exports;
 
 pub mod prelude {
     pub use crate::error::*;
+    pub use crate::prepare::HttpResponse;
     pub use crate::process::*;
     pub use crate::utils::*;
-    pub use crate::prepare::HttpResponse;
 }

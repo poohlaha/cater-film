@@ -30,7 +30,10 @@ pub struct HttpSendRequest {
 
 impl HttpResponseData for HttpResponse {}
 
-pub trait HttpResponseData: Default + Debug + Clone + Serialize + DeserializeOwned + 'static {}
+pub trait HttpResponseData:
+    Default + Debug + Clone + Serialize + DeserializeOwned + 'static
+{
+}
 
 #[async_trait]
 pub trait Prepare<R>

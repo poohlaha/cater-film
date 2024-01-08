@@ -3,9 +3,9 @@
 use crate::error::Error;
 use crate::home::Home;
 use crate::prepare::{HttpResponse, Prepare};
+use crate::rank::Rank;
 use async_trait::async_trait;
 use serde::{Deserialize, Serialize};
-use crate::rank::Rank;
 
 pub struct Process;
 
@@ -21,7 +21,7 @@ pub struct Order {
     pub(crate) sort: String,
     pub(crate) page: u64,
     pub(crate) tid: String,
-    pub(crate) text: String
+    pub(crate) text: String,
 }
 
 #[async_trait]
@@ -42,7 +42,10 @@ impl Prepare<HttpResponse> for Process {
             return Rank::prepare(name, order).await;
         }
 
-        Err(Error::convert_string(&format!("cant not find name by name: {}", name)))
+        Err(Error::convert_string(&format!(
+            "cant not find name by name: {}",
+            name
+        )))
     }
 }
 
@@ -50,10 +53,9 @@ impl Process {
     /// 根据索引获取名字
     fn find_name_by_index(name: &str, index: usize) -> bool {
         if let Some(n) = NAMES.get(index) {
-            return &name == n
+            return &name == n;
         }
 
-        return false
+        return false;
     }
 }
-

@@ -41,6 +41,10 @@ class HomeStore extends BaseStore {
   @observable searchHistoryList: Array<string> = [] // 搜索历史记录
   readonly MAX_SEARCH_HISTORY_COUNT = 10
   @observable scrollLoading: boolean = false // 滚动 loading 条
+  @observable queryParams = {
+    index: 0,
+    ...Utils.deepCopy(this.defaultObj)
+  }
 
   // search
   readonly defaultSearch: { [K: string]: any } = {
@@ -665,6 +669,13 @@ class HomeStore extends BaseStore {
       title: '全部',
       tid: '0',
     })
+
+    window.onHandleResult = (results: Array<{[K: string]: any}> = []) => {
+      this.loading = false
+      this.scrollLoading = false
+      console.log(results)
+      this.handleResponse(results, this.queryParams.name, this.queryParams.index)
+    }
   }
 
   /**
@@ -752,7 +763,7 @@ class HomeStore extends BaseStore {
         }
       }
 
-      await info(`send params: ${JSON.stringify(params || {})}`)
+      // await info(`send params: ${JSON.stringify(params || {})}`)
 
       let currentPage = params.page || 1
       if (index !== 2) {
@@ -779,8 +790,23 @@ class HomeStore extends BaseStore {
       queryParams.tid = params.tid || ''
       queryParams.text = params.text || ''
 
+      this.queryParams = {
+        ...queryParams,
+        index
+      }
+
       console.log('query params:', queryParams)
-      let results: Array<{ [K: string]: any }> = await invoke('handle', { name: 'HOME', order: queryParams })
+      // let results: Array<{ [K: string]: any }>
+      let results: Array<{ [K: string]: any }> = []
+      // @ts-ignore
+      if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.invoke) {
+        // @ts-ignore
+        window.webkit.messageHandlers.invoke.postMessage({ name: 'HOME', order: queryParams });
+        return
+      } else {
+        results = await invoke('handle', { name: 'HOME', order: queryParams })
+      }
+
       if (index === 0) {
         this.loading = false
       }

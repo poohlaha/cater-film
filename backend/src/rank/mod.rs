@@ -1,10 +1,10 @@
 //! 排行版
 
-use async_trait::async_trait;
 use crate::config::get_conf;
 use crate::error::Error;
 use crate::prepare::{HttpResponse, HttpSendRequest, Prepare};
-use crate::process::{Order};
+use crate::process::Order;
+use async_trait::async_trait;
 
 pub struct Rank;
 
@@ -24,7 +24,7 @@ impl Prepare<HttpResponse> for Rank {
 
             // let images_path = Process::get_image_dir(app)?;
             // let tmp_path = Process::get_tmp_dir(app)?;
-            return Self::send(vec![request]).await
+            return Self::send(vec![request]).await;
         }
 
         return Ok(Vec::new());
@@ -32,7 +32,6 @@ impl Prepare<HttpResponse> for Rank {
 }
 
 impl Rank {
-
     /// 准备 URL
     fn prepare_url(domain: &str, url: &str, id: u64) -> String {
         let mut request_url = String::from(domain);

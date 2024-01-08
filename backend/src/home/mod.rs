@@ -1,15 +1,24 @@
 //! 首页
 
-use crate::config::{Conf, get_conf, Home as HomeConf};
+use crate::config::{get_conf, Conf, Home as HomeConf};
 use crate::error::Error;
 use crate::prepare::{HttpResponse, HttpSendRequest, Prepare};
-use crate::process::{Order};
+use crate::process::Order;
 use async_trait::async_trait;
 use log::error;
 
 pub struct Home;
 
-pub const NAMES: [&str; 8] = ["recommend", "dramaSeries", "movie", "cartoon", "variety", "children", "record", "search"];
+pub const NAMES: [&str; 8] = [
+    "recommend",
+    "dramaSeries",
+    "movie",
+    "cartoon",
+    "variety",
+    "children",
+    "record",
+    "search",
+];
 
 #[async_trait]
 impl Prepare<HttpResponse> for Home {
@@ -38,7 +47,15 @@ impl Prepare<HttpResponse> for Home {
                 return Ok(Vec::new());
             }
 
-            return Self::prepare_normal(request, &conf.domain, order.clone(), &order.name, &method, &url).await;
+            return Self::prepare_normal(
+                request,
+                &conf.domain,
+                order.clone(),
+                &order.name,
+                &method,
+                &url,
+            )
+            .await;
         }
 
         return Ok(Vec::new());
@@ -74,7 +91,11 @@ impl Home {
     }
 
     /// 推荐列表
-    async fn prepare_recommend(request: HttpSendRequest, domain: &str, conf: &HomeConf) -> Result<Vec<HttpResponse>, String> {
+    async fn prepare_recommend(
+        request: HttpSendRequest,
+        domain: &str,
+        conf: &HomeConf,
+    ) -> Result<Vec<HttpResponse>, String> {
         let mut banner_request = request.clone();
         banner_request.method = Some("GET".to_string());
         banner_request.url = conf.banner_url.clone();
@@ -101,7 +122,7 @@ impl Home {
         order: Order,
         name: &str,
         method: &str,
-        url: &str
+        url: &str,
     ) -> Result<Vec<HttpResponse>, String> {
         let mut http_request = request.clone();
         http_request.name = name.to_string();
