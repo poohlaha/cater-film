@@ -1,0 +1,12 @@
+/Users/smile/workspace/rust/cater-film/backend/target/x86_64-apple-ios/release/deps/libcolored-2a5f8bfc9297d864.rmeta: /Users/smile/.cargo/registry/src/github.com-1ecc6299db9ec823/colored-2.1.0/src/lib.rs /Users/smile/.cargo/registry/src/github.com-1ecc6299db9ec823/colored-2.1.0/src/color.rs /Users/smile/.cargo/registry/src/github.com-1ecc6299db9ec823/colored-2.1.0/src/control.rs /Users/smile/.cargo/registry/src/github.com-1ecc6299db9ec823/colored-2.1.0/src/error.rs /Users/smile/.cargo/registry/src/github.com-1ecc6299db9ec823/colored-2.1.0/src/style.rs /Users/smile/.cargo/registry/src/github.com-1ecc6299db9ec823/colored-2.1.0/src/customcolors.rs
+
+/Users/smile/workspace/rust/cater-film/backend/target/x86_64-apple-ios/release/deps/libcolored-2a5f8bfc9297d864.rlib: /Users/smile/.cargo/registry/src/github.com-1ecc6299db9ec823/colored-2.1.0/src/lib.rs /Users/smile/.cargo/registry/src/github.com-1ecc6299db9ec823/colored-2.1.0/src/color.rs /Users/smile/.cargo/registry/src/github.com-1ecc6299db9ec823/colored-2.1.0/src/control.rs /Users/smile/.cargo/registry/src/github.com-1ecc6299db9ec823/colored-2.1.0/src/error.rs /Users/smile/.cargo/registry/src/github.com-1ecc6299db9ec823/colored-2.1.0/src/style.rs /Users/smile/.cargo/registry/src/github.com-1ecc6299db9ec823/colored-2.1.0/src/customcolors.rs
+
+/Users/smile/workspace/rust/cater-film/backend/target/x86_64-apple-ios/release/deps/colored-2a5f8bfc9297d864.d: /Users/smile/.cargo/registry/src/github.com-1ecc6299db9ec823/colored-2.1.0/src/lib.rs /Users/smile/.cargo/registry/src/github.com-1ecc6299db9ec823/colored-2.1.0/src/color.rs /Users/smile/.cargo/registry/src/github.com-1ecc6299db9ec823/colored-2.1.0/src/control.rs /Users/smile/.cargo/registry/src/github.com-1ecc6299db9ec823/colored-2.1.0/src/error.rs /Users/smile/.cargo/registry/src/github.com-1ecc6299db9ec823/colored-2.1.0/src/style.rs /Users/smile/.cargo/registry/src/github.com-1ecc6299db9ec823/colored-2.1.0/src/customcolors.rs
+
+/Users/smile/.cargo/registry/src/github.com-1ecc6299db9ec823/colored-2.1.0/src/lib.rs:
+/Users/smile/.cargo/registry/src/github.com-1ecc6299db9ec823/colored-2.1.0/src/color.rs:
+/Users/smile/.cargo/registry/src/github.com-1ecc6299db9ec823/colored-2.1.0/src/control.rs:
+/Users/smile/.cargo/registry/src/github.com-1ecc6299db9ec823/colored-2.1.0/src/error.rs:
+/Users/smile/.cargo/registry/src/github.com-1ecc6299db9ec823/colored-2.1.0/src/style.rs:
+/Users/smile/.cargo/registry/src/github.com-1ecc6299db9ec823/colored-2.1.0/src/customcolors.rs:

@@ -17,6 +17,13 @@ export const routes: RouteInterface[] = [
     title: '首页',
   },
   {
+    path: "/",
+    exact: true,
+    component: lazy(() => import(/* webpackChunkName:'dashboard' */ '@pages/dashboard/index')),
+    auth: false,
+    title: '首页',
+  },
+  {
     path: RouterUrls.DASHBOARD_URL,
     exact: true,
     component: lazy(() => import(/* webpackChunkName:'dashboard' */ '@pages/dashboard/index')),
