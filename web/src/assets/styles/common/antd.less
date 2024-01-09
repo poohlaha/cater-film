@@ -264,3 +264,38 @@
     }
   }
 }
+
+// adm-list
+.adm-list {
+  .adm-list-body {
+    font-size: @font;
+
+    .adm-list-item {
+      padding: 0;
+
+      .adm-list-item-content {
+        padding: 0.4rem;
+        height: 100%;
+
+        .adm-list-item-content-main {
+          padding: 0;
+        }
+
+        .adm-list-item-content-arrow {
+          width: 0.4rem;
+          height: 0.4rem;
+
+          svg {
+            width: 100% !important;
+            height: 100% !important;
+          }
+        }
+
+        .adm-list-item-content-extra {
+          padding-left: 0.25rem;
+          font-size: @font_smaller;
+        }
+      }
+    }
+  }
+}

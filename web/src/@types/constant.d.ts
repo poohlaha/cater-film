@@ -17,6 +17,8 @@ declare const $http: any // http
 
 declare global {
   interface Window {
-    Prism: any
+    Prism: any,
+    webkit: any
   }
+
 }

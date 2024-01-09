@@ -670,6 +670,8 @@ class HomeStore extends BaseStore {
       tid: '0',
     })
 
+    // ios 回调
+    // @ts-ignore
     window.onHandleResult = (results: Array<{[K: string]: any}> = []) => {
       this.loading = false
       this.scrollLoading = false
@@ -1007,9 +1009,17 @@ class HomeStore extends BaseStore {
     )
   }
 
+  /**
+   * 添加 Setting 对话框
+   */
   @action
- async openSettingWindow() {
-    await invoke('get_setting_window')
+  onOpenSettingDialog() {
+    if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.onOpenSettingDialog) {
+      console.log('open setting dialog !')
+      window.webkit.messageHandlers.onOpenSettingDialog.postMessage({})
+    } else {
+      TOAST.show({message: '打开设置对话框失败 !', type: 4})
+    }
   }
 }
 

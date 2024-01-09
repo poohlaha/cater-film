@@ -12,12 +12,13 @@ struct MainView: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: UIViewType, context: Context) {}
-    
 
 }
 
-class WebViewModel: NSObject, ObservableObject, WKScriptMessageHandler {
+class MainWebViewModel: NSObject, ObservableObject, WKScriptMessageHandler, WKNavigationDelegate {
     let webView: WKWebView
+    
+    @Published var isSettingViewVisible = false
     
     override init() {
         let pres = WKWebpagePreferences()
@@ -26,6 +27,7 @@ class WebViewModel: NSObject, ObservableObject, WKScriptMessageHandler {
         let config = WKWebViewConfiguration()
         config.defaultWebpagePreferences = pres
         config.allowsInlineMediaPlayback = false // 禁止设备旋转
+        config.preferences.setValue(true, forKey: "allowFileAccessFromFileURLs") // 解决 web 同源策略问题
         self.webView = WKWebView(frame: .zero, configuration: config)
         
         // 调用父类的构造函数
@@ -38,17 +40,17 @@ class WebViewModel: NSObject, ObservableObject, WKScriptMessageHandler {
         // 禁止整个 webview 下拉
         webView.allowsBackForwardNavigationGestures = true
         webView.scrollView.isScrollEnabled = true
+        webView.navigationDelegate = self
+        webView.configuration.userContentController.add(self, name: "invoke")
+        webView.configuration.userContentController.add(self, name: "onOpenSettingDialog")
         
         #if DEBUG
             let url = URL(string: "http://localhost:9999")!
             webView.load(URLRequest(url: url))
-            webView.configuration.userContentController.add(self, name: "invoke")
         #else
         // 在生产环境使用本地目录
-        if let path = Bundle.main.path(forResource: "dist/index", ofType: "html") {
-            let htmlString = try! String(contentsOfFile: path, encoding: .utf8)
-            let baseURL = URL(fileURLWithPath: path)
-            webView.loadHTMLString(htmlString, baseURL: baseURL)
+        if let url = Bundle.main.url(forResource: "dist/index", withExtension: "html") {
+            webView.loadFileURL(url, allowingReadAccessTo: url.deletingLastPathComponent())
         }
         #endif
         
@@ -58,6 +60,7 @@ class WebViewModel: NSObject, ObservableObject, WKScriptMessageHandler {
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         let request = Request()
         
+        // http 请求
         if message.name == "invoke", let body = message.body as? [String: Any] {
             // 处理来自 JavaScript 的消息
            print("Received message from JavaScript: \(body)")
@@ -68,6 +71,12 @@ class WebViewModel: NSObject, ObservableObject, WKScriptMessageHandler {
                     print("Failed to execute JavaScript: \(error)")
                 }
             })
+        }
+        
+        // 打开设置 webview
+        if message.name == "onOpenSettingDialog" {
+            print("open setting webView !")
+            self.isSettingViewVisible = true
         }
     }
     
@@ -80,5 +89,5 @@ class WebViewModel: NSObject, ObservableObject, WKScriptMessageHandler {
             completion?(result, error)
         }
     }
-     
+
 }

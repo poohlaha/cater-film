@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D80F8E962B4CE992000AE207 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80F8E952B4CE992000AE207 /* SettingView.swift */; };
+		D80F8E982B4CEC2B000AE207 /* SettingContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80F8E972B4CEC2B000AE207 /* SettingContentView.swift */; };
 		D8EE51A42B4BDF9D00FD8D1C /* FilmApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8EE51A32B4BDF9D00FD8D1C /* FilmApp.swift */; };
 		D8EE51A62B4BDF9D00FD8D1C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8EE51A52B4BDF9D00FD8D1C /* ContentView.swift */; };
 		D8EE51A82B4BDF9E00FD8D1C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D8EE51A72B4BDF9E00FD8D1C /* Assets.xcassets */; };
@@ -18,6 +20,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D80F8E942B4CE639000AE207 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		D80F8E952B4CE992000AE207 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
+		D80F8E972B4CEC2B000AE207 /* SettingContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingContentView.swift; sourceTree = "<group>"; };
 		D8EE51A02B4BDF9D00FD8D1C /* Film.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Film.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8EE51A32B4BDF9D00FD8D1C /* FilmApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmApp.swift; sourceTree = "<group>"; };
 		D8EE51A52B4BDF9D00FD8D1C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -45,6 +50,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D80F8E992B4CEC53000AE207 /* views */ = {
+			isa = PBXGroup;
+			children = (
+				D8EE51A52B4BDF9D00FD8D1C /* ContentView.swift */,
+				D80F8E972B4CEC2B000AE207 /* SettingContentView.swift */,
+			);
+			path = views;
+			sourceTree = "<group>";
+		};
 		D8EE51972B4BDF9D00FD8D1C = {
 			isa = PBXGroup;
 			children = (
@@ -66,14 +80,15 @@
 			isa = PBXGroup;
 			children = (
 				D8EE51CB2B4C2CA100FD8D1C /* dist */,
+				D80F8E992B4CEC53000AE207 /* views */,
 				D8EE51BA2B4BFD3500FD8D1C /* models */,
 				D8EE51A32B4BDF9D00FD8D1C /* FilmApp.swift */,
-				D8EE51A52B4BDF9D00FD8D1C /* ContentView.swift */,
-				D8EE51A72B4BDF9E00FD8D1C /* Assets.xcassets */,
-				D8EE51A92B4BDF9E00FD8D1C /* Preview Content */,
-				D8EE51B32B4BEC0E00FD8D1C /* views */,
 				D8EE51B42B4BFA2400FD8D1C /* exports.h */,
 				D8EE51B52B4BFA5200FD8D1C /* bridging-header.h */,
+				D80F8E942B4CE639000AE207 /* Info.plist */,
+				D8EE51A72B4BDF9E00FD8D1C /* Assets.xcassets */,
+				D8EE51A92B4BDF9E00FD8D1C /* Preview Content */,
+				D8EE51B32B4BEC0E00FD8D1C /* webViews */,
 			);
 			path = Film;
 			sourceTree = "<group>";
@@ -86,12 +101,13 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		D8EE51B32B4BEC0E00FD8D1C /* views */ = {
+		D8EE51B32B4BEC0E00FD8D1C /* webViews */ = {
 			isa = PBXGroup;
 			children = (
 				D8EE51B12B4BEBFA00FD8D1C /* MainView.swift */,
+				D80F8E952B4CE992000AE207 /* SettingView.swift */,
 			);
-			path = views;
+			path = webViews;
 			sourceTree = "<group>";
 		};
 		D8EE51B62B4BFC6200FD8D1C /* Frameworks */ = {
@@ -182,7 +198,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				D8EE51A62B4BDF9D00FD8D1C /* ContentView.swift in Sources */,
+				D80F8E962B4CE992000AE207 /* SettingView.swift in Sources */,
 				D8EE51BC2B4BFD4800FD8D1C /* Request.swift in Sources */,
+				D80F8E982B4CEC2B000AE207 /* SettingContentView.swift in Sources */,
 				D8EE51B22B4BEBFA00FD8D1C /* MainView.swift in Sources */,
 				D8EE51A42B4BDF9D00FD8D1C /* FilmApp.swift in Sources */,
 			);
@@ -324,18 +342,19 @@
 				EXCLUDED_ARCHS = "";
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Film/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/../backend/target/universal/release";
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tdx.app.Film;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
@@ -360,18 +379,19 @@
 				ENABLE_PREVIEWS = YES;
 				EXCLUDED_ARCHS = "";
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Film/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/../backend/target/universal/release";
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tdx.app.Film;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";

@@ -46,7 +46,7 @@ const My: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
 
             <div className="actor-right">
               <div className="svg-box setting" onClick={async () => {
-                await homeStore.openSettingWindow()
+                await homeStore.onOpenSettingDialog()
               }}>
                 <svg className="svg-icon" viewBox="0 0 1084 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
                   <path
