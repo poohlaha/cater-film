@@ -28,8 +28,15 @@ const Home: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
   const { homeStore } = useStore()
 
   useMount(() => {
-    // const appWindow = getCurrent()
+    // @ts-ignore
+    window.onHandleResult = (results: Array<{[K: string]: any}> = []) => {
+      homeStore.loading = false
+      homeStore.scrollLoading = false
+      console.log(results)
+      homeStore.handleResponse(results, homeStore.queryParams.name, homeStore.queryParams.index)
+    }
   })
+
   const getSearchBoxHtml = () => {
     return (
       <div className="search-box flex-align-center card card-no-margin">

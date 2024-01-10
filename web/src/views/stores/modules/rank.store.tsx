@@ -15,6 +15,7 @@ class RankStore extends BaseStore {
   @observable hotMList: Array<{ [K: string]: any }> = [] // 热播影
   @observable hotCList: Array<{ [K: string]: any }> = [] // 热播漫
   @observable activeTabIndex: number = 0 // 激活的 tab
+  @observable queryParams = {}
   readonly tabsList: Array<{ [K: string]: any }> = [
     {
       key: 'hotJ',
@@ -53,11 +54,21 @@ class RankStore extends BaseStore {
       queryParams.page = this.activeTabIndex + 1
       queryParams.tid = ''
       queryParams.text = ''
+
+      this.queryParams = Utils.deepCopy(queryParams)
       console.log('query params:', queryParams)
 
-      let results: Array<{ [K: string]: any }> = await invoke('handle', { name: 'RANK', order: queryParams })
+      let results: Array<{ [K: string]: any }> = []
       if (!refresh) {
         this.loading = false
+      }
+
+      if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.invoke) {
+        // @ts-ignore
+        window.webkit.messageHandlers.invoke.postMessage({ name: 'RANK', order: queryParams });
+        return
+      } else {
+        results = await invoke('handle', { name: 'RANK', order: queryParams })
       }
 
       this.handleResponse(results, params.name)

@@ -47,4 +47,6 @@ class SettingViewController: UIViewController, WKNavigationDelegate {
         self.navigationController?.popViewController(animated: true)
     }
     
+    
+    
 }

@@ -31,26 +31,26 @@ class CustomViewController {
             requestUrl = baseUrl + url
         }
         
+        
         #if DEBUG
-        /*
             let url = URL(string: requestUrl)!
             mainView.load(URLRequest(url: url))
-         */
-        
-        if let url = Bundle.main.path(forResource: "index", ofType: "html", inDirectory: "dist") {
-            let fileUrl = URL(fileURLWithPath: url)
-            mainView.loadFileURL(fileUrl, allowingReadAccessTo: fileUrl)
-        }
-   
-        
         #else
             // 在生产环境使用本地目录
-            if let url = Bundle.main.path(forResource: "index", ofType: "html", inDirectory: "dist") {
-                let fileURL = URL(fileURLWithPath: url)
-                let request = URLRequest(url: fileURL)
-                mainView.load(request)
+            if let path = Bundle.main.path(forResource: "index", ofType: "html", inDirectory: "dist") {
+                // # 不转码, 手动拼接
+                let encodedPath = path.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)!
+                let encodedUrl = url.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!
+                var urlString = "file://" + encodedPath
+                if !url.isEmpty {
+                    urlString = urlString + "#" + encodedUrl
+                }
+                
+                let fileURL = URL(string: urlString)!
+                mainView.loadFileURL(fileURL, allowingReadAccessTo: fileURL)
             }
         #endif
     }
+
     
 }

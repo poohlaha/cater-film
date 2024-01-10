@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D803B3372B4E3095000FE06A /* dist in Resources */ = {isa = PBXBuildFile; fileRef = D803B3362B4E3095000FE06A /* dist */; };
 		D80F8EA72B4D20F7000AE207 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80F8EA62B4D20F7000AE207 /* AppDelegate.swift */; };
 		D80F8EA92B4D20F7000AE207 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80F8EA82B4D20F7000AE207 /* SceneDelegate.swift */; };
 		D80F8EAB2B4D20F7000AE207 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80F8EAA2B4D20F7000AE207 /* ViewController.swift */; };
@@ -18,10 +19,10 @@
 		D80F8EC12B4D2802000AE207 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80F8EC02B4D2802000AE207 /* Request.swift */; };
 		D80F8EC62B4D2A55000AE207 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80F8EC52B4D2A55000AE207 /* SettingViewController.swift */; };
 		D80F8EC92B4D2AA3000AE207 /* CustomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80F8EC82B4D2AA3000AE207 /* CustomViewController.swift */; };
-		D80F8EDA2B4D5306000AE207 /* dist in Resources */ = {isa = PBXBuildFile; fileRef = D80F8ED92B4D5306000AE207 /* dist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D803B3362B4E3095000FE06A /* dist */ = {isa = PBXFileReference; lastKnownFileType = folder; name = dist; path = ../../web/dist; sourceTree = "<group>"; };
 		D80F8EA32B4D20F7000AE207 /* Film.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Film.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D80F8EA62B4D20F7000AE207 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D80F8EA82B4D20F7000AE207 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -37,7 +38,6 @@
 		D80F8EC32B4D282D000AE207 /* exports.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = exports.h; sourceTree = "<group>"; };
 		D80F8EC52B4D2A55000AE207 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		D80F8EC82B4D2AA3000AE207 /* CustomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomViewController.swift; sourceTree = "<group>"; };
-		D80F8ED92B4D5306000AE207 /* dist */ = {isa = PBXFileReference; lastKnownFileType = folder; name = dist; path = Film/dist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,7 +56,6 @@
 		D80F8E9A2B4D20F7000AE207 = {
 			isa = PBXGroup;
 			children = (
-				D80F8ED92B4D5306000AE207 /* dist */,
 				D80F8EA52B4D20F7000AE207 /* Film */,
 				D80F8EA42B4D20F7000AE207 /* Products */,
 				D80F8EBA2B4D2127000AE207 /* Frameworks */,
@@ -74,6 +73,7 @@
 		D80F8EA52B4D20F7000AE207 /* Film */ = {
 			isa = PBXGroup;
 			children = (
+				D803B3362B4E3095000FE06A /* dist */,
 				D80F8ECB2B4D3C70000AE207 /* controllers */,
 				D80F8EBF2B4D27F7000AE207 /* models */,
 				D80F8EA62B4D20F7000AE207 /* AppDelegate.swift */,
@@ -173,7 +173,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D80F8EDA2B4D5306000AE207 /* dist in Resources */,
+				D803B3372B4E3095000FE06A /* dist in Resources */,
 				D80F8EB32B4D20FA000AE207 /* LaunchScreen.storyboard in Resources */,
 				D80F8EB02B4D20FA000AE207 /* Assets.xcassets in Resources */,
 				D80F8EAE2B4D20F7000AE207 /* Main.storyboard in Resources */,

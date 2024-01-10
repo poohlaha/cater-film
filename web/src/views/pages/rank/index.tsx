@@ -10,10 +10,20 @@ import { useStore } from '@stores/index'
 import Loading from '@views/components/loading/loading'
 import { SwiperRef } from 'antd-mobile/es/components/swiper'
 import List from '@pages/rank/list'
+import useMount from "@hooks/useMount";
 
 const Rank: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
   const { rankStore } = useStore()
   const swiperRef = useRef<SwiperRef>(null)
+
+    useMount(() => {
+        // @ts-ignore
+        window.onHandleResult = (results: Array<{[K: string]: any}> = []) => {
+            rankStore.loading = false
+            console.log(results)
+            rankStore.handleResponse(results, rankStore.queryParams.name || '')
+        }
+    })
 
   const fetchData = async () => {
     await rankStore.getList({ name: rankStore.tabsList[rankStore.activeTabIndex || 0].key || '' })

@@ -669,15 +669,6 @@ class HomeStore extends BaseStore {
       title: '全部',
       tid: '0',
     })
-
-    // ios 回调
-    // @ts-ignore
-    window.onHandleResult = (results: Array<{[K: string]: any}> = []) => {
-      this.loading = false
-      this.scrollLoading = false
-      console.log(results)
-      this.handleResponse(results, this.queryParams.name, this.queryParams.index)
-    }
   }
 
   /**
