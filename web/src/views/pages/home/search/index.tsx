@@ -113,12 +113,14 @@ const Search: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
               onClear={() => {
                 homeStore.setDefaultSearch(true)
               }}
-              onSearch={async (val: string = '') => {
+              onSearch={(val: string = '') => {
                 if (Utils.isBlank(val)) return
                 homeStore.setSearchHistory(val)
                 homeStore.search.showList = true
                 homeStore.search.text = (val || '').trim()
-                await homeStore.getSearchList(0, 1)
+                setTimeout(async () => {
+                  await homeStore.getSearchList(0, 1)
+                }, 500)
               }}
             />
           </div>

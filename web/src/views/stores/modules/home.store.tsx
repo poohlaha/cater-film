@@ -1079,6 +1079,18 @@ class HomeStore extends BaseStore {
     // @ts-ignore
     await this.getList(this[tab.key].normalSort || {})
   }
+
+  /**
+   * 打开详情页面
+   */
+  @action
+  onOpenDetailPage() {
+    if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.onOpenDetailPage) {
+      // @ts-ignore
+      window.webkit.messageHandlers.onOpenDetailPage.postMessage({});
+      return
+    }
+  }
 }
 
 export default new HomeStore()

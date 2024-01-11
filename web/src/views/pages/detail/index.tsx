@@ -11,7 +11,7 @@ import Loading from '@views/components/loading/loading'
 import useMount from '@hooks/useMount'
 import Utils from '@utils/utils'
 import {Tabs, Popup} from 'antd-mobile'
-import MHeaderBar from '@views/components/headerBar'
+// import MHeaderBar from '@views/components/headerBar'
 import {useNavigate} from 'react-router-dom'
 
 const Detail: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
@@ -47,13 +47,15 @@ const Detail: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
     const render = () => {
         return (
             <div className="detail-page wh100 flex-direction-column">
-                {/*  header bar */}
+                {/*  header bar
                 <MHeaderBar text="标题" onBack={() => {navigate(-1)}} />
+                 */}
 
-                {/* video */}
+                {/* video
                 <div className="video">
 
                 </div>
+                */}
 
                 {/* 详情 */}
                 <div className="content flex-1">

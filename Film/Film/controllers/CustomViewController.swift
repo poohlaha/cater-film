@@ -32,7 +32,6 @@ class CustomViewController {
             requestUrl = baseUrl + url
         }
     
-        
         #if DEBUG
             let url = URL(string: requestUrl)!
             mainView.load(URLRequest(url: url))
@@ -86,5 +85,12 @@ class CustomViewController {
         mainView.frame = CGRect(x: 0, y: -topHeight, width: UIScreen.main.bounds.size.width, height: height)
     }
 
-    
+    // 测试环境打开 safari 调试
+    func openSafariDebug(mainView: WKWebView) {
+        #if DEBUG
+            mainView.isInspectable = true // safari 调试
+        #else
+            mainView.isInspectable = false // 关闭safari 调试
+        #endif
+    }
 }

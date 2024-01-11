@@ -68,7 +68,8 @@ const Recommend: React.FC<IRouterProps> = (props: IRouterProps): ReactElement =>
                   currentPage={1}
                   only={homeStore.tabsList[0].key || ''}
                   toDetailPage={() => {
-                    navigate(RouterUrls.DETAIL_URL)
+                    // navigate(RouterUrls.DETAIL_URL)
+                    homeStore.onOpenDetailPage()
                   }}
               />
             </div>

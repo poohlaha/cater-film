@@ -39,6 +39,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
 
+    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+        if let presentedViewController = window?.rootViewController?.presentedViewController {
+            let name = String(describing: type(of: presentedViewController))
+            if ["DetailViewController"].contains(name) {
+                return UIInterfaceOrientationMask.allButUpsideDown
+            }
+        }
+        
+        return UIInterfaceOrientationMask.portrait
+    }
 
 }
 
