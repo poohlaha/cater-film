@@ -12,20 +12,6 @@ import Utils from '@utils/utils'
 const Variety: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
   const { homeStore } = useStore()
 
-  useEffect(() => {
-    if (homeStore.activeTabIndex === 4) {
-      const fetchData = async () => {
-        homeStore.variety = Utils.deepCopy(homeStore.defaultObj)
-        homeStore.variety.normalSort.name = homeStore.tabsList[4].key || ''
-        await homeStore.getList(homeStore.variety.normalSort || {})
-      }
-
-      if (homeStore.variety.list.length === 0) {
-        fetchData()
-      }
-    }
-  }, [homeStore.activeTabIndex])
-
   const render = () => {
     return (
       <List

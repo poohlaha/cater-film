@@ -1038,6 +1038,47 @@ class HomeStore extends BaseStore {
       TOAST.show({message: '打开设置对话框失败 !', type: 4})
     }
   }
+
+  @action
+  async getHomeList() {
+    if (this.activeTabIndex !== 0) return
+    if (this.recommendList.length > 0) {
+      return
+    }
+
+    await this.getList({
+      name: this.tabsList[0].key || '',
+    })
+  }
+
+  @action
+  async onTabChange(index: number = -1) {
+    let tab = this.tabsList.find((item: { [K: string]: any } = {}, i: number) => index === i) || {}
+    if (Utils.isObjectNull(tab)) return
+
+    console.log('tab: ', tab)
+
+    this.activeTabIndex = index
+
+    if (this.activeTabIndex === 0) {
+      await this.getHomeList()
+      return
+    }
+
+    // @ts-ignore
+    let obj = this[`${tab.key}`] || {}
+    if (obj.list.length > 0) return
+    console.log('get List ...')
+
+    // @ts-ignore
+    this[tab.key] = Utils.deepCopy(this.defaultObj)
+
+    // @ts-ignore
+    this[tab.key].normalSort.name = this.tabsList[index].key || ''
+
+    // @ts-ignore
+    await this.getList(this[tab.key].normalSort || {})
+  }
 }
 
 export default new HomeStore()

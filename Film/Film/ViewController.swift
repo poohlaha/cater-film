@@ -108,7 +108,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKScriptMessageHan
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.isNavigationBarHidden = true // 隐藏导航栏
-        //self.navigationController?.navigationBar.isTranslucent = false // 设置导航栏透明
+        self.navigationController?.navigationBar.isTranslucent = false // 设置导航栏透明
     }
     
     override func viewWillDisappear(_ animated: Bool) {

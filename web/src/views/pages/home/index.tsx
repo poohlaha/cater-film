@@ -3,7 +3,7 @@
  * @date 2023-12-26
  * @author poohlaha
  */
-import React, { lazy, ReactElement, useRef } from 'react'
+import React, {lazy, ReactElement, useEffect, useRef} from 'react'
 import { observer } from 'mobx-react-lite'
 import { useStore } from '@stores/index'
 import Loading from '@views/components/loading/loading'
@@ -27,7 +27,8 @@ const Home: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
   const swiperRef = useRef<SwiperRef>(null)
   const { homeStore } = useStore()
 
-  useMount(() => {
+  useMount(async () => {
+    await homeStore.getHomeList()
     // @ts-ignore
     window.onHandleResultCallback = (results: Array<{[K: string]: any}> = []) => {
       homeStore.loading = false
@@ -36,6 +37,90 @@ const Home: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
       homeStore.handleResponse(results, homeStore.queryParams.name, homeStore.queryParams.index)
     }
   })
+
+  // 防抖
+  const debounce = (fn: Function, delay: number = 300) => {
+    let timer: any = null
+    let handler = function () {
+      if (timer) {
+        clearTimeout(timer)
+      }
+
+      // @ts-ignore
+      let that = this
+      let args = arguments
+      timer = setTimeout(() => {
+        fn.apply(that, args)
+      }, delay)
+    }
+
+    // @ts-ignore
+    handler.cancel = () => {
+      if (timer) clearTimeout(timer)
+    }
+
+    return handler
+  }
+
+  useEffect(() => {
+    let tabDomList =
+        document.querySelectorAll('.swiper-tab-content-box .adm-swiper-slide-active .adm-swiper-item') || null
+    if (!tabDomList || tabDomList.length === 0) return
+
+    let tabDom: Element | null = null
+    for (let i = 0; i < tabDomList.length; i++) {
+      let dom = tabDomList[i]
+      if (!dom) continue
+
+      let classList = dom.classList || []
+      if (classList.contains('swiper-recommend') || classList.contains('swiper-banner')) {
+        continue
+      }
+
+      tabDom = dom
+    }
+
+    let topDom = tabDom?.querySelector('.page-top') || null
+    if (!topDom) return
+
+    let selectBoxDom = tabDom?.querySelector('.page-content .select-box') || null
+    if (!selectBoxDom) return
+
+    let topRect = topDom.getBoundingClientRect() || {}
+    tabDom?.addEventListener(
+        'scroll',
+        debounce(() => {
+          onScroll(topRect.height, tabDom?.scrollTop, selectBoxDom)
+        }, 20)
+    )
+
+    return () => {
+      tabDom?.removeEventListener(
+          'scroll',
+          debounce(() => {
+            onScroll(topRect.height, tabDom?.scrollTop, selectBoxDom)
+          }, 20)
+      )
+    }
+  }, [homeStore.activeTabIndex])
+
+  const onScroll = (topHeight: number = 0, scrollTop: number = 0, selectBoxDom: null | Element = null) => {
+    let classList = selectBoxDom?.classList || []
+    if (scrollTop < topHeight) {
+      if (classList.length > 0) {
+        // @ts-ignore
+        classList.remove('show')
+      }
+    } else {
+      if (classList.length > 0) {
+        // @ts-ignore
+        if (!classList.contains('show')) {
+          // @ts-ignore
+          classList.add('show')
+        }
+      }
+    }
+  }
 
   const getSearchBoxHtml = () => {
     return (
@@ -184,10 +269,12 @@ const Home: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
             className="content flex-1 overflow-hidden"
             tabs={homeStore.tabsList || []}
             activeTabIndex={homeStore.activeTabIndex || 0}
-            onTabChange={(index: number) => {
-              let obj = homeStore.tabsList.find((item: { [K: string]: any } = {}, i: number) => index === i) || {}
-              if (Utils.isObjectNull(obj)) return
-              homeStore.setProperty('activeTabIndex', index)
+            onTabChange={async (index: number) => {
+             new Promise((resolve, reject) => {
+                setTimeout(() => {
+                  homeStore.onTabChange(index)
+                }, 500)
+              })
             }}
             getSwiperComponent={(key: string) => {
               return getComponentsHtml(key)

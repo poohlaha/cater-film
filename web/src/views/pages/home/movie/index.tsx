@@ -12,20 +12,6 @@ import Utils from '@utils/utils'
 const Movie: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
   const { homeStore } = useStore()
 
-  useEffect(() => {
-    if (homeStore.activeTabIndex === 2) {
-      const fetchData = async () => {
-        homeStore.movie = Utils.deepCopy(homeStore.defaultObj)
-        homeStore.movie.normalSort.name = homeStore.tabsList[2].key || ''
-        await homeStore.getList(homeStore.movie.normalSort || {})
-      }
-
-      if (homeStore.movie.list.length === 0) {
-        fetchData()
-      }
-    }
-  }, [homeStore.activeTabIndex])
-
   const render = () => {
     return (
       <List

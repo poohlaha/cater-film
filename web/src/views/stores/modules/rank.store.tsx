@@ -58,9 +58,6 @@ class RankStore extends BaseStore {
       console.log('query params:', queryParams)
 
       let results: Array<{ [K: string]: any }> = []
-      if (!refresh) {
-        this.loading = false
-      }
 
       if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.invoke) {
         // @ts-ignore
@@ -69,6 +66,10 @@ class RankStore extends BaseStore {
       } else {
         await info(`send params: ${JSON.stringify(params || {})}`)
         results = await invoke('handle', { name: 'RANK', order: queryParams })
+      }
+
+      if (!refresh) {
+        this.loading = false
       }
 
       this.handleResponse(results, params.name)

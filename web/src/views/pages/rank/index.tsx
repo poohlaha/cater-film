@@ -16,7 +16,8 @@ const Rank: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
   const { rankStore, homeStore } = useStore()
   const swiperRef = useRef<SwiperRef>(null)
 
-    useMount(() => {
+    useMount(async () => {
+        await getData()
         // @ts-ignore
         window.onHandleResultCallback = (results: Array<{[K: string]: any}> = []) => {
             rankStore.loading = false
@@ -26,7 +27,7 @@ const Rank: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
     })
 
   const fetchData = async () => {
-    await rankStore.getList({ name: rankStore.tabsList[rankStore.activeTabIndex || 0].key || '' })
+      await rankStore.getList({ name: rankStore.tabsList[rankStore.activeTabIndex || 0].key || '' })
   }
 
   const getData = async () => {
@@ -44,10 +45,6 @@ const Rank: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
       }
     }
   }
-
-  useEffect(() => {
-    getData()
-  }, [rankStore.activeTabIndex])
 
   /**
    * 获取组件列表
@@ -103,6 +100,12 @@ const Rank: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
           defaultIndex={rankStore.activeTabIndex}
           onIndexChange={(index: number) => {
             rankStore.setProperty('activeTabIndex', index)
+              console.log('get data')
+              new Promise((resolve, reject) => {
+                  setTimeout(async () => {
+                      await getData()
+                  }, 500)
+              });
           }}
         >
           {rankStore.tabsList.map((item: { [K: string]: any }, index: number) => {

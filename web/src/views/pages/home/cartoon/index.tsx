@@ -12,20 +12,6 @@ import Utils from '@utils/utils'
 const Cartoon: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
   const { homeStore } = useStore()
 
-  useEffect(() => {
-    if (homeStore.activeTabIndex === 3) {
-      const fetchData = async () => {
-        homeStore.cartoon = Utils.deepCopy(homeStore.defaultObj)
-        homeStore.cartoon.normalSort.name = homeStore.tabsList[3].key || ''
-        await homeStore.getList(homeStore.cartoon.normalSort || {})
-      }
-
-      if (homeStore.cartoon.list.length === 0) {
-        fetchData()
-      }
-    }
-  }, [homeStore.activeTabIndex])
-
   const render = () => {
     return (
       <List

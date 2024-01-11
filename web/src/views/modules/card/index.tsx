@@ -108,7 +108,7 @@ const MCard: React.FC<IMCardProps> = (props: IMCardProps): ReactElement | null =
             loadMore={async () => {
               return props.loadMore?.()
             }}
-            threshold={150}
+            threshold={200}
             hasMore={hasMore()}
           />
         )}

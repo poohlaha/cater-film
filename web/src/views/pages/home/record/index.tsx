@@ -12,20 +12,6 @@ import Utils from '@utils/utils'
 const Record: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
   const { homeStore } = useStore()
 
-  useEffect(() => {
-    if (homeStore.activeTabIndex === 6) {
-      const fetchData = async () => {
-        homeStore.record = Utils.deepCopy(homeStore.defaultObj)
-        homeStore.record.normalSort.name = homeStore.tabsList[6].key || ''
-        await homeStore.getList(homeStore.record.normalSort || {})
-      }
-
-      if (homeStore.record.list.length === 0) {
-        fetchData()
-      }
-    }
-  }, [homeStore.activeTabIndex])
-
   const render = () => {
     return (
       <List

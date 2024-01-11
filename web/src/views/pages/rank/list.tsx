@@ -23,8 +23,10 @@ const List: React.FC<IListProps> = (props: IListProps): ReactElement | null => {
   const render = () => {
     return (
       <Refresh
-        onRefresh={async () => {
-          await rankStore.getList({ name: props.name || '' }, true)
+        onRefresh={() => {
+          setTimeout(async () => {
+            await rankStore.getList({ name: props.name || '' }, true)
+          }, 300)
         }}
       >
         <div className={`page-box wh100 flex-direction-column ${props.className || ''}`}>

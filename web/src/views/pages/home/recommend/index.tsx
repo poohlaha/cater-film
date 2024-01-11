@@ -18,20 +18,6 @@ const Recommend: React.FC<IRouterProps> = (props: IRouterProps): ReactElement =>
   const { homeStore, commonStore } = useStore()
   const navigate = useNavigate()
 
-  useEffect(() => {
-    if (homeStore.activeTabIndex === 0) {
-      const fetchData = async () => {
-        await homeStore.getList({
-          name: homeStore.tabsList[0].key || '',
-        })
-      }
-
-      if (homeStore.recommendList.length === 0) {
-        fetchData()
-      }
-    }
-  }, [homeStore.activeTabIndex])
-
   /**
    * 解析banner列表
    */
@@ -96,13 +82,15 @@ const Recommend: React.FC<IRouterProps> = (props: IRouterProps): ReactElement =>
     return (
       <div className="recommend wh100 page-swiper">
         <Refresh
-          onRefresh={async () => {
-            await homeStore.getList(
-              {
-                name: homeStore.tabsList[0].key || '',
-              },
-              1
-            )
+          onRefresh={() => {
+            setTimeout(async () => {
+              await homeStore.getList(
+                  {
+                    name: homeStore.tabsList[0].key || '',
+                  },
+                  1
+              )
+            }, 300)
           }}
         >
           {analyzeBannerHtml()}
