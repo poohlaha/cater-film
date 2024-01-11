@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		D803B3372B4E3095000FE06A /* dist in Resources */ = {isa = PBXBuildFile; fileRef = D803B3362B4E3095000FE06A /* dist */; };
+		D803B33F2B4E9C0B000FE06A /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D803B33E2B4E9C0B000FE06A /* NetworkManager.swift */; };
 		D80F8EA72B4D20F7000AE207 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80F8EA62B4D20F7000AE207 /* AppDelegate.swift */; };
 		D80F8EA92B4D20F7000AE207 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80F8EA82B4D20F7000AE207 /* SceneDelegate.swift */; };
 		D80F8EAB2B4D20F7000AE207 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80F8EAA2B4D20F7000AE207 /* ViewController.swift */; };
@@ -23,6 +24,8 @@
 
 /* Begin PBXFileReference section */
 		D803B3362B4E3095000FE06A /* dist */ = {isa = PBXFileReference; lastKnownFileType = folder; name = dist; path = ../../web/dist; sourceTree = "<group>"; };
+		D803B33C2B4E9958000FE06A /* libarchive.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libarchive.tbd; path = usr/lib/libarchive.tbd; sourceTree = SDKROOT; };
+		D803B33E2B4E9C0B000FE06A /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		D80F8EA32B4D20F7000AE207 /* Film.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Film.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D80F8EA62B4D20F7000AE207 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D80F8EA82B4D20F7000AE207 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -53,6 +56,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D803B33D2B4E9BFA000FE06A /* network */ = {
+			isa = PBXGroup;
+			children = (
+				D803B33E2B4E9C0B000FE06A /* NetworkManager.swift */,
+			);
+			path = network;
+			sourceTree = "<group>";
+		};
 		D80F8E9A2B4D20F7000AE207 = {
 			isa = PBXGroup;
 			children = (
@@ -73,6 +84,7 @@
 		D80F8EA52B4D20F7000AE207 /* Film */ = {
 			isa = PBXGroup;
 			children = (
+				D803B33D2B4E9BFA000FE06A /* network */,
 				D803B3362B4E3095000FE06A /* dist */,
 				D80F8ECB2B4D3C70000AE207 /* controllers */,
 				D80F8EBF2B4D27F7000AE207 /* models */,
@@ -92,6 +104,7 @@
 		D80F8EBA2B4D2127000AE207 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D803B33C2B4E9958000FE06A /* libarchive.tbd */,
 				D80F8EBD2B4D213F000AE207 /* libresolv.tbd */,
 				D80F8EBB2B4D2127000AE207 /* libbackend.a */,
 			);
@@ -190,6 +203,7 @@
 				D80F8EC62B4D2A55000AE207 /* SettingViewController.swift in Sources */,
 				D80F8EAB2B4D20F7000AE207 /* ViewController.swift in Sources */,
 				D80F8EC12B4D2802000AE207 /* Request.swift in Sources */,
+				D803B33F2B4E9C0B000FE06A /* NetworkManager.swift in Sources */,
 				D80F8EC92B4D2AA3000AE207 /* CustomViewController.swift in Sources */,
 				D80F8EA72B4D20F7000AE207 /* AppDelegate.swift in Sources */,
 				D80F8EA92B4D20F7000AE207 /* SceneDelegate.swift in Sources */,
@@ -270,7 +284,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				LIBRARY_SEARCH_PATHS = "";
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -327,7 +342,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				LIBRARY_SEARCH_PATHS = "";
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -353,6 +369,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -383,6 +400,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

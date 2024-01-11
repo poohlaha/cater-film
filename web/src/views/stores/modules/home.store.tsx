@@ -46,6 +46,12 @@ class HomeStore extends BaseStore {
     ...Utils.deepCopy(this.defaultObj)
   }
 
+  // 手机端高度
+  @observable phoneHeight: { [K: string]: number } = {
+    topHeight: 0,
+    bottomHeight: 0
+  }
+
   // search
   readonly defaultSearch: { [K: string]: any } = {
     show: false,
@@ -669,6 +675,13 @@ class HomeStore extends BaseStore {
       title: '全部',
       tid: '0',
     })
+
+    // 获取手机端高度，顶部和底部的回调
+    window.onGetNoSafeHeightCallback = (topHeight: number = 0, bottomHeight: number = 0) => {
+      console.log(`onGetNoSafeHeightCallback, topHeight: ${topHeight} bottomHeight: ${bottomHeight}`)
+      this.phoneHeight.topHeight = topHeight || 0
+      this.phoneHeight.bottomHeight = bottomHeight || 0
+    }
   }
 
   /**
@@ -682,8 +695,21 @@ class HomeStore extends BaseStore {
       } else {
         this.searchHistoryList = historyList || []
       }
+
+      this.getPhoneHeight()
     } catch (e) {
       console.error(e)
+    }
+  }
+
+  /**
+   * 获取手机端高度，顶部和底部
+   */
+  getPhoneHeight() {
+    if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.onGetNoSafeHeight) {
+      // @ts-ignore
+      window.webkit.messageHandlers.onGetNoSafeHeight.postMessage({});
+      return
     }
   }
 

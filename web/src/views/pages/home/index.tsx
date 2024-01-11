@@ -29,7 +29,7 @@ const Home: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
 
   useMount(() => {
     // @ts-ignore
-    window.onHandleResult = (results: Array<{[K: string]: any}> = []) => {
+    window.onHandleResultCallback = (results: Array<{[K: string]: any}> = []) => {
       homeStore.loading = false
       homeStore.scrollLoading = false
       console.log(results)
@@ -172,7 +172,9 @@ const Home: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
 
   const render = () => {
     return (
-      <div className="home flex-direction-column wh100">
+      <div className="home flex-direction-column wh100" style={{
+        paddingTop: homeStore.phoneHeight.topHeight,
+      }}>
         <div className="page-wrapper wh100 flex-direction-column">
           {/* search */}
           {getSearchBoxHtml()}

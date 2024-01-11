@@ -71,7 +71,9 @@ const Search: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
 
   const render = () => {
     return (
-      <div className="search-page flex-direction-column wh100 mark">
+      <div className="search-page flex-direction-column wh100 mark" style={{
+        top: homeStore.phoneHeight.topHeight,
+      }}>
         <div className="page-wrapper wh100 flex-direction-column">
           <div className="search-box flex-align-center">
             {/*

@@ -44,7 +44,7 @@ const My: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
               <p className="name font-bold">Welcome</p>
             </div>
 
-            <div className="actor-right">
+            <div className="actor-right flex-center">
               <div className="svg-box setting" onClick={async () => {
                 await homeStore.onOpenSettingDialog()
               }}>

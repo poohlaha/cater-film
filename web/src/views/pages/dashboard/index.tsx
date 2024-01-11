@@ -24,7 +24,9 @@ const Dashboard: React.FC<IRouterProps> = (props: IRouterProps): ReactElement =>
 
   const render = () => {
     return (
-      <div className="main-page page wh100 flex-direction-column">
+      <div className="main-page page wh100 flex-direction-column" style={{
+          paddingBottom: homeStore.phoneHeight.bottomHeight,
+      }}>
         <div className="main-content overflow-hidden flex-1">
           {commonStore.activeTabBarIndex === '0' && <Home />}
 

@@ -39,7 +39,6 @@ class RankStore extends BaseStore {
     try {
       if (Utils.isBlank(params.name)) return
       console.info('send params', params)
-      await info(`send params: ${JSON.stringify(params || {})}`)
       if (!refresh) {
         this.loading = true
       }
@@ -68,6 +67,7 @@ class RankStore extends BaseStore {
         window.webkit.messageHandlers.invoke.postMessage({ name: 'RANK', order: queryParams });
         return
       } else {
+        await info(`send params: ${JSON.stringify(params || {})}`)
         results = await invoke('handle', { name: 'RANK', order: queryParams })
       }
 

@@ -23,14 +23,15 @@ class CustomViewController {
     
     // 加载数据
     func loadUrl(mainView: WKWebView, url: String) {
-        let baseUrl = "http://localhost:9999"
+        // let baseUrl = "http://localhost:9999"
+        let baseUrl = "http://10.31.23.169:9999"
         var requestUrl = ""
         if  url.isEmpty {
             requestUrl = baseUrl
         } else {
             requestUrl = baseUrl + url
         }
-        
+    
         
         #if DEBUG
             let url = URL(string: requestUrl)!
@@ -50,6 +51,39 @@ class CustomViewController {
                 mainView.loadFileURL(fileURL, allowingReadAccessTo: fileURL)
             }
         #endif
+    }
+
+    // 获取顶部非安全区域高度
+    func getTopNoSafeAreaHeight() -> CGFloat {
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+            let statusBarManager = windowScene.statusBarManager!
+            let statusBarFrame = statusBarManager.statusBarFrame
+            let topNonSafeAreaHeight = statusBarFrame.size.height
+            print("Top non-safe area height: \(topNonSafeAreaHeight)")
+            return topNonSafeAreaHeight
+        }
+        
+        return 0
+    }
+    
+    // 获取底部非安全区域高度
+    func getBottomNoSafeAreaHeight() -> CGFloat {
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+            let height = windowScene.keyWindow?.safeAreaInsets.bottom ?? 0
+            print("Bottom non-safe area height: \(height)")
+            return height
+        }
+        
+        return 0
+    }
+    
+    // 设置全屏, 即 top 为 -非安全区域高度
+    func setViewFullscreen(mainView: WKWebView) {
+        mainView.insetsLayoutMarginsFromSafeArea = false
+        let topHeight = getTopNoSafeAreaHeight()
+        let bottomHeight = getBottomNoSafeAreaHeight()
+        let height = UIScreen.main.bounds.size.height + topHeight + bottomHeight
+        mainView.frame = CGRect(x: 0, y: -topHeight, width: UIScreen.main.bounds.size.width, height: height)
     }
 
     

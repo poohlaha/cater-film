@@ -13,12 +13,12 @@ import List from '@pages/rank/list'
 import useMount from "@hooks/useMount";
 
 const Rank: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
-  const { rankStore } = useStore()
+  const { rankStore, homeStore } = useStore()
   const swiperRef = useRef<SwiperRef>(null)
 
     useMount(() => {
         // @ts-ignore
-        window.onHandleResult = (results: Array<{[K: string]: any}> = []) => {
+        window.onHandleResultCallback = (results: Array<{[K: string]: any}> = []) => {
             rankStore.loading = false
             console.log(results)
             rankStore.handleResponse(results, rankStore.queryParams.name || '')
@@ -119,7 +119,9 @@ const Rank: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
 
   const render = () => {
     return (
-      <div className="rank flex-direction-column wh100">
+      <div className="rank flex-direction-column wh100" style={{
+          paddingTop: homeStore.phoneHeight.topHeight
+      }}>
         <div className="page-wrapper wh100 flex-direction-column">
           {/* tabs */}
           {getTabsHtml()}

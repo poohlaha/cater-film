@@ -217,6 +217,11 @@ const List: React.FC<IListProps> = (props: IListProps): ReactElement | null => {
                   console.log('scroll Dom', dom)
                   // @ts-ignore
                   dom?.scrollTo?.(0, 0)
+
+                  if (dom) {
+                      let classList = dom?.classList || []
+                      classList.remove('show')
+                  }
                 }}
               >
                 <p>{select.name || ''} ・ </p>

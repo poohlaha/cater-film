@@ -12,8 +12,10 @@ class ViewController: UIViewController, WKNavigationDelegate, WKScriptMessageHan
 
     var mainView: WKWebView!
     var settingController: SettingViewController?
+    // var networkManager = NetworkManager()
+    var customerViewController: CustomViewController!
+    var isUrlLoaded = false
     
-   
     override func viewDidLoad() {
         super.viewDidLoad()
         initWebView()
@@ -21,14 +23,22 @@ class ViewController: UIViewController, WKNavigationDelegate, WKScriptMessageHan
     
     // 初始化 webView
     func initWebView() {
-        let customerViewController = CustomViewController()
+        self.customerViewController = CustomViewController()
         let config = customerViewController.initConfig()
         self.mainView = WKWebView(frame: self.view.bounds, configuration: config)
+        self.mainView.insetsLayoutMarginsFromSafeArea = false
+        
+        // 更新视图的frame，使其超出安全区域
+        customerViewController.setViewFullscreen(mainView: self.mainView)
+        /*
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+         */
         self.view.addSubview(self.mainView)
         
         // 设置 webview 与 js 交互事件
         self.mainView.allowsBackForwardNavigationGestures = true
-        self.mainView.scrollView.isScrollEnabled = true
+        self.mainView.scrollView.isScrollEnabled = false
         self.mainView.navigationDelegate = self
         
         #if DEBUG
@@ -40,8 +50,9 @@ class ViewController: UIViewController, WKNavigationDelegate, WKScriptMessageHan
         // 消息
         self.mainView.configuration.userContentController.add(self, name: "invoke")
         self.mainView.configuration.userContentController.add(self, name: "onOpenSettingDialog")
+        self.mainView.configuration.userContentController.add(self, name: "onGetNoSafeHeight")
         
-        customerViewController.loadUrl(mainView: self.mainView, url: "")
+        // customerViewController.loadUrl(mainView: self.mainView, url: "")
     }
     
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
@@ -52,7 +63,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKScriptMessageHan
             // 处理来自 JavaScript 的消息
            print("Received message from JavaScript: \(body)")
            let result = request.process(body)
-           let script = "onHandleResult(\(result))"
+           let script = "onHandleResultCallback(\(result))"
             self.mainView.evaluateJavaScript(script, completionHandler: { (result, error) in
                 if let error = error {
                     print("Failed to execute JavaScript: \(error)")
@@ -67,8 +78,20 @@ class ViewController: UIViewController, WKNavigationDelegate, WKScriptMessageHan
                 settingController = SettingViewController()
             }
             
-           
             self.navigationController?.pushViewController(settingController!, animated: true)
+        }
+        
+        // 获取顶部和底部高度
+        if message.name == "onGetNoSafeHeight" {
+            print("get webView no safe area height !")
+            let topHeight = customerViewController.getTopNoSafeAreaHeight()
+            let bottomHeight = customerViewController.getBottomNoSafeAreaHeight()
+            let script = "onGetNoSafeHeightCallback(\(topHeight), \(bottomHeight))"
+             self.mainView.evaluateJavaScript(script, completionHandler: { (result, error) in
+                 if let error = error {
+                     print("Failed to execute JavaScript: \(error)")
+                 }
+             })
         }
     }
     
@@ -81,17 +104,26 @@ class ViewController: UIViewController, WKNavigationDelegate, WKScriptMessageHan
             completion?(result, error)
         }
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         self.navigationController?.isNavigationBarHidden = true // 隐藏导航栏
-        self.navigationController?.navigationBar.isTranslucent = true // 设置导航栏透明
-        self.modalPresentationStyle = .fullScreen // 全屏
-        self.isModalInPresentation = true // 禁用下拉
+        //self.navigationController?.navigationBar.isTranslucent = false // 设置导航栏透明
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        self.navigationController?.isNavigationBarHidden = false
-        self.isModalInPresentation = false
+        super.viewWillDisappear(animated)
+        self.navigationController?.isNavigationBarHidden = false // 显示导航栏
     }
+
+    override func viewDidAppear(_ animated: Bool) {
+       super.viewDidAppear(animated)
+        if !self.isUrlLoaded {
+            self.customerViewController.loadUrl(mainView: self.mainView, url: "")
+            self.isUrlLoaded = true
+        }
+        
+   }
+
 }
 
