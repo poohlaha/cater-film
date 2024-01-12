@@ -83,15 +83,13 @@ const Recommend: React.FC<IRouterProps> = (props: IRouterProps): ReactElement =>
     return (
       <div className="recommend wh100 page-swiper">
         <Refresh
-          onRefresh={() => {
-            setTimeout(async () => {
-              await homeStore.getList(
-                  {
-                    name: homeStore.tabsList[0].key || '',
-                  },
-                  1
-              )
-            }, 300)
+          onRefresh={async () => {
+            await homeStore.getList(
+                {
+                  name: homeStore.tabsList[0].key || '',
+                },
+                1
+            )
           }}
         >
           {analyzeBannerHtml()}

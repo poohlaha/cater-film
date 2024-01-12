@@ -270,11 +270,7 @@ const Home: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
             tabs={homeStore.tabsList || []}
             activeTabIndex={homeStore.activeTabIndex || 0}
             onTabChange={async (index: number) => {
-             new Promise((resolve, reject) => {
-                setTimeout(() => {
-                  homeStore.onTabChange(index)
-                }, 500)
-              })
+              await homeStore.onTabChange(index)
             }}
             getSwiperComponent={(key: string) => {
               return getComponentsHtml(key)

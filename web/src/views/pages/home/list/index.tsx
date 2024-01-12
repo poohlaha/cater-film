@@ -190,11 +190,9 @@ const List: React.FC<IListProps> = (props: IListProps): ReactElement | null => {
 
     return (
       <Refresh
-        onRefresh={() => {
-          setTimeout(async () => {
-            // @ts-ignore
-            await homeStore.getList(homeStore[props.name || ''].normalSort || {}, 1)
-          }, 300)
+        onRefresh={async () => {
+          // @ts-ignore
+          await homeStore.getList(homeStore[props.name || ''].normalSort || {}, 1)
         }}
       >
         <div className={`page-swiper page-box wh100 flex-direction-column ${props.className || ''}`}>
@@ -252,8 +250,11 @@ const List: React.FC<IListProps> = (props: IListProps): ReactElement | null => {
                     homeStore[props.name || ''].normalSort.page += 1
                     // @ts-ignore
                     homeStore[props.name || ''].normalSort.name = props.name
-                    // @ts-ignore
-                    await homeStore.getList(homeStore[props.name || ''].normalSort || {}, 2)
+
+                    setTimeout(async () => {
+                      // @ts-ignore
+                      await homeStore.getList(homeStore[props.name || ''].normalSort || {}, 2)
+                    }, 500)
                   }}
                   threshold={200}
                   hasMore={hasMore()}

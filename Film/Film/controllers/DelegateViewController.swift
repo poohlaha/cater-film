@@ -59,13 +59,24 @@ class DelegateViewController: UIViewController, WKScriptMessageHandler {
     private func getRequest(body: [String: Any]) {
         // 处理来自 JavaScript 的消息
        print("Received message from JavaScript: \(body)")
-       let result = request.process(body)
-       let script = "onHandleResultCallback(\(result))"
-        self.mainView.evaluateJavaScript(script, completionHandler: { (result, error) in
-            if let error = error {
-                print("Failed to execute JavaScript: \(error)")
+        Task {
+            let result = try await withCheckedThrowingContinuation { continuation in
+                Task.detached {
+                    let result = self.request.process(body)
+                    continuation.resume(returning: result)
+                }
             }
-        })
+
+            let script = "onHandleResultCallback(\(result))"
+            let _ = try await withCheckedThrowingContinuation { continuation in
+                self.mainView.evaluateJavaScript(script, completionHandler: { (result, error) in
+                    if let error = error {
+                        print("Failed to execute JavaScript: \(error)")
+                    }
+                    continuation.resume(returning: (result, error))
+                })
+            }
+        }
     }
     
     // 打开设置webView

@@ -23,7 +23,6 @@ class Request {
             text: strdup(orderDict["text"] as? String ?? "")
         )
         
-       
         let result = handle(name, &order)
         return String(cString: result!)
     }

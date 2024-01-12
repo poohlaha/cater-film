@@ -98,14 +98,10 @@ const Rank: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
           indicator={() => null}
           ref={swiperRef}
           defaultIndex={rankStore.activeTabIndex}
-          onIndexChange={(index: number) => {
+          onIndexChange={async (index: number) => {
             rankStore.setProperty('activeTabIndex', index)
               console.log('get data')
-              new Promise((resolve, reject) => {
-                  setTimeout(async () => {
-                      await getData()
-                  }, 500)
-              });
+              await getData()
           }}
         >
           {rankStore.tabsList.map((item: { [K: string]: any }, index: number) => {

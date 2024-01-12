@@ -50,13 +50,7 @@ pub extern "C" fn handle(name: *const c_char, order: *const COrder) -> *mut c_ch
     // Convert the COrder to Order
     let order_struct = unsafe { convert_to_order(order) };
 
-    let rt = tokio::runtime::Builder::new_multi_thread()
-        .worker_threads(2)
-        .enable_all()
-        .build()
-        .unwrap();
-    // Call the async function
-    let res = rt.block_on(async { Process::prepare(&name_str, order_struct).await });
+    let res = tokio::runtime::Runtime::new().unwrap().block_on(async { Process::prepare(&name_str, order_struct).await });
 
     match res {
         Ok(response) => {

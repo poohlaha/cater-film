@@ -30,14 +30,12 @@ const List: React.FC<IRouterProps> = (props: IRouterProps): ReactElement | null 
 
     return (
       <Refresh
-        onRefresh={() => {
-            setTimeout(async () => {
-                let obj =
-                    homeStore.searchTabsList.find(
-                        (item: { [K: string]: any }, i: number) => homeStore.search.activeTabIndex === i
-                    ) || {}
-                await homeStore.getSearchList(1, 1, obj.tid || '0')
-            }, 300)
+        onRefresh={async () => {
+            let obj =
+                homeStore.searchTabsList.find(
+                    (item: { [K: string]: any }, i: number) => homeStore.search.activeTabIndex === i
+                ) || {}
+            await homeStore.getSearchList(1, 1, obj.tid || '0')
         }}
       >
         <div className="search-item-list h100 flex page-content page-top-margin flex-1">
